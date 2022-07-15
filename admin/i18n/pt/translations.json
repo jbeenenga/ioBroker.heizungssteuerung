@@ -1,0 +1,19 @@
+{
+    "Rooms": "quartos",
+    "Room": "Quarto",
+    "room name": "Nome da sala",
+    "Days": "Dias",
+    "Monday": "Segunda-feira",
+    "Tuesday": "Terça-feira",
+    "Wednesday": "Quarta-feira",
+    "Thursday": "Quinta-feira",
+    "Friday": "Sexta-feira",
+    "Saturday": "Sábado",
+    "Sunday": "Domingo",
+    "From": "A partir de",
+    "Until": "Até",
+    "TemperatureId": "ID do sensor de temperatura",
+    "HumidityId": "ID do sensor de umidade",
+    "Main Settings": "Configurações principais",
+    "Is Heating Mode": "É o modo de aquecimento"
+}

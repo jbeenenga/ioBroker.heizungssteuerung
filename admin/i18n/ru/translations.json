@@ -1,0 +1,19 @@
+{
+    "Rooms": "Номера",
+    "Room": "Номер",
+    "room name": "Название комнаты",
+    "Days": "Дни",
+    "Monday": "Понедельник",
+    "Tuesday": "Вторник",
+    "Wednesday": "Среда",
+    "Thursday": "Четверг",
+    "Friday": "Пятница",
+    "Saturday": "суббота",
+    "Sunday": "Воскресенье",
+    "From": "Из",
+    "Until": "До того как",
+    "TemperatureId": "ID датчика температуры",
+    "HumidityId": "ID датчика влажности",
+    "Main Settings": "Основные параметры",
+    "Is Heating Mode": "Режим обогрева"
+}

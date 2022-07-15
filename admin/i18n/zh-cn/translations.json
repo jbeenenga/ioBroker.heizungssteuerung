@@ -1,0 +1,19 @@
+{
+    "Rooms": "房间",
+    "Room": "房间",
+    "room name": "房间名称",
+    "Days": "天",
+    "Monday": "周一",
+    "Tuesday": "周二",
+    "Wednesday": "周三",
+    "Thursday": "周四",
+    "Friday": "星期五",
+    "Saturday": "星期六",
+    "Sunday": "星期日",
+    "From": "从",
+    "Until": "直到",
+    "TemperatureId": "温度传感器ID",
+    "HumidityId": "湿度传感器ID",
+    "Main Settings": "主要设置",
+    "Is Heating Mode": "是加热模式"
+}

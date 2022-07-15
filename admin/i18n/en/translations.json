@@ -1,0 +1,19 @@
+{
+    "Rooms":"Rooms",
+    "Room":"Room",
+    "room name":"Room name",
+    "Days":"Days",
+    "Monday": "Monday",
+    "Tuesday":"Tuesday",
+    "Wednesday":"Wednesday",
+    "Thursday":"Thursday",
+    "Friday":"Friday",
+    "Saturday":"Saturnday",
+    "Sunday":"Sunday",
+    "From": "From",
+    "Until":"Until",
+    "TemperatureId":"ID of the temperature sensor",
+    "HumidityId": "ID of the humidity sensor",
+    "Main Settings": "Main settings",
+    "Is Heating Mode": "Is heating mode"
+}

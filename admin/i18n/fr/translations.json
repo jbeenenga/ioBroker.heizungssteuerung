@@ -1,0 +1,19 @@
+{
+    "Rooms": "Pièces",
+    "Room": "Chambre",
+    "room name": "Nom de la salle",
+    "Days": "Journées",
+    "Monday": "Lundi",
+    "Tuesday": "Mardi",
+    "Wednesday": "Mercredi",
+    "Thursday": "Jeudi",
+    "Friday": "Vendredi",
+    "Saturday": "samedi",
+    "Sunday": "Dimanche",
+    "From": "De",
+    "Until": "Jusqu'à",
+    "TemperatureId": "ID du capteur de température",
+    "HumidityId": "ID du capteur d'humidité",
+    "Main Settings": "Réglages principaux",
+    "Is Heating Mode": "Est en mode chauffage"
+}

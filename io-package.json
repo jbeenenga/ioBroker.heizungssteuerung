@@ -1,0 +1,110 @@
+{
+    "common": {
+        "name": "heizungssteuerung",
+        "version": "0.0.1",
+        "news": {
+            "0.0.1": {
+                "en": "initial release",
+                "de": "Erstveröffentlichung",
+                "ru": "Начальная версия",
+                "pt": "lançamento inicial",
+                "nl": "Eerste uitgave",
+                "fr": "Première version",
+                "it": "Versione iniziale",
+                "es": "Versión inicial",
+                "pl": "Pierwsze wydanie",
+                "zh-cn": "首次出版"
+            }
+        },
+        "title": "Heizungssteuerung",
+        "titleLang": {
+            "en": "Heizungssteuerung",
+            "de": "Heizungssteuerung",
+            "ru": "Heizungssteuerung",
+            "pt": "Heizungssteuerung",
+            "nl": "Heizungssteuerung",
+            "fr": "Heizungssteuerung",
+            "it": "Heizungssteuerung",
+            "es": "Heizungssteuerung",
+            "pl": "Kontrola położenia",
+            "zh-cn": "治安管理"
+        },
+        "desc": {
+            "en": "heizungssteuerung",
+            "de": "heizungssteuerung",
+            "ru": "Heizungssteuerung",
+            "pt": "heizungssteuerung",
+            "nl": "heizungssteuerung",
+            "fr": "heizungssteuerung",
+            "it": "heizungssteuerung",
+            "es": "heizungssteuerung",
+            "pl": "sterowanie",
+            "zh-cn": "高度评价"
+        },
+        "authors": [
+            "jbeenenga <j.beenenga@gmail.com>"
+        ],
+        "keywords": [
+            "ioBroker",
+            "template",
+            "Smart Home",
+            "home automation"
+        ],
+        "license": "MIT",
+        "platform": "Javascript/Node.js",
+        "main": "main.js",
+        "icon": "heizungssteuerung.png",
+        "enabled": true,
+        "extIcon": "https://raw.githubusercontent.com/jbeenenga/ioBroker.heizungssteuerung/main/admin/heizungssteuerung.png",
+        "readme": "https://github.com/jbeenenga/ioBroker.heizungssteuerung/blob/main/README.md",
+        "loglevel": "info",
+        "mode": "daemon",
+        "type": "climate-control",
+        "compact": true,
+        "connectionType": "local",
+        "dataSource": "poll",
+        "materialize": true,
+        "adminUI": {
+            "config": "json"
+        },
+        "dependencies": [
+            {
+                "js-controller": ">=2.0.0"
+            }
+        ],
+        "globalDependencies": [
+            {
+                "admin": ">=6.1.11"
+            }
+        ]
+    },
+    "native": {
+        "isHeatingMode": true,
+        "sensors": [],
+        "periods": []
+    },
+    "objects": [],
+    "instanceObjects": [
+        {
+            "_id": "info",
+            "type": "channel",
+            "common": {
+                "name": "Information"
+            },
+            "native": {}
+        },
+        {
+            "_id": "info.connection",
+            "type": "state",
+            "common": {
+                "role": "indicator.connected",
+                "name": "Device or service connected",
+                "type": "boolean",
+                "read": true,
+                "write": false,
+                "def": false
+            },
+            "native": {}
+        }
+    ]
+}

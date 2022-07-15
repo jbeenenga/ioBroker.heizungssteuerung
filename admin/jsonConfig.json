@@ -1,0 +1,167 @@
+{
+    "i18n": true,
+    "type": "tabs",
+    "items": {
+        "main":
+        {
+            "type": "panel",
+            "label":"Main Settings",
+            "items":{
+                "isHeatingMode":{
+                    "type":"checkbox",
+                    "label": "Is Heating Mode"
+                }
+            }
+        },
+        "sensorPanel": {
+            "type": "panel",
+            "label": "Rooms",
+            "items": {
+                "sensors": {
+                    "type": "table",
+                    "sm": 10,
+                    "md": 10,
+                    "lg": 10,
+                    "label": "Rooms",
+                    "items": [
+                        {
+                            "type": "room",
+                            "attr": "room",
+                            "width": "30%",
+                            "height":"10px",
+                            "title": "room name",
+                            "filter": true,
+                            "sort": true,
+                            "default": ""
+                        },
+                        {
+                            "type": "objectId",
+                            "attr": "tempId",
+                            "width": "30%",
+                            "height":"10px",
+                            "title": "TemperatureId",
+                            "filter": true,
+                            "sort": true,
+                            "default": ""
+                        }                        ,
+                        {
+                            "type": "objectId",
+                            "attr": "humId",
+                            "width": "30%",
+                            "height":"10px",
+                            "title": "HumidityId",
+                            "filter": true,
+                            "sort": true,
+                            "default": ""
+                        }
+                    ]
+                }
+            }
+        },
+        "periods": {
+            "type": "panel",
+            "label": "Periods",
+            "items": {
+                "periods": {
+                    "type": "table",
+                    "sm": 10,
+                    "md": 10,
+                    "lg": 10,
+                    "label": "Periods",
+                    "items": [
+                        {
+                            "type": "room",
+                            "attr": "room",
+                            "title": "Room",
+                            "filter": false,
+                            "sort": false,
+                            "default": false
+                        },
+                        {
+                            "type": "panel",
+                            "title":"Days",
+                            "width": "40%",
+                            "items":
+                            [
+                                {
+                                    "type": "checkbox",
+                                    "attr": "Monday",
+                                    "label": "Monday",
+                                    "filter": false,
+                                    "sort": false,
+                                    "default": false
+                                },
+                                {
+                                    "type": "checkbox",
+                                    "attr": "Tuesday",
+                                    "label":"Tuesday",
+                                    "filter": false,
+                                    "sort": false,
+                                    "default": false
+                                },
+                                {
+                                    "type": "checkbox",
+                                    "attr": "Wednesday",
+                                    "label":"Wednesday",
+                                    "filter": false,
+                                    "sort": false,
+                                    "default": false
+                                },
+                                {
+                                    "type": "checkbox",
+                                    "attr": "Thursday",
+                                    "label":"Thursday",
+                                    "filter": false,
+                                    "sort": false,
+                                    "default": false
+                                },
+                                {
+                                    "type": "checkbox",
+                                    "attr": "Friday",
+                                    "label":"Friday",
+                                    "filter": false,
+                                    "sort": false,
+                                    "default": false
+                                },
+                                {
+                                    "type": "checkbox",
+                                    "attr": "Saturday",
+                                    "label":"Saturday",
+                                    "filter": false,
+                                    "sort": false,
+                                    "default": false
+                                },
+                                {
+                                    "type": "checkbox",
+                                    "attr": "Sunday",
+                                    "label":"Sunday",
+                                    "filter": false,
+                                    "sort": false,
+                                    "default": false
+                                }
+                            ]
+                        },
+                        {
+                            "type": "text",
+                            "attr": "from",
+                            "width": "20%",
+                            "title": "From",
+                            "filter": true,
+                            "sort": true,
+                            "default": ""
+                        },
+                        {
+                            "type": "text",
+                            "attr": "until",
+                            "width": "20%",
+                            "title": "Until",
+                            "filter": true,
+                            "sort": true,
+                            "default": ""
+                        }
+                    ]
+                }
+            }
+        }
+    }
+}
