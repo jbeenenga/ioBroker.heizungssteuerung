@@ -20,6 +20,8 @@ This adapter can be used to manage heating systems.
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
+### **WORK IN PROGRESS**
+* (jbeenenga) little changes
 
 ### 0.1.0 (2022-07-15)
 * (jbeenenga) initial release
