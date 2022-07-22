@@ -22,7 +22,7 @@ To use the adapter you have to add rooms to rooms enum and add the sensors and e
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
-### **WORK IN PROGRESS**
+### 1.1.4 (2022-07-22)
 * (jbeenenga) little changes
 
 ### 1.1.3 (2022-07-22)
