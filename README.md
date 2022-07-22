@@ -11,11 +11,22 @@
 
 **Tests:** ![Test and Release](https://github.com/jbeenenga/ioBroker.heizungssteuerung/workflows/Test%20and%20Release/badge.svg)
 
-## heizungssteuerung adapter for ioBroker
+## Heizungssteuerung adapter for ioBroker
 
-This adapter can be used to manage heating systems.
+This adapter can be used to manage heating systems. You can choose between cooling and heating mode.
 
-To use the adapter you have to add rooms to rooms enum and add the sensors and engines to the rooms. Furthermore you have to add the functions temperature, humidity and engine to the correct states. If you have no humidity sensor you can leave it empty.
+## Configuration
+To use the adapter you have to add rooms to rooms enum and add the sensors and engines to the rooms. 
+Furthermore you have to add the functions temperature, humidity and engine to the correct states. The enums will be created after the first start of the Adapter. If you have no humidity sensor you can leave it empty.
+
+### Main Settings
+*heating mode:* you can choose beween cooling and heating.
+
+*Stop cooling if humidity is higher than:*  If humudity is reached, cooling will be stopped. It only works, if you have add the humidity sensor to the Function and the Room.
+
+### Periods
+You can define periods for every room and time. Forthermore you can define whether this period should be used for cooling or heating. If heating mode is not matching to the setted mode on main settings the period will be ignored.
+
 
 ## Changelog
 <!--
