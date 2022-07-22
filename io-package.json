@@ -1,8 +1,20 @@
 {
   "common": {
     "name": "heizungssteuerung",
-    "version": "1.1.5",
+    "version": "1.1.6",
     "news": {
+      "1.1.6": {
+        "en": "little fix",
+        "de": "wenig fix",
+        "ru": "немного исправить",
+        "pt": "pequena correção",
+        "nl": "klein",
+        "fr": "petite correction",
+        "it": "piccola correzione",
+        "es": "pequeño",
+        "pl": "mało",
+        "zh-cn": "微不足道"
+      },
       "1.1.5": {
         "en": "add some documentation\nremove connection state",
         "de": "fügen sie eine dokumentation hinzu\nverbindungszustand entfernen",
@@ -64,18 +76,6 @@
         "zh-cn": "某些变化"
       },
       "1.1.0": {
-        "en": "some changes",
-        "de": "einige änderungen",
-        "ru": "некоторые изменения",
-        "pt": "algumas alterações",
-        "nl": "wat veranderingen",
-        "fr": "certains changements",
-        "it": "alcuni cambiamenti",
-        "es": "algunos cambios",
-        "pl": "zmiany",
-        "zh-cn": "某些变化"
-      },
-      "1.0.0": {
         "en": "some changes",
         "de": "einige änderungen",
         "ru": "некоторые изменения",
