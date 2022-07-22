@@ -15,5 +15,8 @@
     "TemperatureId": "ID van de temperatuursensor",
     "HumidityId": "ID van de vochtigheidssensor",
     "Main Settings": "Belangrijkste instellingen",
-    "Is Heating Mode": "Is verwarmingsmodus"
+    "Is Heating Mode": "Is verwarmingsmodus",
+    "MainSettings": "Belangrijkste instellingen",
+    "IsHeatingMode": "Is verwarmingsmodus",
+    "StopCoolingIfHumIsHigherThan": "Stop met koelen als de luchtvochtigheid hoger is dan"
 }

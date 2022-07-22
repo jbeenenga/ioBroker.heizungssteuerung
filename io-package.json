@@ -91,7 +91,8 @@
         ]
     },
     "native": {
-        "isHeatingMode": true,
+        "isHeatingMode": 0,
+        "stopCoolingIfHumIsHigherThan": 65,
         "sensors": [],
         "periods": []
     },

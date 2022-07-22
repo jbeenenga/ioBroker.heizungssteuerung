@@ -15,5 +15,8 @@
     "TemperatureId": "ID des Temperatursensors",
     "HumidityId": "ID des Feuchtigkeitssensors",
     "Main Settings": "Haupteinstellungen",
-    "Is Heating Mode": "Ist Heizmodus"
+    "Is Heating Mode": "Ist Heizmodus",
+    "MainSettings": "Haupteinstellungen",
+    "IsHeatingMode": "Ist Heizmodus",
+    "StopCoolingIfHumIsHigherThan": "Stoppen Sie die Kühlung, wenn die Luftfeuchtigkeit höher ist als"
 }

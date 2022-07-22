@@ -15,5 +15,8 @@
     "TemperatureId": "ID del sensor de temperatura",
     "HumidityId": "ID del sensor de humedad",
     "Main Settings": "Ajustes principales",
-    "Is Heating Mode": "es el modo de calefacción"
+    "Is Heating Mode": "es el modo de calefacción",
+    "MainSettings": "Ajustes principales",
+    "IsHeatingMode": "es el modo de calefacción",
+    "StopCoolingIfHumIsHigherThan": "Deje de enfriar si la humedad es superior a"
 }

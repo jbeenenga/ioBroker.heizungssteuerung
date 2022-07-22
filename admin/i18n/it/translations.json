@@ -15,5 +15,8 @@
     "TemperatureId": "ID del sensore di temperatura",
     "HumidityId": "ID del sensore di umidità",
     "Main Settings": "Impostazioni principali",
-    "Is Heating Mode": "È la modalità di riscaldamento"
+    "Is Heating Mode": "È la modalità di riscaldamento",
+    "MainSettings": "Impostazioni principali",
+    "IsHeatingMode": "È la modalità di riscaldamento",
+    "StopCoolingIfHumIsHigherThan": "Interrompere il raffreddamento se l'umidità è superiore a"
 }

@@ -15,5 +15,8 @@
     "TemperatureId": "ID do sensor de temperatura",
     "HumidityId": "ID do sensor de umidade",
     "Main Settings": "Configurações principais",
-    "Is Heating Mode": "É o modo de aquecimento"
+    "Is Heating Mode": "É o modo de aquecimento",
+    "MainSettings": "Configurações principais",
+    "IsHeatingMode": "É o modo de aquecimento",
+    "StopCoolingIfHumIsHigherThan": "Pare de resfriar se a umidade for maior que"
 }

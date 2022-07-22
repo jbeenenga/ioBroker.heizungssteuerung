@@ -15,5 +15,8 @@
     "TemperatureId": "ID czujnika temperatury",
     "HumidityId": "ID czujnika wilgotności",
     "Main Settings": "Ustawienia główne",
-    "Is Heating Mode": "Czy tryb ogrzewania?"
+    "Is Heating Mode": "Czy tryb ogrzewania?",
+    "MainSettings": "Ustawienia główne",
+    "IsHeatingMode": "Czy tryb ogrzewania?",
+    "StopCoolingIfHumIsHigherThan": "Zatrzymaj chłodzenie, jeśli wilgotność jest wyższa niż"
 }

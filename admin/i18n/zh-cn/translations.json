@@ -15,5 +15,8 @@
     "TemperatureId": "温度传感器ID",
     "HumidityId": "湿度传感器ID",
     "Main Settings": "主要设置",
-    "Is Heating Mode": "是加热模式"
+    "Is Heating Mode": "是加热模式",
+    "MainSettings": "主要设置",
+    "IsHeatingMode": "是加热模式",
+    "StopCoolingIfHumIsHigherThan": "如果湿度高于"
 }

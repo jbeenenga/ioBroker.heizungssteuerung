@@ -2,14 +2,27 @@
     "i18n": true,
     "type": "tabs",
     "items": {
-        "main":
-        {
+        "main": {
             "type": "panel",
-            "label":"Main Settings",
-            "items":{
-                "isHeatingMode":{
-                    "type":"checkbox",
-                    "label": "Is Heating Mode"
+            "label": "MainSettings",
+            "items": {
+                "isHeatingMode": {
+                    "type": "select",
+                    "label": "IsHeatingMode",
+                    "options": [
+                        {
+                            "label": "IsHeatingMode",
+                            "value": 0
+                        },
+                        {
+                            "label": "IsCoolingMode",
+                            "value": 1
+                        }
+                    ]
+                },
+                "stopCoolingIfHumIsHigherThan": {
+                    "type": "number",
+                    "label": "StopCoolingIfHumIsHigherThan"
                 }
             }
         },
@@ -28,7 +41,7 @@
                             "type": "room",
                             "attr": "room",
                             "width": "30%",
-                            "height":"10px",
+                            "height": "10px",
                             "title": "room name",
                             "filter": true,
                             "sort": true,
@@ -38,17 +51,17 @@
                             "type": "objectId",
                             "attr": "tempId",
                             "width": "30%",
-                            "height":"10px",
+                            "height": "10px",
                             "title": "TemperatureId",
                             "filter": true,
                             "sort": true,
                             "default": ""
-                        }                        ,
+                        },
                         {
                             "type": "objectId",
                             "attr": "humId",
                             "width": "30%",
-                            "height":"10px",
+                            "height": "10px",
                             "title": "HumidityId",
                             "filter": true,
                             "sort": true,
@@ -73,16 +86,16 @@
                             "type": "room",
                             "attr": "room",
                             "title": "Room",
-                            "filter": false,
-                            "sort": false,
-                            "default": false
+                            "filter": true,
+                            "sort": true,
+                            "width": "30%",
+                            "default": ""
                         },
                         {
                             "type": "panel",
-                            "title":"Days",
+                            "title": "Days",
                             "width": "40%",
-                            "items":
-                            [
+                            "items": [
                                 {
                                     "type": "checkbox",
                                     "attr": "Monday",
@@ -94,7 +107,7 @@
                                 {
                                     "type": "checkbox",
                                     "attr": "Tuesday",
-                                    "label":"Tuesday",
+                                    "label": "Tuesday",
                                     "filter": false,
                                     "sort": false,
                                     "default": false
@@ -102,7 +115,7 @@
                                 {
                                     "type": "checkbox",
                                     "attr": "Wednesday",
-                                    "label":"Wednesday",
+                                    "label": "Wednesday",
                                     "filter": false,
                                     "sort": false,
                                     "default": false
@@ -110,7 +123,7 @@
                                 {
                                     "type": "checkbox",
                                     "attr": "Thursday",
-                                    "label":"Thursday",
+                                    "label": "Thursday",
                                     "filter": false,
                                     "sort": false,
                                     "default": false
@@ -118,7 +131,7 @@
                                 {
                                     "type": "checkbox",
                                     "attr": "Friday",
-                                    "label":"Friday",
+                                    "label": "Friday",
                                     "filter": false,
                                     "sort": false,
                                     "default": false
@@ -126,7 +139,7 @@
                                 {
                                     "type": "checkbox",
                                     "attr": "Saturday",
-                                    "label":"Saturday",
+                                    "label": "Saturday",
                                     "filter": false,
                                     "sort": false,
                                     "default": false
@@ -134,7 +147,7 @@
                                 {
                                     "type": "checkbox",
                                     "attr": "Sunday",
-                                    "label":"Sunday",
+                                    "label": "Sunday",
                                     "filter": false,
                                     "sort": false,
                                     "default": false
@@ -146,18 +159,36 @@
                             "attr": "from",
                             "width": "20%",
                             "title": "From",
-                            "filter": true,
+                            "filter": false,
                             "sort": true,
-                            "default": ""
+                            "default": "10:00"
                         },
                         {
                             "type": "text",
                             "attr": "until",
                             "width": "20%",
                             "title": "Until",
-                            "filter": true,
+                            "filter": false,
                             "sort": true,
-                            "default": ""
+                            "default": "18:00"
+                        },
+                        {
+                            "type": "checkbox",
+                            "attr": "heating",
+                            "width": "20%",
+                            "title": "Heating",
+                            "filter": false,
+                            "sort": false,
+                            "default": true
+                        },
+                        {
+                            "type": "text",
+                            "attr": "temp",
+                            "width": "20%",
+                            "title": "Themperature",
+                            "filter": false,
+                            "sort": false,
+                            "default": "18"
                         }
                     ]
                 }

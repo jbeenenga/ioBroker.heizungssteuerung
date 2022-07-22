@@ -15,5 +15,8 @@
     "TemperatureId": "ID датчика температуры",
     "HumidityId": "ID датчика влажности",
     "Main Settings": "Основные параметры",
-    "Is Heating Mode": "Режим обогрева"
+    "Is Heating Mode": "Режим обогрева",
+    "MainSettings": "Основные параметры",
+    "IsHeatingMode": "Режим обогрева",
+    "StopCoolingIfHumIsHigherThan": "Остановить охлаждение, если влажность выше"
 }

@@ -15,5 +15,8 @@
     "TemperatureId": "ID du capteur de température",
     "HumidityId": "ID du capteur d'humidité",
     "Main Settings": "Réglages principaux",
-    "Is Heating Mode": "Est en mode chauffage"
+    "Is Heating Mode": "Est en mode chauffage",
+    "MainSettings": "Réglages principaux",
+    "IsHeatingMode": "Est en mode chauffage",
+    "StopCoolingIfHumIsHigherThan": "Arrêtez le refroidissement si l'humidité est supérieure à"
 }
