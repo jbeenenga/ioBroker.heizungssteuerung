@@ -8,14 +8,14 @@
             "items": {
                 "isHeatingMode": {
                     "type": "select",
-                    "label": "IsHeatingMode",
+                    "label": "HeatingMode",
                     "options": [
                         {
-                            "label": "IsHeatingMode",
+                            "label": "Heating",
                             "value": 0
                         },
                         {
-                            "label": "IsCoolingMode",
+                            "label": "Cooling",
                             "value": 1
                         }
                     ]
@@ -23,51 +23,6 @@
                 "stopCoolingIfHumIsHigherThan": {
                     "type": "number",
                     "label": "StopCoolingIfHumIsHigherThan"
-                }
-            }
-        },
-        "sensorPanel": {
-            "type": "panel",
-            "label": "Rooms",
-            "items": {
-                "sensors": {
-                    "type": "table",
-                    "sm": 10,
-                    "md": 10,
-                    "lg": 10,
-                    "label": "Rooms",
-                    "items": [
-                        {
-                            "type": "room",
-                            "attr": "room",
-                            "width": "30%",
-                            "height": "10px",
-                            "title": "room name",
-                            "filter": true,
-                            "sort": true,
-                            "default": ""
-                        },
-                        {
-                            "type": "objectId",
-                            "attr": "tempId",
-                            "width": "30%",
-                            "height": "10px",
-                            "title": "TemperatureId",
-                            "filter": true,
-                            "sort": true,
-                            "default": ""
-                        },
-                        {
-                            "type": "objectId",
-                            "attr": "humId",
-                            "width": "30%",
-                            "height": "10px",
-                            "title": "HumidityId",
-                            "filter": true,
-                            "sort": true,
-                            "default": ""
-                        }
-                    ]
                 }
             }
         },
