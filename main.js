@@ -41,8 +41,11 @@ class Heizungssteuerung extends utils.Adapter {
 		this.tempSensorMap = await this.buildFunctionToRoomMap("enum.functions.temperature", "Temperature");
 		this.humSensorMap = await this.buildFunctionToRoomMap("enum.functions.humidity", "Humidity");
 		this.engineMap = await this.buildFunctionToRoomMap("enum.functions.engine", "Engine");
-
+		if (this.interval1 != undefined) {
+			this.clearInterval(this.interval1);
+		}
 		this.interval1 = this.setInterval(this.check.bind(this), 5000);
+		this.connected = true;
 	}
 
 	async check() {
@@ -125,9 +128,9 @@ class Heizungssteuerung extends utils.Adapter {
 				this.setForeignStateAsync(this.engineMap[room], 0);
 			}
 		} else {
-			if(this.humSensorMap != undefined && this.humSensorMap[room] != undefined ){
+			if (this.humSensorMap != undefined && this.humSensorMap[room] != undefined) {
 				const humidity = await this.getForeignStateAsync(this.humSensorMap[room]);
-				if(humidity != undefined && humidity.val != undefined && this.humSensorMap[room] < humidity.val){
+				if (humidity != undefined && humidity.val != undefined && this.humSensorMap[room] < humidity.val) {
 					this.setForeignStateAsync(this.engineMap[room], 0);
 					return;
 				}
@@ -177,6 +180,7 @@ class Heizungssteuerung extends utils.Adapter {
 			if (this.interval1 != undefined) {
 				this.clearInterval(this.interval1);
 			}
+			this.connected = false;
 			callback();
 		} catch (e) {
 			callback();
@@ -214,25 +218,6 @@ class Heizungssteuerung extends utils.Adapter {
 			this.log.info(`state ${id} deleted`);
 		}
 	}
-
-	// If you need to accept messages in your adapter, uncomment the following block and the corresponding line in the constructor.
-	// /**
-	//  * Some message was sent to this instance over message box. Used by email, pushover, text2speech, ...
-	//  * Using this method requires "common.messagebox" property to be set to true in io-package.json
-	//  * @param {ioBroker.Message} obj
-	//  */
-	// onMessage(obj) {
-	// 	if (typeof obj === "object" && obj.message) {
-	// 		if (obj.command === "send") {
-	// 			// e.g. send email or pushover or whatever
-	// 			this.log.info("send command");
-
-	// 			// Send response in callback if required
-	// 			if (obj.callback) this.sendTo(obj.from, obj.command, "Message received", obj.callback);
-	// 		}
-	// 	}
-	// }
-
 }
 
 if (require.main !== module) {
