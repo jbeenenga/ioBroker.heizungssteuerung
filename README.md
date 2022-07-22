@@ -33,6 +33,9 @@ You can define periods for every room and time. Forthermore you can define wheth
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
+### **WORK IN PROGRESS**
+* (jbeenenga) little fix
+
 ### 1.1.5 (2022-07-22)
 * (jbeenenga) add some documentation
 * (jbeenenga) remove connection state
