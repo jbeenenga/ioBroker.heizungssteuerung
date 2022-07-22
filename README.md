@@ -15,16 +15,24 @@
 
 This adapter can be used to manage heating systems.
 
+To use the adapter you have to add rooms to rooms enum and add the sensors and engines to the rooms. Furthermore you have to add the functions temperature, humidity and engine to the correct states. If you have no humidity sensor you can leave it empty.
+
 ## Changelog
 <!--
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
+### **WORK IN PROGRESS**
+* (jbeenenga) add main logic
+
 ### 0.1.1 (2022-07-15)
 * (jbeenenga) little changes
 
 ### 0.1.0 (2022-07-15)
 * (jbeenenga) initial release
+
+## Images
+The main image created by Freepick (https://www.flaticon.com/de/kostenloses-icon/heizung_1295221)
 
 ## License
 MIT License
@@ -48,4 +56,3 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
->>>>>>> 3c8ee16 (initial commit)
