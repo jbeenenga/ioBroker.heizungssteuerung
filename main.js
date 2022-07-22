@@ -45,7 +45,6 @@ class Heizungssteuerung extends utils.Adapter {
 			this.clearInterval(this.interval1);
 		}
 		this.interval1 = this.setInterval(this.check.bind(this), 5000);
-		this.connected = true;
 	}
 
 	async check() {
@@ -184,38 +183,6 @@ class Heizungssteuerung extends utils.Adapter {
 			callback();
 		} catch (e) {
 			callback();
-		}
-	}
-
-	// If you need to react to object changes, uncomment the following block and the corresponding line in the constructor.
-	// You also need to subscribe to the objects with `this.subscribeObjects`, similar to `this.subscribeStates`.
-	// /**
-	//  * Is called if a subscribed object changes
-	//  * @param {string} id
-	//  * @param {ioBroker.Object | null | undefined} obj
-	//  */
-	onObjectChange(id, obj) {
-		if (obj) {
-			// The object was changed
-			this.log.info(`object ${id} changed: ${JSON.stringify(obj)}`);
-		} else {
-			// The object was deleted
-			this.log.info(`object ${id} deleted`);
-		}
-	}
-
-	/**
-	 * Is called if a subscribed state changes
-	 * @param {string} id
-	 * @param {ioBroker.State | null | undefined} state
-	 */
-	onStateChange(id, state) {
-		if (state) {
-			// The state was changed
-			this.log.info(`state ${id} changed: ${state.val} (ack = ${state.ack})`);
-		} else {
-			// The state was deleted
-			this.log.info(`state ${id} deleted`);
 		}
 	}
 }
