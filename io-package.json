@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "heizungssteuerung",
-        "version": "1.0.0",
+        "version": "1.1.0",
         "news": {
+            "1.1.0": {
+                "en": "some changes",
+                "de": "einige änderungen",
+                "ru": "некоторые изменения",
+                "pt": "algumas alterações",
+                "nl": "wat veranderingen",
+                "fr": "certains changements",
+                "it": "alcuni cambiamenti",
+                "es": "algunos cambios",
+                "pl": "zmiany",
+                "zh-cn": "某些变化"
+            },
             "1.0.0": {
                 "en": "some changes",
                 "de": "einige änderungen",
