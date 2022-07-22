@@ -1,7 +1,7 @@
 {
     "Rooms":"Rooms",
     "Room":"Room",
-    "room name":"Room name",
+    "roomName":"Room name",
     "Days":"Days",
     "Monday": "Monday",
     "Tuesday":"Tuesday",
@@ -12,11 +12,9 @@
     "Sunday":"Sunday",
     "From": "From",
     "Until":"Until",
-    "TemperatureId":"ID of the temperature sensor",
-    "HumidityId": "ID of the humidity sensor",
     "MainSettings": "Main settings",
-    "IsHeatingMode": "Is heating mode",
-    "IsCoolingMode": "Is cooling mode",
+    "HeatingMode": "Heating mode",
+    "Cooling": "Cooling",
     "StopCoolingIfHumIsHigherThan": "Stop cooling if humidity is higher than",
     "Heating": "Heating",
     "Temperature":"Temperature"

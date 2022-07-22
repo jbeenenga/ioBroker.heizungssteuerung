@@ -1,7 +1,7 @@
 {
     "Rooms": "Camere",
     "Room": "Camera",
-    "room name": "Nome della stanza",
+    "roomName": "Nome della stanza",
     "Days": "Giorni",
     "Monday": "Lunedi",
     "Tuesday": "Martedì",
@@ -14,9 +14,10 @@
     "Until": "Fino a quando",
     "TemperatureId": "ID del sensore di temperatura",
     "HumidityId": "ID del sensore di umidità",
-    "Main Settings": "Impostazioni principali",
-    "Is Heating Mode": "È la modalità di riscaldamento",
     "MainSettings": "Impostazioni principali",
-    "IsHeatingMode": "È la modalità di riscaldamento",
-    "StopCoolingIfHumIsHigherThan": "Interrompere il raffreddamento se l'umidità è superiore a"
+    "HeatingMode": "Modalità riscaldamento",
+    "Cooling": "Raffreddamento",
+    "StopCoolingIfHumIsHigherThan": "Interrompere il raffreddamento se l'umidità è superiore a",
+    "Heating": "Il riscaldamento",
+    "Temperature": "Temperatura"
 }

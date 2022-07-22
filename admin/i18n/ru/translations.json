@@ -1,7 +1,7 @@
 {
     "Rooms": "Номера",
     "Room": "Номер",
-    "room name": "Название комнаты",
+    "roomName": "Название комнаты",
     "Days": "Дни",
     "Monday": "Понедельник",
     "Tuesday": "Вторник",
@@ -14,9 +14,10 @@
     "Until": "До того как",
     "TemperatureId": "ID датчика температуры",
     "HumidityId": "ID датчика влажности",
-    "Main Settings": "Основные параметры",
-    "Is Heating Mode": "Режим обогрева",
     "MainSettings": "Основные параметры",
-    "IsHeatingMode": "Режим обогрева",
-    "StopCoolingIfHumIsHigherThan": "Остановить охлаждение, если влажность выше"
+    "HeatingMode": "Режим нагрева",
+    "Cooling": "Охлаждение",
+    "StopCoolingIfHumIsHigherThan": "Остановить охлаждение, если влажность выше",
+    "Heating": "Обогрев",
+    "Temperature": "Температура"
 }

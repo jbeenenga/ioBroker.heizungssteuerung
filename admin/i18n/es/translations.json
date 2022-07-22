@@ -1,7 +1,7 @@
 {
     "Rooms": "Habitaciones",
     "Room": "Habitación",
-    "room name": "Nombre de la habitación",
+    "roomName": "Nombre de la habitación",
     "Days": "Días",
     "Monday": "Lunes",
     "Tuesday": "martes",
@@ -14,9 +14,10 @@
     "Until": "Hasta que",
     "TemperatureId": "ID del sensor de temperatura",
     "HumidityId": "ID del sensor de humedad",
-    "Main Settings": "Ajustes principales",
-    "Is Heating Mode": "es el modo de calefacción",
     "MainSettings": "Ajustes principales",
-    "IsHeatingMode": "es el modo de calefacción",
-    "StopCoolingIfHumIsHigherThan": "Deje de enfriar si la humedad es superior a"
+    "HeatingMode": "Modo de calefacción",
+    "Cooling": "Enfriamiento",
+    "StopCoolingIfHumIsHigherThan": "Deje de enfriar si la humedad es superior a",
+    "Heating": "Calefacción",
+    "Temperature": "La temperatura"
 }

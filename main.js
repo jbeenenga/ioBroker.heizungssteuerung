@@ -42,27 +42,32 @@ class Heizungssteuerung extends utils.Adapter {
 		this.humSensorMap = await this.buildFunctionToRoomMap("enum.functions.humidity", "Humidity");
 		this.engineMap = await this.buildFunctionToRoomMap("enum.functions.engine", "Engine");
 
-		this.log.warn(JSON.stringify(this.tempSensorMap));
-		this.log.warn(JSON.stringify(this.humSensorMap));
-
-		this.log.info(this.config.sensors.length.toString());
-		this.log.info("Ab geht die Post heute ist " + new Date().getDay());
-		this.log.info(JSON.stringify(this.config.periods));
-
-		this.interval1 = await this.setInterval(this.check.bind(this), 5000);
+		this.interval1 = this.setInterval(this.check.bind(this), 5000);
 	}
 
 	async check() {
+		const handledRooms = [];
 		for (let i = 0; i < this.config.periods.length; i++) {
 			if (this.config.isHeatingMode == this.config.periods[i]["heating"] && this.isCurrentPeriod(this.config.periods[i])) {
-				this.log.warn("Die Periode ist aktuell " + JSON.stringify(this.config.periods[i]));
-
+				this.log.debug("The period is matching " + JSON.stringify(this.config.periods[i]));
 				this.setTemperatureForRoom(this.config.periods[i]["room"], this.config.periods[i]["temp"]);
+				handledRooms.push(this.config.periods[i]["room"]);
 			} else {
-				this.log.info("Die Periode ist nicht aktuell " + JSON.stringify(this.config.periods[i]));
+				this.log.debug("The period is not matching " + JSON.stringify(this.config.periods[i]));
 			}
 		}
 
+		await this.deactivateUnhandledRooms(handledRooms);
+	}
+
+	async deactivateUnhandledRooms(handledRooms) {
+		const rooms = await this.getEnumAsync("rooms");
+		const roomNames = Object.keys(rooms.result);
+		for (let i = 0; i < roomNames.length; i++) {
+			if (!handledRooms.includes(roomNames[i]) && this.engineMap != undefined && this.engineMap[roomNames[i]] != undefined) {
+				this.setForeignStateAsync(this.engineMap[roomNames[i]], 0);
+			}
+		}
 	}
 
 	async buildFunctionToRoomMap(functionId, functionName) {
@@ -72,8 +77,11 @@ class Heizungssteuerung extends utils.Adapter {
 		const funcTemp = await this.getForeignObjectAsync(functionId);
 		const rooms = await this.getEnumAsync("rooms");
 
-		// @ts-ignore
-		for (let i = 0; i < funcTemp["common"]["members"].length; i++) {
+		if (funcTemp == undefined) {
+			return functionToRoomMap;
+		}
+
+		for (let i = 0; i < funcTemp.common["members"].length; i++) {
 			const roomNames = Object.keys(rooms.result);
 			for (let j = 0; j < roomNames.length; j++) {
 				for (let k = 0; k < rooms["result"][roomNames[j]]["common"]["members"].length; k++) {
@@ -86,11 +94,20 @@ class Heizungssteuerung extends utils.Adapter {
 		return functionToRoomMap;
 	}
 
-	// @ts-ignore
 	async setTemperatureForRoom(room, temperature) {
-		// @ts-ignore
-		const temp = (await this.getForeignStateAsync(this.tempSensorMap[room])).val;
-
+		if (this.tempSensorMap == undefined || this.tempSensorMap[room] == undefined) {
+			this.log.warn("tempSensorMap was not filled correctly");
+			return;
+		}
+		if (this.engineMap == undefined || this.engineMap[room] == undefined) {
+			this.log.warn("engineMap was not filled correctly");
+			return;
+		}
+		const tempState = await this.getForeignStateAsync(this.tempSensorMap[room]);
+		if (tempState == undefined) {
+			return;
+		}
+		const temp = tempState.val;
 		this.log.info("Es sind " + temp + " und es sollen sein " + temperature + "ss");
 
 		if (temp == null) {
@@ -99,24 +116,29 @@ class Heizungssteuerung extends utils.Adapter {
 		}
 
 		if (this.config.isHeatingMode == 0) {
-			if (temp < (Number(temperature) - 1/2)) {
-				this.log.warn("steuere " + this.engineMap[room] + "mit 1");
+			if (temp < (Number(temperature) - 1 / 2)) {
+				this.log.debug("set " + this.engineMap[room] + " to 1");
 				this.setForeignStateAsync(this.engineMap[room], 1);
 			}
-			if (temp > (Number(temperature) + 1/2)) {
-				this.log.warn("steuere " + this.engineMap[room] + "mit 0");
-
+			if (temp > (Number(temperature) + 1 / 2)) {
+				this.log.debug("set " + this.engineMap[room] + " to 0");
 				this.setForeignStateAsync(this.engineMap[room], 0);
 			}
 		} else {
-			this.log.warn("kühlen"+(Number(temperature) - 1/2));
-			if (temp < (Number(temperature) - 1/2)) {
-				this.log.warn("steuere " + this.engineMap[room] + "mit 0");
+			if(this.humSensorMap != undefined && this.humSensorMap[room] != undefined ){
+				const humidity = await this.getForeignStateAsync(this.humSensorMap[room]);
+				if(humidity != undefined && humidity.val != undefined && this.humSensorMap[room] < humidity.val){
+					this.setForeignStateAsync(this.engineMap[room], 0);
+					return;
+				}
 
+			}
+			if (temp < (Number(temperature) - 1 / 2)) {
+				this.log.warn("set " + this.engineMap[room] + " to 0");
 				this.setForeignStateAsync(this.engineMap[room], 0);
 			}
-			if (temp > (Number(temperature) + 1/2)) {
-				this.log.warn("steuere " + this.engineMap[room] + "mit 1");
+			if (temp > (Number(temperature) + 1 / 2)) {
+				this.log.warn("set " + this.engineMap[room] + " to 1");
 
 				this.setForeignStateAsync(this.engineMap[room], 1);
 			}
