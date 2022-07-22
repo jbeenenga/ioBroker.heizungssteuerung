@@ -88,7 +88,6 @@
         "zh-cn": "增加主要逻辑"
       }
     },
-    "title": "Heizungssteuerung",
     "titleLang": {
       "en": "Heizungssteuerung",
       "de": "Heizungssteuerung",
@@ -117,10 +116,8 @@
       "jbeenenga <j.beenenga@gmail.com>"
     ],
     "keywords": [
-      "ioBroker",
-      "template",
-      "Smart Home",
-      "home automation"
+      "home automation",
+      "heating"
     ],
     "license": "MIT",
     "platform": "Javascript/Node.js",

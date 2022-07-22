@@ -22,6 +22,9 @@ To use the adapter you have to add rooms to rooms enum and add the sensors and e
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
+### **WORK IN PROGRESS**
+* (jbeenenga) little changes
+
 ### 1.1.3 (2022-07-22)
 * (jbeenenga) changed admin dependency to minimum version 5.3.8
 
