@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "heizungssteuerung",
-        "version": "0.1.1",
+        "version": "0.1.2",
         "news": {
+            "0.1.2": {
+                "en": "add main logic",
+                "de": "hauptlogik hinzufügen",
+                "ru": "добавить главную логику",
+                "pt": "adicionar a lógica principal",
+                "nl": "voeg de logica toe",
+                "fr": "ajouter la logique principale",
+                "it": "aggiungere logica principale",
+                "es": "añadir lógica principal",
+                "pl": "dodać",
+                "zh-cn": "增加主要逻辑"
+            },
             "0.1.1": {
                 "en": "little changes",
                 "de": "kleine änderungen",
