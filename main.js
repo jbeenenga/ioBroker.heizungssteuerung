@@ -119,12 +119,12 @@ class Heizungssteuerung extends utils.Adapter {
 
 		if (this.config.isHeatingMode == 0) {
 			if (temp < (Number(goalTemperature) - 1 / 2)) {
-				this.log.debug("set " + this.engineMap[room] + " to 1");
+				this.log.debug("set " + this.engineMap[room] + " to true");
 				this.setForeignStateAsync(this.engineMap[room], true);
 			}
 			if (temp > (Number(goalTemperature) + 1 / 2)) {
-				this.log.debug("set " + this.engineMap[room] + " to 0");
-				this.setForeignStateAsync(this.engineMap[room], 0);
+				this.log.debug("set " + this.engineMap[room] + " to false");
+				this.setForeignStateAsync(this.engineMap[room], false);
 			}
 		} else {
 			if (this.humSensorMap != undefined && this.humSensorMap[room] != undefined) {
@@ -136,13 +136,13 @@ class Heizungssteuerung extends utils.Adapter {
 
 			}
 			if (temp < (Number(goalTemperature) - 1 / 2)) {
-				this.log.warn("set " + this.engineMap[room] + " to 0");
-				this.setForeignStateAsync(this.engineMap[room], 0);
+				this.log.warn("set " + this.engineMap[room] + " to false");
+				this.setForeignStateAsync(this.engineMap[room],false);
 			}
 			if (temp > (Number(goalTemperature) + 1 / 2)) {
-				this.log.warn("set " + this.engineMap[room] + " to 1");
+				this.log.warn("set " + this.engineMap[room] + " to true");
 
-				this.setForeignStateAsync(this.engineMap[room], 1);
+				this.setForeignStateAsync(this.engineMap[room], true);
 			}
 		}
 
