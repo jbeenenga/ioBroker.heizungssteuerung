@@ -1,8 +1,20 @@
 {
   "common": {
     "name": "heizungssteuerung",
-    "version": "1.2.0",
+    "version": "1.2.1",
     "news": {
+      "1.2.1": {
+        "en": "some logging issues",
+        "de": "einige protokollierungsprobleme",
+        "ru": "некоторые проблемы лесозаготовки",
+        "pt": "alguns problemas de registro",
+        "nl": "wat logeerproblemen",
+        "fr": "quelques problèmes de journalisation",
+        "it": "alcuni problemi di registrazione",
+        "es": "algunos problemas de registro",
+        "pl": "niektóre kwestie logowania",
+        "zh-cn": "一些伐木问题"
+      },
       "1.1.6": {
         "en": "little fix",
         "de": "wenig fix",
@@ -64,18 +76,6 @@
         "zh-cn": "更正"
       },
       "1.1.1": {
-        "en": "some changes",
-        "de": "einige änderungen",
-        "ru": "некоторые изменения",
-        "pt": "algumas alterações",
-        "nl": "wat veranderingen",
-        "fr": "certains changements",
-        "it": "alcuni cambiamenti",
-        "es": "algunos cambios",
-        "pl": "zmiany",
-        "zh-cn": "某些变化"
-      },
-      "1.1.0": {
         "en": "some changes",
         "de": "einige änderungen",
         "ru": "некоторые изменения",
