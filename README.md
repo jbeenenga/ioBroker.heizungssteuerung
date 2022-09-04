@@ -33,6 +33,9 @@ You can define periods for every room and time. Forthermore you can define wheth
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
+### **WORK IN PROGRESS**
+* (jbeenenga) set engine with boolean value
+
 ### 1.2.1 (2022-09-04)
 * (jbeenenga) some logging issues
 

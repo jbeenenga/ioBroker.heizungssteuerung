@@ -120,7 +120,7 @@ class Heizungssteuerung extends utils.Adapter {
 		if (this.config.isHeatingMode == 0) {
 			if (temp < (Number(goalTemperature) - 1 / 2)) {
 				this.log.debug("set " + this.engineMap[room] + " to 1");
-				this.setForeignStateAsync(this.engineMap[room], 1);
+				this.setForeignStateAsync(this.engineMap[room], true);
 			}
 			if (temp > (Number(goalTemperature) + 1 / 2)) {
 				this.log.debug("set " + this.engineMap[room] + " to 0");
@@ -130,7 +130,7 @@ class Heizungssteuerung extends utils.Adapter {
 			if (this.humSensorMap != undefined && this.humSensorMap[room] != undefined) {
 				const humidity = await this.getForeignStateAsync(this.humSensorMap[room]);
 				if (humidity != undefined && humidity.val != undefined && this.humSensorMap[room] < humidity.val) {
-					this.setForeignStateAsync(this.engineMap[room], 0);
+					this.setForeignStateAsync(this.engineMap[room], false);
 					return;
 				}
 
