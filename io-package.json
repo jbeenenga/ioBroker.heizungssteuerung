@@ -1,8 +1,20 @@
 {
   "common": {
     "name": "heizungssteuerung",
-    "version": "1.2.1",
+    "version": "1.2.2",
     "news": {
+      "1.2.2": {
+        "en": "set engine with boolean value",
+        "de": "motor mit boolean-wert eingestellt",
+        "ru": "установить двигатель с boolean значение",
+        "pt": "set engine with boolean value",
+        "nl": "zet motor met boolean waarde",
+        "fr": "moteur avec valeur booléenne",
+        "it": "set motore con valore booleano",
+        "es": "motor con valor booleano",
+        "pl": "silnik o wartości booleianowej",
+        "zh-cn": "制造的工程师"
+      },
       "1.2.1": {
         "en": "some logging issues",
         "de": "einige protokollierungsprobleme",
@@ -74,18 +86,6 @@
         "es": "problemas de la versión correcta",
         "pl": "problem poprawny",
         "zh-cn": "更正"
-      },
-      "1.1.1": {
-        "en": "some changes",
-        "de": "einige änderungen",
-        "ru": "некоторые изменения",
-        "pt": "algumas alterações",
-        "nl": "wat veranderingen",
-        "fr": "certains changements",
-        "it": "alcuni cambiamenti",
-        "es": "algunos cambios",
-        "pl": "zmiany",
-        "zh-cn": "某些变化"
       }
     },
     "titleLang": {
