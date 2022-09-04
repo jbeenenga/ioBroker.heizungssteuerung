@@ -38,6 +38,9 @@ class Heizungssteuerung extends utils.Adapter {
 		this.tempSensorMap = await this.buildFunctionToRoomMap("enum.functions.temperature", "Temperature");
 		this.humSensorMap = await this.buildFunctionToRoomMap("enum.functions.humidity", "Humidity");
 		this.engineMap = await this.buildFunctionToRoomMap("enum.functions.engine", "Engine");
+		this.log.debug("tempSensorMap created: " + JSON.stringify(this.tempSensorMap));
+		this.log.debug("humSensorMap created: " + JSON.stringify(this.humSensorMap));
+		this.log.debug("engineMap created: " + JSON.stringify(this.engineMap));
 		if (this.interval1 != undefined) {
 			this.clearInterval(this.interval1);
 		}
@@ -47,7 +50,7 @@ class Heizungssteuerung extends utils.Adapter {
 	async check() {
 		const handledRooms = [];
 		for (let i = 0; i < this.config.periods.length; i++) {
-			if (this.config.isHeatingMode == this.config.periods[i]["heating"] && this.isCurrentPeriod(this.config.periods[i])) {
+			if ((this.config.isHeatingMode == 0) == this.config.periods[i]["heating"] && this.isCurrentPeriod(this.config.periods[i])) {
 				this.log.debug("The period is matching " + JSON.stringify(this.config.periods[i]));
 				this.setTemperatureForRoom(this.config.periods[i]["room"], this.config.periods[i]["temp"]);
 				handledRooms.push(this.config.periods[i]["room"]);
@@ -70,7 +73,7 @@ class Heizungssteuerung extends utils.Adapter {
 	}
 
 	async buildFunctionToRoomMap(functionId, functionName) {
-		this.setForeignObjectNotExists(functionId, { "type": "enum", "common": { "name": functionName, "members": [] }, "native": {}, "_id": "enum.functions.temperature" });
+		this.setForeignObjectNotExists(functionId, { "type": "enum", "common": { "name": functionName, "members": [] }, "native": {}, "_id": functionId });
 		const functionToRoomMap = {};
 
 		const funcTemp = await this.getForeignObjectAsync(functionId);
@@ -93,7 +96,7 @@ class Heizungssteuerung extends utils.Adapter {
 		return functionToRoomMap;
 	}
 
-	async setTemperatureForRoom(room, temperature) {
+	async setTemperatureForRoom(room, goalTemperature) {
 		if (this.tempSensorMap == undefined || this.tempSensorMap[room] == undefined) {
 			this.log.warn("tempSensorMap was not filled correctly");
 			return;
@@ -107,7 +110,7 @@ class Heizungssteuerung extends utils.Adapter {
 			return;
 		}
 		const temp = tempState.val;
-		this.log.info("Es sind " + temp + " und es sollen sein " + temperature + "ss");
+		this.log.info("Es sind " + temp + " und es sollen sein " + goalTemperature + "ss");
 
 		if (temp == null) {
 			this.log.warn("Temperature for room " + room + " is not defined");
@@ -115,11 +118,11 @@ class Heizungssteuerung extends utils.Adapter {
 		}
 
 		if (this.config.isHeatingMode == 0) {
-			if (temp < (Number(temperature) - 1 / 2)) {
+			if (temp < (Number(goalTemperature) - 1 / 2)) {
 				this.log.debug("set " + this.engineMap[room] + " to 1");
 				this.setForeignStateAsync(this.engineMap[room], 1);
 			}
-			if (temp > (Number(temperature) + 1 / 2)) {
+			if (temp > (Number(goalTemperature) + 1 / 2)) {
 				this.log.debug("set " + this.engineMap[room] + " to 0");
 				this.setForeignStateAsync(this.engineMap[room], 0);
 			}
@@ -132,11 +135,11 @@ class Heizungssteuerung extends utils.Adapter {
 				}
 
 			}
-			if (temp < (Number(temperature) - 1 / 2)) {
+			if (temp < (Number(goalTemperature) - 1 / 2)) {
 				this.log.warn("set " + this.engineMap[room] + " to 0");
 				this.setForeignStateAsync(this.engineMap[room], 0);
 			}
-			if (temp > (Number(temperature) + 1 / 2)) {
+			if (temp > (Number(goalTemperature) + 1 / 2)) {
 				this.log.warn("set " + this.engineMap[room] + " to 1");
 
 				this.setForeignStateAsync(this.engineMap[room], 1);
