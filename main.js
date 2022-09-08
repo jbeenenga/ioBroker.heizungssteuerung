@@ -110,7 +110,7 @@ class Heizungssteuerung extends utils.Adapter {
 			return;
 		}
 		const temp = tempState.val;
-		this.log.info("Es sind " + temp + " und es sollen sein " + goalTemperature + "ss");
+		this.log.debug("Es sind " + temp + " und es sollen sein " + goalTemperature );
 
 		if (temp == null) {
 			this.log.warn("Temperature for room " + room + " is not defined");
