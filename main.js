@@ -67,7 +67,7 @@ class Heizungssteuerung extends utils.Adapter {
 		const roomNames = Object.keys(rooms.result);
 		for (let i = 0; i < roomNames.length; i++) {
 			if (!handledRooms.includes(roomNames[i]) && this.engineMap != undefined && this.engineMap[roomNames[i]] != undefined) {
-				this.setForeignStateAsync(this.engineMap[roomNames[i]], 0);
+				this.setForeignStateAsync(this.engineMap[roomNames[i]], false);
 			}
 		}
 	}
