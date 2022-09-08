@@ -17,5 +17,6 @@
     "Cooling": "Cooling",
     "StopCoolingIfHumIsHigherThan": "Stop cooling if humidity is higher than",
     "Heating": "Heating",
-    "Temperature":"Temperature"
+    "Temperature":"Temperature",
+    "UpdateIntervall":"Update intervall in seconds"
 }

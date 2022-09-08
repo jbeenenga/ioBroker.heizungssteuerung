@@ -19,5 +19,6 @@
     "Cooling": "Resfriamento",
     "StopCoolingIfHumIsHigherThan": "Pare de resfriar se a umidade for superior a",
     "Heating": "Aquecimento",
-    "Temperature": "Temperatura"
+    "Temperature": "Temperatura",
+    "UpdateIntervall": "Atualizar intervall em segundos"
 }

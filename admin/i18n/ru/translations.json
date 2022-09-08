@@ -19,5 +19,6 @@
     "Cooling": "Охлаждение",
     "StopCoolingIfHumIsHigherThan": "Остановить охлаждение, если влажность выше",
     "Heating": "Обогрев",
-    "Temperature": "Температура"
+    "Temperature": "Температура",
+    "UpdateIntervall": "Интервал обновления в секундах"
 }

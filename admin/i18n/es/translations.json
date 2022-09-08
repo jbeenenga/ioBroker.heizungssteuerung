@@ -19,5 +19,6 @@
     "Cooling": "Enfriamiento",
     "StopCoolingIfHumIsHigherThan": "Deje de enfriar si la humedad es superior a",
     "Heating": "Calefacción",
-    "Temperature": "La temperatura"
+    "Temperature": "La temperatura",
+    "UpdateIntervall": "Intervalo de actualización en segundos"
 }

@@ -19,5 +19,6 @@
     "HeatingMode": "Heizmodus",
     "Cooling": "Kühlung",
     "Heating": "Heizung",
-    "Temperature": "Temperatur"
+    "Temperature": "Temperatur",
+    "UpdateIntervall": "Aktualisierungsintervall in Sekunden"
 }

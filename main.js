@@ -1,7 +1,5 @@
 "use strict";
 
-// @ts-ignore
-const { adapter, Adapter } = require("@iobroker/adapter-core");
 /*
  * Created with @iobroker/create-adapter v2.1.1
  */
@@ -9,12 +7,6 @@ const { adapter, Adapter } = require("@iobroker/adapter-core");
 // The adapter-core module gives you access to the core ioBroker functions
 // you need to create an adapter
 const utils = require("@iobroker/adapter-core");
-// @ts-ignore
-//const { createLoggerMock } = require("@iobroker/testing/build/tests/unit/mocks/mockLogger");
-
-
-// Load your modules here, e.g.:
-// const fs = require("fs");
 
 class Heizungssteuerung extends utils.Adapter {
 
@@ -44,7 +36,7 @@ class Heizungssteuerung extends utils.Adapter {
 		if (this.interval1 != undefined) {
 			this.clearInterval(this.interval1);
 		}
-		this.interval1 = this.setInterval(this.check.bind(this), 5000);
+		this.interval1 = this.setInterval(this.check.bind(this), this.config.updateIntervall * 1000);
 	}
 
 	async check() {
@@ -98,11 +90,11 @@ class Heizungssteuerung extends utils.Adapter {
 
 	async setTemperatureForRoom(room, goalTemperature) {
 		if (this.tempSensorMap == undefined || this.tempSensorMap[room] == undefined) {
-			this.log.warn("tempSensorMap was not filled correctly");
+			this.log.warn("tempSensorMap was not filled correctly for room " + room);
 			return;
 		}
 		if (this.engineMap == undefined || this.engineMap[room] == undefined) {
-			this.log.warn("engineMap was not filled correctly");
+			this.log.warn("engineMap was not filled correctly for room " + room);
 			return;
 		}
 		const tempState = await this.getForeignStateAsync(this.tempSensorMap[room]);
@@ -110,7 +102,7 @@ class Heizungssteuerung extends utils.Adapter {
 			return;
 		}
 		const temp = tempState.val;
-		this.log.debug("Es sind " + temp + " und es sollen sein " + goalTemperature );
+		this.log.debug("In " + room + " it is " + temp + " and should be " + goalTemperature);
 
 		if (temp == null) {
 			this.log.warn("Temperature for room " + room + " is not defined");
@@ -130,6 +122,7 @@ class Heizungssteuerung extends utils.Adapter {
 			if (this.humSensorMap != undefined && this.humSensorMap[room] != undefined) {
 				const humidity = await this.getForeignStateAsync(this.humSensorMap[room]);
 				if (humidity != undefined && humidity.val != undefined && this.humSensorMap[room] < humidity.val) {
+					this.log.info("Deactivate engine for " + room + " because humidity maximum reached");
 					this.setForeignStateAsync(this.engineMap[room], false);
 					return;
 				}
@@ -137,7 +130,7 @@ class Heizungssteuerung extends utils.Adapter {
 			}
 			if (temp < (Number(goalTemperature) - 1 / 2)) {
 				this.log.warn("set " + this.engineMap[room] + " to false");
-				this.setForeignStateAsync(this.engineMap[room],false);
+				this.setForeignStateAsync(this.engineMap[room], false);
 			}
 			if (temp > (Number(goalTemperature) + 1 / 2)) {
 				this.log.warn("set " + this.engineMap[room] + " to true");
@@ -153,7 +146,6 @@ class Heizungssteuerung extends utils.Adapter {
 	isCurrentPeriod(period) {
 		let day = new Date().getDay() - 1;
 		day = day < 0 ? 6 : day;
-		this.log.info("tag ist " + day);
 		if (!period[day]) {
 			return false;
 		}

@@ -19,5 +19,6 @@
     "Cooling": "冷却",
     "StopCoolingIfHumIsHigherThan": "如果湿度高于",
     "Heating": "加热",
-    "Temperature": "温度"
+    "Temperature": "温度",
+    "UpdateIntervall": "以秒为单位更新间隔"
 }

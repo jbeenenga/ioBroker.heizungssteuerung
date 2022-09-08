@@ -23,6 +23,10 @@
                 "stopCoolingIfHumIsHigherThan": {
                     "type": "number",
                     "label": "StopCoolingIfHumIsHigherThan"
+                }, 
+                "updateIntervall": {
+                    "type": "number",
+                    "label": "UpdateIntervall"
                 }
             }
         },

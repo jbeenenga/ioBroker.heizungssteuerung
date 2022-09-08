@@ -1,158 +1,159 @@
 {
-  "common": {
-    "name": "heizungssteuerung",
-    "version": "1.2.4",
-    "news": {
-      "1.2.4": {
-        "en": "small fixes",
-        "de": "kleine fixierungen",
-        "ru": "небольшие исправления",
-        "pt": "pequenas correções",
-        "nl": "kleine fixes",
-        "fr": "petites corrections",
-        "it": "piccole correzioni",
-        "es": "pequeños accesorios",
-        "pl": "drobne rozwiązanie",
-        "zh-cn": "小型配件"
-      },
-      "1.2.3": {
-        "en": "set engine with boolean value",
-        "de": "motor mit boolean-wert eingestellt",
-        "ru": "установить двигатель с boolean значение",
-        "pt": "set engine with boolean value",
-        "nl": "zet motor met boolean waarde",
-        "fr": "moteur avec valeur booléenne",
-        "it": "set motore con valore booleano",
-        "es": "motor con valor booleano",
-        "pl": "silnik o wartości booleianowej",
-        "zh-cn": "制造的工程师"
-      },
-      "1.2.2": {
-        "en": "set engine with boolean value",
-        "de": "motor mit boolean-wert eingestellt",
-        "ru": "установить двигатель с boolean значение",
-        "pt": "set engine with boolean value",
-        "nl": "zet motor met boolean waarde",
-        "fr": "moteur avec valeur booléenne",
-        "it": "set motore con valore booleano",
-        "es": "motor con valor booleano",
-        "pl": "silnik o wartości booleianowej",
-        "zh-cn": "制造的工程师"
-      },
-      "1.2.1": {
-        "en": "some logging issues",
-        "de": "einige protokollierungsprobleme",
-        "ru": "некоторые проблемы лесозаготовки",
-        "pt": "alguns problemas de registro",
-        "nl": "wat logeerproblemen",
-        "fr": "quelques problèmes de journalisation",
-        "it": "alcuni problemi di registrazione",
-        "es": "algunos problemas de registro",
-        "pl": "niektóre kwestie logowania",
-        "zh-cn": "一些伐木问题"
-      },
-      "1.1.6": {
-        "en": "little fix",
-        "de": "wenig fix",
-        "ru": "немного исправить",
-        "pt": "pequena correção",
-        "nl": "klein",
-        "fr": "petite correction",
-        "it": "piccola correzione",
-        "es": "pequeño",
-        "pl": "mało",
-        "zh-cn": "微不足道"
-      },
-      "1.1.5": {
-        "en": "add some documentation\nremove connection state",
-        "de": "fügen sie eine dokumentation hinzu\nverbindungszustand entfernen",
-        "ru": "добавить некоторую документацию\nудалить состояние соединения",
-        "pt": "adicionar alguma documentação\nremover estado de conexão",
-        "nl": "voeg wat documenten toe\nverwijder de staat",
-        "fr": "ajouter quelques documents\nsupprimer l'état de connexion",
-        "it": "aggiungere qualche documentazione\nrimuovere lo stato di connessione",
-        "es": "añadir documentación\neliminar estado de conexión",
-        "pl": "dodać niektóre dokumenty\nusunięcie",
-        "zh-cn": "增加一些文件\n消除联系国"
-      },
-      "1.1.4": {
-        "en": "little changes",
-        "de": "kleine änderungen",
-        "ru": "небольшие изменения",
-        "pt": "pequenas mudanças",
-        "nl": "kleine veranderingen",
-        "fr": "petits changements",
-        "it": "piccoli cambiamenti",
-        "es": "pequeños cambios",
-        "pl": "zmiana",
-        "zh-cn": "几乎没有变化"
-      }
+    "common": {
+        "name": "heizungssteuerung",
+        "version": "1.2.4",
+        "news": {
+            "1.2.4": {
+                "en": "small fixes",
+                "de": "kleine fixierungen",
+                "ru": "небольшие исправления",
+                "pt": "pequenas correções",
+                "nl": "kleine fixes",
+                "fr": "petites corrections",
+                "it": "piccole correzioni",
+                "es": "pequeños accesorios",
+                "pl": "drobne rozwiązanie",
+                "zh-cn": "小型配件"
+            },
+            "1.2.3": {
+                "en": "set engine with boolean value",
+                "de": "motor mit boolean-wert eingestellt",
+                "ru": "установить двигатель с boolean значение",
+                "pt": "set engine with boolean value",
+                "nl": "zet motor met boolean waarde",
+                "fr": "moteur avec valeur booléenne",
+                "it": "set motore con valore booleano",
+                "es": "motor con valor booleano",
+                "pl": "silnik o wartości booleianowej",
+                "zh-cn": "制造的工程师"
+            },
+            "1.2.2": {
+                "en": "set engine with boolean value",
+                "de": "motor mit boolean-wert eingestellt",
+                "ru": "установить двигатель с boolean значение",
+                "pt": "set engine with boolean value",
+                "nl": "zet motor met boolean waarde",
+                "fr": "moteur avec valeur booléenne",
+                "it": "set motore con valore booleano",
+                "es": "motor con valor booleano",
+                "pl": "silnik o wartości booleianowej",
+                "zh-cn": "制造的工程师"
+            },
+            "1.2.1": {
+                "en": "some logging issues",
+                "de": "einige protokollierungsprobleme",
+                "ru": "некоторые проблемы лесозаготовки",
+                "pt": "alguns problemas de registro",
+                "nl": "wat logeerproblemen",
+                "fr": "quelques problèmes de journalisation",
+                "it": "alcuni problemi di registrazione",
+                "es": "algunos problemas de registro",
+                "pl": "niektóre kwestie logowania",
+                "zh-cn": "一些伐木问题"
+            },
+            "1.1.6": {
+                "en": "little fix",
+                "de": "wenig fix",
+                "ru": "немного исправить",
+                "pt": "pequena correção",
+                "nl": "klein",
+                "fr": "petite correction",
+                "it": "piccola correzione",
+                "es": "pequeño",
+                "pl": "mało",
+                "zh-cn": "微不足道"
+            },
+            "1.1.5": {
+                "en": "add some documentation\nremove connection state",
+                "de": "fügen sie eine dokumentation hinzu\nverbindungszustand entfernen",
+                "ru": "добавить некоторую документацию\nудалить состояние соединения",
+                "pt": "adicionar alguma documentação\nremover estado de conexão",
+                "nl": "voeg wat documenten toe\nverwijder de staat",
+                "fr": "ajouter quelques documents\nsupprimer l'état de connexion",
+                "it": "aggiungere qualche documentazione\nrimuovere lo stato di connessione",
+                "es": "añadir documentación\neliminar estado de conexión",
+                "pl": "dodać niektóre dokumenty\nusunięcie",
+                "zh-cn": "增加一些文件\n消除联系国"
+            },
+            "1.1.4": {
+                "en": "little changes",
+                "de": "kleine änderungen",
+                "ru": "небольшие изменения",
+                "pt": "pequenas mudanças",
+                "nl": "kleine veranderingen",
+                "fr": "petits changements",
+                "it": "piccoli cambiamenti",
+                "es": "pequeños cambios",
+                "pl": "zmiana",
+                "zh-cn": "几乎没有变化"
+            }
+        },
+        "titleLang": {
+            "en": "heatingcontrol",
+            "de": "heizsteuerung",
+            "ru": "отопление",
+            "pt": "controle de aquecimento",
+            "nl": "heling control",
+            "fr": "chauffage",
+            "it": "controllo del riscaldamento",
+            "es": "calefacción",
+            "pl": "ogrzewanie",
+            "zh-cn": "控制"
+        },
+        "desc": {
+            "en": "heatingcontrol",
+            "de": "heizsteuerung",
+            "ru": "отопление",
+            "pt": "controle de aquecimento",
+            "nl": "heling control",
+            "fr": "chauffage",
+            "it": "controllo del riscaldamento",
+            "es": "calefacción",
+            "pl": "ogrzewanie",
+            "zh-cn": "控制"
+        },
+        "authors": [
+            "jbeenenga <j.beenenga@gmail.com>"
+        ],
+        "keywords": [
+            "home automation",
+            "heating"
+        ],
+        "license": "MIT",
+        "platform": "Javascript/Node.js",
+        "main": "main.js",
+        "icon": "heizungssteuerung.png",
+        "enabled": true,
+        "extIcon": "https://raw.githubusercontent.com/jbeenenga/ioBroker.heizungssteuerung/main/admin/heizungssteuerung.png",
+        "readme": "https://github.com/jbeenenga/ioBroker.heizungssteuerung/blob/main/README.md",
+        "loglevel": "info",
+        "mode": "daemon",
+        "type": "climate-control",
+        "compact": true,
+        "connectionType": "local",
+        "dataSource": "poll",
+        "materialize": true,
+        "adminUI": {
+            "config": "json"
+        },
+        "dependencies": [
+            {
+                "js-controller": ">=2.0.0"
+            }
+        ],
+        "globalDependencies": [
+            {
+                "admin": ">=5.3.8"
+            }
+        ]
     },
-    "titleLang": {
-      "en": "heatingcontrol",
-      "de": "heizsteuerung",
-      "ru": "отопление",
-      "pt": "controle de aquecimento",
-      "nl": "heling control",
-      "fr": "chauffage",
-      "it": "controllo del riscaldamento",
-      "es": "calefacción",
-      "pl": "ogrzewanie",
-      "zh-cn": "控制"
+    "native": {
+        "isHeatingMode": 0,
+        "stopCoolingIfHumIsHigherThan": 65,
+        "updateIntervall":30,
+        "sensors": [],
+        "periods": []
     },
-    "desc": {
-      "en": "heatingcontrol",
-      "de": "heizsteuerung",
-      "ru": "отопление",
-      "pt": "controle de aquecimento",
-      "nl": "heling control",
-      "fr": "chauffage",
-      "it": "controllo del riscaldamento",
-      "es": "calefacción",
-      "pl": "ogrzewanie",
-      "zh-cn": "控制"
-    },
-    "authors": [
-      "jbeenenga <j.beenenga@gmail.com>"
-    ],
-    "keywords": [
-      "home automation",
-      "heating"
-    ],
-    "license": "MIT",
-    "platform": "Javascript/Node.js",
-    "main": "main.js",
-    "icon": "heizungssteuerung.png",
-    "enabled": true,
-    "extIcon": "https://raw.githubusercontent.com/jbeenenga/ioBroker.heizungssteuerung/main/admin/heizungssteuerung.png",
-    "readme": "https://github.com/jbeenenga/ioBroker.heizungssteuerung/blob/main/README.md",
-    "loglevel": "info",
-    "mode": "daemon",
-    "type": "climate-control",
-    "compact": true,
-    "connectionType": "local",
-    "dataSource": "poll",
-    "materialize": true,
-    "adminUI": {
-      "config": "json"
-    },
-    "dependencies": [
-      {
-        "js-controller": ">=2.0.0"
-      }
-    ],
-    "globalDependencies": [
-      {
-        "admin": ">=5.3.8"
-      }
-    ]
-  },
-  "native": {
-    "isHeatingMode": 0,
-    "stopCoolingIfHumIsHigherThan": 65,
-    "sensors": [],
-    "periods": []
-  },
-  "objects": [],
-  "instanceObjects": []
+    "objects": [],
+    "instanceObjects": []
 }
