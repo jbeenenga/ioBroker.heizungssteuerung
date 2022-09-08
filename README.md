@@ -33,7 +33,7 @@ You can define periods for every room and time. Forthermore you can define wheth
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
-### **WORK IN PROGRESS**
+### 1.3.0 (2022-09-08)
 * (jbeenenga) add possibility to define update intervall
 
 ### 1.2.4 (2022-09-08)

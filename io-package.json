@@ -1,7 +1,7 @@
 {
   "common": {
     "name": "heizungssteuerung",
-    "version": "1.2.4",
+    "version": "1.3.0",
     "news": {
       "1.3.0": {
         "en": "add possibility to define update intervall",
