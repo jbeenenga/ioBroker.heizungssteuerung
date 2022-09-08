@@ -1,8 +1,20 @@
 {
   "common": {
     "name": "heizungssteuerung",
-    "version": "1.2.3",
+    "version": "1.2.4",
     "news": {
+      "1.2.4": {
+        "en": "small fixes",
+        "de": "kleine fixierungen",
+        "ru": "небольшие исправления",
+        "pt": "pequenas correções",
+        "nl": "kleine fixes",
+        "fr": "petites corrections",
+        "it": "piccole correzioni",
+        "es": "pequeños accesorios",
+        "pl": "drobne rozwiązanie",
+        "zh-cn": "小型配件"
+      },
       "1.2.3": {
         "en": "set engine with boolean value",
         "de": "motor mit boolean-wert eingestellt",
@@ -74,18 +86,6 @@
         "es": "pequeños cambios",
         "pl": "zmiana",
         "zh-cn": "几乎没有变化"
-      },
-      "1.1.3": {
-        "en": "changed admin dependency to minimum version 5.3.8",
-        "de": "geänderte adminabhängigkeit der mindestversion 5.3.8",
-        "ru": "изменена админ зависимости от минимальной версии 5.3.8",
-        "pt": "mudou a dependência de administrador para a versão mínima 5.3.8",
-        "nl": "veranderde administratie van minimum versie 5,3,8",
-        "fr": "modification de la dépendance d'administration à la version minimale 5.3.8",
-        "it": "cambiato dipendenza da amministratore alla versione minima 5.3.8",
-        "es": "cambio de dependencia de administración a la versión mínima 5.3.8",
-        "pl": "zmieniona wersja adminowa 5.3.8",
-        "zh-cn": "最低版本5.3.8"
       }
     },
     "titleLang": {
