@@ -62,8 +62,8 @@
     "lint": "eslint",
     "translate": "translate-adapter",
     "release": "release-script patch --yes",
-    "release-minor": "release-script minor --yes -- -p iobroker",
-    "release-major": "release-script major --yes -- -p iobroker"
+    "release-minor": "release-script minor --yes",
+    "release-major": "release-script major --yes"
   },
   "bugs": {
     "url": "https://github.com/jbeenenga/ioBroker.heizungssteuerung/issues"
