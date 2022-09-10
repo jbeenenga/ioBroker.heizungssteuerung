@@ -148,8 +148,8 @@ class Heizungssteuerung extends utils.Adapter {
 		const shortRoomName = shortRoomNameParts[shortRoomNameParts.length -1];
 		this.setObjectNotExists("Temperatures."+shortRoomName+".current", {type: "state",_id:"Temperatures."+shortRoomName+".current",native:{}, common:{type:"string",  name:"Current temperature", read:true, write:false,role:"admin"}});
 		this.setObjectNotExists("Temperatures."+shortRoomName+".target",{type: "state",_id:"Temperatures."+shortRoomName+".target",native:{}, common:{type:"string", name:"Target temperature", read:true, write:false,role:"admin"}});
-		this.setStateAsync("Temperatures."+shortRoomName+".current", temp, true);
-		this.setStateAsync("Temperatures."+shortRoomName+".target", targetTemperature, true);
+		this.setStateAsync("Temperatures."+shortRoomName+".current", temp instanceof Number ? temp.toString(): temp, true);
+		this.setStateAsync("Temperatures."+shortRoomName+".target", targetTemperature instanceof Number ? targetTemperature.toString(): targetTemperature, true);
 	}
 
 	isCurrentPeriod(period) {
