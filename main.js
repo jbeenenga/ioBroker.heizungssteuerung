@@ -146,10 +146,10 @@ class Heizungssteuerung extends utils.Adapter {
 	writeTemperaturesIntoState(room, temp, targetTemperature){
 		const shortRoomNameParts = room.split(".");
 		const shortRoomName = shortRoomNameParts[shortRoomNameParts.length -1];
-		this.setObjectNotExists("Temperatures."+shortRoomName+".current", {type: "state",_id:"Temperatures."+shortRoomName+".current",native:{}, common:{type:"number",  name:"Current temperature", read:true, write:false,role:"admin"}});
-		this.setObjectNotExists("Temperatures."+shortRoomName+".target",{type: "state",_id:"Temperatures."+shortRoomName+".target",native:{}, common:{type:"number", name:"Target temperature", read:true, write:false,role:"admin"}});
-		this.setStateAsync("Temperatures."+shortRoomName+".current", temp);
-		this.setStateAsync("Temperatures."+shortRoomName+".target", targetTemperature);
+		this.setObjectNotExists("Temperatures."+shortRoomName+".current", {type: "state",_id:"Temperatures."+shortRoomName+".current",native:{}, common:{type:"string",  name:"Current temperature", read:true, write:false,role:"admin"}});
+		this.setObjectNotExists("Temperatures."+shortRoomName+".target",{type: "state",_id:"Temperatures."+shortRoomName+".target",native:{}, common:{type:"string", name:"Target temperature", read:true, write:false,role:"admin"}});
+		this.setStateAsync("Temperatures."+shortRoomName+".current", temp, true);
+		this.setStateAsync("Temperatures."+shortRoomName+".target", targetTemperature, true);
 	}
 
 	isCurrentPeriod(period) {
