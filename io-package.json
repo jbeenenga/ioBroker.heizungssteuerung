@@ -1,8 +1,20 @@
 {
   "common": {
     "name": "heizungssteuerung",
-    "version": "1.4.2",
+    "version": "1.4.3",
     "news": {
+      "1.4.3": {
+        "en": "small fix for state creation",
+        "de": "kleine fix für staatliche schöpfung",
+        "ru": "небольшой фикс для создания государства",
+        "pt": "pequena correção para a criação do estado",
+        "nl": "kleine fixatie voor staats creatie",
+        "fr": "petit fix pour la création d'état",
+        "it": "piccolo fix per la creazione di stato",
+        "es": "pequeña fijación para la creación del estado",
+        "pl": "drobne rozwiązanie dla stworzenia państwa",
+        "zh-cn": "建国小型固定"
+      },
       "1.4.2": {
         "en": "small fix for state creation",
         "de": "kleine fix für staatliche schöpfung",
@@ -64,18 +76,6 @@
         "zh-cn": "小型配件"
       },
       "1.2.3": {
-        "en": "set engine with boolean value",
-        "de": "motor mit boolean-wert eingestellt",
-        "ru": "установить двигатель с boolean значение",
-        "pt": "set engine with boolean value",
-        "nl": "zet motor met boolean waarde",
-        "fr": "moteur avec valeur booléenne",
-        "it": "set motore con valore booleano",
-        "es": "motor con valor booleano",
-        "pl": "silnik o wartości booleianowej",
-        "zh-cn": "制造的工程师"
-      },
-      "1.2.2": {
         "en": "set engine with boolean value",
         "de": "motor mit boolean-wert eingestellt",
         "ru": "установить двигатель с boolean значение",
