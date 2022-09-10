@@ -20,5 +20,6 @@
     "StopCoolingIfHumIsHigherThan": "Arrêtez le refroidissement si l'humidité est supérieure à",
     "Heating": "Chauffage",
     "Temperature": "Température",
-    "UpdateIntervall": "Intervalle de mise à jour en secondes"
+    "UpdateIntervall": "Intervalle de mise à jour en secondes",
+    "DefaultTemperature": "Température par défaut"
 }

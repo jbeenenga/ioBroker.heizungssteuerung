@@ -21,12 +21,16 @@ class Heizungssteuerung extends utils.Adapter {
 		});
 		this.on("ready", this.onReady.bind(this));
 		this.on("unload", this.onUnload.bind(this));
+		this.roomNames =[];
+		this.rooms = {};
 	}
 
 	/**
 	 * Is called when databases are connected and adapter received configuration.
 	 */
 	async onReady() {
+		this.rooms = await this.getEnumAsync("rooms");
+		this.roomNames = Object.keys(this.rooms.result);
 		this.tempSensorMap = await this.buildFunctionToRoomMap("enum.functions.temperature", "Temperature");
 		this.humSensorMap = await this.buildFunctionToRoomMap("enum.functions.humidity", "Humidity");
 		this.engineMap = await this.buildFunctionToRoomMap("enum.functions.engine", "Engine");
@@ -40,47 +44,45 @@ class Heizungssteuerung extends utils.Adapter {
 	}
 
 	async check() {
-		const handledRooms = [];
+		const roomTempMap = await this.buildDefaultRoomTempMap();
 		for (let i = 0; i < this.config.periods.length; i++) {
 			if ((this.config.isHeatingMode == 0) == this.config.periods[i]["heating"] && this.isCurrentPeriod(this.config.periods[i])) {
 				this.log.debug("The period is matching " + JSON.stringify(this.config.periods[i]));
-				this.setTemperatureForRoom(this.config.periods[i]["room"], this.config.periods[i]["temp"]);
-				handledRooms.push(this.config.periods[i]["room"]);
+				roomTempMap[this.config.periods[i]["room"]] = this.config.periods[i]["temp"];
 			} else {
 				this.log.debug("The period is not matching " + JSON.stringify(this.config.periods[i]));
 			}
 		}
 
-		await this.deactivateUnhandledRooms(handledRooms);
+		this.log.debug("Temperatures will be set like: "+ JSON.stringify(roomTempMap));
+
+		for (let i = 0; i < this.roomNames.length; i++) {
+			this.setTemperatureForRoom(this.roomNames[i], roomTempMap[this.roomNames[i]]);
+		}
 	}
 
-	async deactivateUnhandledRooms(handledRooms) {
-		const rooms = await this.getEnumAsync("rooms");
-		const roomNames = Object.keys(rooms.result);
-		for (let i = 0; i < roomNames.length; i++) {
-			if (!handledRooms.includes(roomNames[i]) && this.engineMap != undefined && this.engineMap[roomNames[i]] != undefined) {
-				this.setForeignStateAsync(this.engineMap[roomNames[i]], false);
-			}
+	async buildDefaultRoomTempMap() {
+		const roomTempMap = {};
+		for (let i = 0; i < this.roomNames.length; i++) {
+			roomTempMap[this.roomNames[i]] = this.config.defaultTemperature;
 		}
+		return roomTempMap;
 	}
 
 	async buildFunctionToRoomMap(functionId, functionName) {
 		this.setForeignObjectNotExists(functionId, { "type": "enum", "common": { "name": functionName, "members": [] }, "native": {}, "_id": functionId });
 		const functionToRoomMap = {};
-
 		const funcTemp = await this.getForeignObjectAsync(functionId);
-		const rooms = await this.getEnumAsync("rooms");
 
 		if (funcTemp == undefined) {
 			return functionToRoomMap;
 		}
 
 		for (let i = 0; i < funcTemp.common["members"].length; i++) {
-			const roomNames = Object.keys(rooms.result);
-			for (let j = 0; j < roomNames.length; j++) {
-				for (let k = 0; k < rooms["result"][roomNames[j]]["common"]["members"].length; k++) {
-					if (rooms["result"][roomNames[j]]["common"]["members"][k] == funcTemp["common"]["members"][i]) {
-						functionToRoomMap[roomNames[j]] = funcTemp["common"]["members"][i];
+			for (let j = 0; j < this.roomNames.length; j++) {
+				for (let k = 0; k < this.rooms.result[this.roomNames[j]]["common"]["members"].length; k++) {
+					if (this.rooms.result[this.roomNames[j]]["common"]["members"][k] == funcTemp["common"]["members"][i]) {
+						functionToRoomMap[this.roomNames[j]] = funcTemp["common"]["members"][i];
 					}
 				}
 			}
@@ -88,7 +90,7 @@ class Heizungssteuerung extends utils.Adapter {
 		return functionToRoomMap;
 	}
 
-	async setTemperatureForRoom(room, goalTemperature) {
+	async setTemperatureForRoom(room, targetTemperature) {
 		if (this.tempSensorMap == undefined || this.tempSensorMap[room] == undefined) {
 			this.log.warn("tempSensorMap was not filled correctly for room " + room);
 			return;
@@ -102,7 +104,7 @@ class Heizungssteuerung extends utils.Adapter {
 			return;
 		}
 		const temp = tempState.val;
-		this.log.debug("In " + room + " it is " + temp + " and should be " + goalTemperature);
+		this.log.debug("In " + room + " it is " + temp + " and should be " + targetTemperature);
 
 		if (temp == null) {
 			this.log.warn("Temperature for room " + room + " is not defined");
@@ -110,11 +112,11 @@ class Heizungssteuerung extends utils.Adapter {
 		}
 
 		if (this.config.isHeatingMode == 0) {
-			if (temp < (Number(goalTemperature) - 1 / 2)) {
+			if (temp < (Number(targetTemperature) - 1 / 2)) {
 				this.log.debug("set " + this.engineMap[room] + " to true");
 				this.setForeignStateAsync(this.engineMap[room], true);
 			}
-			if (temp > (Number(goalTemperature) + 1 / 2)) {
+			if (temp > (Number(targetTemperature) + 1 / 2)) {
 				this.log.debug("set " + this.engineMap[room] + " to false");
 				this.setForeignStateAsync(this.engineMap[room], false);
 			}
@@ -128,20 +130,25 @@ class Heizungssteuerung extends utils.Adapter {
 				}
 
 			}
-			if (temp < (Number(goalTemperature) - 1 / 2)) {
+			if (temp < (Number(targetTemperature) - 1 / 2)) {
 				this.log.warn("set " + this.engineMap[room] + " to false");
 				this.setForeignStateAsync(this.engineMap[room], false);
 			}
-			if (temp > (Number(goalTemperature) + 1 / 2)) {
+			if (temp > (Number(targetTemperature) + 1 / 2)) {
 				this.log.warn("set " + this.engineMap[room] + " to true");
-
 				this.setForeignStateAsync(this.engineMap[room], true);
 			}
 		}
+		this.writeTemperaturesIntoState(room, temp, targetTemperature);
 
 	}
 
-
+	writeTemperaturesIntoState(room, temp, targetTemperature){
+		const shortRoomNameParts = room.split(".");
+		const shortRoomName = shortRoomNameParts[shortRoomNameParts.length -1];
+		this.setStateAsync("Temperatures."+shortRoomName+".current", temp);
+		this.setStateAsync("Temperatures."+shortRoomName+".target", targetTemperature);
+	}
 
 	isCurrentPeriod(period) {
 		let day = new Date().getDay() - 1;

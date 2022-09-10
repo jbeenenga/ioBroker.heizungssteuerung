@@ -20,5 +20,6 @@
     "StopCoolingIfHumIsHigherThan": "Stop met koelen als de luchtvochtigheid hoger is dan",
     "Heating": "Verwarming",
     "Temperature": "Temperatuur",
-    "UpdateIntervall": "Update-interval in seconden"
+    "UpdateIntervall": "Update-interval in seconden",
+    "DefaultTemperature": "Standaard temperatuur"
 }

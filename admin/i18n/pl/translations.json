@@ -20,5 +20,6 @@
     "StopCoolingIfHumIsHigherThan": "Zatrzymaj chłodzenie, jeśli wilgotność jest wyższa niż",
     "Heating": "Ogrzewanie",
     "Temperature": "Temperatura",
-    "UpdateIntervall": "Interwał aktualizacji w sekundach"
+    "UpdateIntervall": "Interwał aktualizacji w sekundach",
+    "DefaultTemperature": "Domyślna temperatura"
 }

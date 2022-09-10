@@ -20,5 +20,6 @@
     "Cooling": "Kühlung",
     "Heating": "Heizung",
     "Temperature": "Temperatur",
-    "UpdateIntervall": "Aktualisierungsintervall in Sekunden"
+    "UpdateIntervall": "Aktualisierungsintervall in Sekunden",
+    "DefaultTemperature": "Standardtemperatur"
 }

@@ -20,5 +20,6 @@
     "StopCoolingIfHumIsHigherThan": "Остановить охлаждение, если влажность выше",
     "Heating": "Обогрев",
     "Temperature": "Температура",
-    "UpdateIntervall": "Интервал обновления в секундах"
+    "UpdateIntervall": "Интервал обновления в секундах",
+    "DefaultTemperature": "Температура по умолчанию"
 }

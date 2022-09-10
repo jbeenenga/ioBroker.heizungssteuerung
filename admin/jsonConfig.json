@@ -27,6 +27,10 @@
                 "updateIntervall": {
                     "type": "number",
                     "label": "UpdateIntervall"
+                }, 
+                "defaultTemperature": {
+                    "type": "number",
+                    "label": "DefaultTemperature"
                 }
             }
         },

@@ -20,5 +20,6 @@
     "StopCoolingIfHumIsHigherThan": "Interrompere il raffreddamento se l'umidità è superiore a",
     "Heating": "Il riscaldamento",
     "Temperature": "Temperatura",
-    "UpdateIntervall": "Intervallo di aggiornamento in secondi"
+    "UpdateIntervall": "Intervallo di aggiornamento in secondi",
+    "DefaultTemperature": "Temperatura predefinita"
 }
