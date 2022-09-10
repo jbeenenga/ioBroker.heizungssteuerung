@@ -1,8 +1,20 @@
 {
   "common": {
     "name": "heizungssteuerung",
-    "version": "1.4.4",
+    "version": "1.4.5",
     "news": {
+      "1.4.5": {
+        "en": "correct type of temperatures to write into states",
+        "de": "richtige art von temperaturen in zustände zu schreiben",
+        "ru": "правильный тип температур для записи в государства",
+        "pt": "tipo correto de temperaturas para escrever em estados",
+        "nl": "correcte temperatuur om in staat te schrijven",
+        "fr": "type correct de températures pour écrire dans les états",
+        "it": "corretto tipo di temperatura da scrivere in stati",
+        "es": "tipo correcto de temperaturas para escribir en estados",
+        "pl": "poprawny typ temperatury do pisania w stanach",
+        "zh-cn": "评 注"
+      },
       "1.4.4": {
         "en": "small fix for state creation",
         "de": "kleine fix für staatliche schöpfung",
@@ -74,18 +86,6 @@
         "es": "añadir posibilidad para definir intervalo de actualización",
         "pl": "dodanie możliwości zdefiniowania interwału aktualizacji",
         "zh-cn": "增加界定最新间隔的可能性"
-      },
-      "1.2.4": {
-        "en": "small fixes",
-        "de": "kleine fixierungen",
-        "ru": "небольшие исправления",
-        "pt": "pequenas correções",
-        "nl": "kleine fixes",
-        "fr": "petites corrections",
-        "it": "piccole correzioni",
-        "es": "pequeños accesorios",
-        "pl": "drobne rozwiązanie",
-        "zh-cn": "小型配件"
       }
     },
     "titleLang": {

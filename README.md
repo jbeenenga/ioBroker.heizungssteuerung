@@ -33,7 +33,7 @@ You can define periods for every room and time. Forthermore you can define wheth
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
-### **WORK IN PROGRESS**
+### 1.4.5 (2022-09-10)
 * (jbeenenga) correct type of temperatures to write into states
 
 ### 1.4.4 (2022-09-10)
