@@ -21,7 +21,7 @@ class Heizungssteuerung extends utils.Adapter {
 		});
 		this.on("ready", this.onReady.bind(this));
 		this.on("unload", this.onUnload.bind(this));
-		this.roomNames =[];
+		this.roomNames = [];
 		this.rooms = {};
 	}
 
@@ -54,7 +54,7 @@ class Heizungssteuerung extends utils.Adapter {
 			}
 		}
 
-		this.log.debug("Temperatures will be set like: "+ JSON.stringify(roomTempMap));
+		this.log.debug("Temperatures will be set like: " + JSON.stringify(roomTempMap));
 
 		for (let i = 0; i < this.roomNames.length; i++) {
 			this.setTemperatureForRoom(this.roomNames[i], roomTempMap[this.roomNames[i]]);
@@ -143,13 +143,13 @@ class Heizungssteuerung extends utils.Adapter {
 
 	}
 
-	writeTemperaturesIntoState(room, temp, targetTemperature){
+	writeTemperaturesIntoState(room, temp, targetTemperature) {
 		const shortRoomNameParts = room.split(".");
-		const shortRoomName = shortRoomNameParts[shortRoomNameParts.length -1];
-		this.setObjectNotExists("Temperatures."+shortRoomName+".current", {type: "state",_id:"Temperatures."+shortRoomName+".current",native:{}, common:{type:"string",  name:"Current temperature", read:true, write:false,role:"admin"}});
-		this.setObjectNotExists("Temperatures."+shortRoomName+".target",{type: "state",_id:"Temperatures."+shortRoomName+".target",native:{}, common:{type:"string", name:"Target temperature", read:true, write:false,role:"admin"}});
-		this.setStateAsync("Temperatures."+shortRoomName+".current", temp instanceof Number ? temp.toString(): temp, true);
-		this.setStateAsync("Temperatures."+shortRoomName+".target", targetTemperature instanceof Number ? targetTemperature.toString(): targetTemperature, true);
+		const shortRoomName = shortRoomNameParts[shortRoomNameParts.length - 1];
+		this.setObjectNotExists("Temperatures." + shortRoomName + ".current", { type: "state", _id: "Temperatures." + shortRoomName + ".current", native: {}, common: { type: "number", name: "Current temperature", read: true, write: false, role: "admin" } });
+		this.setObjectNotExists("Temperatures." + shortRoomName + ".target", { type: "state", _id: "Temperatures." + shortRoomName + ".target", native: {}, common: { type: "number", name: "Target temperature", read: true, write: false, role: "admin" } });
+		this.setStateAsync("Temperatures." + shortRoomName + ".current", Number(temp), true);
+		this.setStateAsync("Temperatures." + shortRoomName + ".target", Number(targetTemperature), true);
 	}
 
 	isCurrentPeriod(period) {
