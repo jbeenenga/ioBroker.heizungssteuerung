@@ -33,6 +33,9 @@ You can define periods for every room and time. Forthermore you can define wheth
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
+### **WORK IN PROGRESS**
+* (jbeenenga) add possibility to overwrite temperature temporarily
+
 ### 1.4.6 (2022-09-12)
 * (jbeenenga) small fix
 

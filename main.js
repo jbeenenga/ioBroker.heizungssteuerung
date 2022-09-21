@@ -30,7 +30,7 @@ class Heizungssteuerung extends utils.Adapter {
 	 */
 	async onReady() {
 		this.rooms = await this.getEnumAsync("rooms");
-		this.roomNames = Object.keys(this.rooms.result);
+		this.roomNames = this.buildRoomNames();
 		this.tempSensorMap = await this.buildFunctionToRoomMap("enum.functions.temperature", "Temperature");
 		this.humSensorMap = await this.buildFunctionToRoomMap("enum.functions.humidity", "Humidity");
 		this.engineMap = await this.buildFunctionToRoomMap("enum.functions.engine", "Engine");
@@ -44,11 +44,27 @@ class Heizungssteuerung extends utils.Adapter {
 	}
 
 	async check() {
-		const roomTempMap = await this.buildDefaultRoomTempMap();
+		const now = new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+
+		const roomTempMap = await this.buildDefaultRoomTempMap(now);
+
 		for (let i = 0; i < this.config.periods.length; i++) {
-			if ((this.config.isHeatingMode == 0) == this.config.periods[i]["heating"] && this.isCurrentPeriod(this.config.periods[i])) {
-				this.log.debug("The period is matching " + JSON.stringify(this.config.periods[i]));
-				roomTempMap[this.config.periods[i]["room"]] = this.config.periods[i]["temp"];
+			const currentPeriod = this.config.periods[i];
+			const shortRoomName = this.convertToShortRoomName(currentPeriod["room"]);
+			this.log.debug("currentPeriod[from] > now: "+ JSON.stringify((currentPeriod["from"] > now)));
+			this.log.debug("currentPeriod[from] < roomTempMap[shortRoomName][targetUntil]: "+ JSON.stringify((currentPeriod["from"] < roomTempMap[shortRoomName]["targetUntil"])));
+
+			if (currentPeriod["from"] > now && (currentPeriod["from"] < roomTempMap[shortRoomName]["targetUntil"]||  roomTempMap[shortRoomName]["targetUntil"] == now)) {
+				roomTempMap[shortRoomName]["targetUntil"] = currentPeriod["from"];
+			}
+			if ( roomTempMap[shortRoomName]["targetUntil"] > now) {
+				continue;
+			}
+			if ((this.config.isHeatingMode == 0) == currentPeriod["heating"] && this.isCurrentPeriod(currentPeriod)) {
+				this.log.debug("The period is matching " + JSON.stringify(currentPeriod));
+				roomTempMap[shortRoomName]["target"] = currentPeriod["temp"];
+				roomTempMap[shortRoomName]["targetUntil"] = currentPeriod["until"];
+
 			} else {
 				this.log.debug("The period is not matching " + JSON.stringify(this.config.periods[i]));
 			}
@@ -61,10 +77,18 @@ class Heizungssteuerung extends utils.Adapter {
 		}
 	}
 
-	async buildDefaultRoomTempMap() {
+	async buildDefaultRoomTempMap(now) {
 		const roomTempMap = {};
 		for (let i = 0; i < this.roomNames.length; i++) {
-			roomTempMap[this.roomNames[i]] = this.config.defaultTemperature;
+			const room = this.roomNames[i];
+			const targetTemperatureFromState = await this.getStateAsync("Temperatures." + room + ".target");
+			const targetTemperatureUntilFromState = await this.getStateAsync("Temperatures." + room + ".targetUntil");
+			if (targetTemperatureFromState == undefined || targetTemperatureUntilFromState == undefined || targetTemperatureUntilFromState.val < now) {
+				roomTempMap[room] = { "target": this.config.defaultTemperature, "targetUntil": now };
+			} else {
+				roomTempMap[room] = { "target": targetTemperatureFromState.val, "targetUntil": targetTemperatureUntilFromState.val };
+
+			}
 		}
 		return roomTempMap;
 	}
@@ -80,8 +104,8 @@ class Heizungssteuerung extends utils.Adapter {
 
 		for (let i = 0; i < funcTemp.common["members"].length; i++) {
 			for (let j = 0; j < this.roomNames.length; j++) {
-				for (let k = 0; k < this.rooms.result[this.roomNames[j]]["common"]["members"].length; k++) {
-					if (this.rooms.result[this.roomNames[j]]["common"]["members"][k] == funcTemp["common"]["members"][i]) {
+				for (let k = 0; k < this.rooms.result["enum.rooms." + this.roomNames[j]]["common"]["members"].length; k++) {
+					if (this.rooms.result["enum.rooms." + this.roomNames[j]]["common"]["members"][k] == funcTemp["common"]["members"][i]) {
 						functionToRoomMap[this.roomNames[j]] = funcTemp["common"]["members"][i];
 					}
 				}
@@ -104,19 +128,21 @@ class Heizungssteuerung extends utils.Adapter {
 			return;
 		}
 		const temp = tempState.val;
-		this.log.debug("In " + room + " it is " + temp + " and should be " + targetTemperature);
+		this.log.debug("In " + room + " it is " + temp + " and should be " + JSON.stringify(targetTemperature["target"]));
 
 		if (temp == null) {
 			this.log.warn("Temperature for room " + room + " is not defined");
 			return;
 		}
 
+		this.writeTemperaturesIntoState(room, temp, targetTemperature);
+
 		if (this.config.isHeatingMode == 0) {
-			if (temp < (Number(targetTemperature) - 1 / 2)) {
+			if (temp < (Number(targetTemperature["target"]) - 1 / 2)) {
 				this.log.debug("set " + this.engineMap[room] + " to true");
 				this.setForeignStateAsync(this.engineMap[room], true);
 			}
-			if (temp > (Number(targetTemperature) + 1 / 2)) {
+			if (temp > (Number(targetTemperature["target"]) + 1 / 2)) {
 				this.log.debug("set " + this.engineMap[room] + " to false");
 				this.setForeignStateAsync(this.engineMap[room], false);
 			}
@@ -130,26 +156,43 @@ class Heizungssteuerung extends utils.Adapter {
 				}
 
 			}
-			if (temp < (Number(targetTemperature) - 1 / 2)) {
+			if (temp < (Number(targetTemperature["target"]) - 1 / 2)) {
 				this.log.debug("set " + this.engineMap[room] + " to false");
 				this.setForeignStateAsync(this.engineMap[room], false);
 			}
-			if (temp > (Number(targetTemperature) + 1 / 2)) {
+			if (temp > (Number(targetTemperature["target"]) + 1 / 2)) {
 				this.log.debug("set " + this.engineMap[room] + " to true");
 				this.setForeignStateAsync(this.engineMap[room], true);
 			}
 		}
-		this.writeTemperaturesIntoState(room, temp, targetTemperature);
 
 	}
 
 	writeTemperaturesIntoState(room, temp, targetTemperature) {
+		//const shortRoomName = this.convertToShortRoomName(room);
+		this.setObjectNotExists("Temperatures." + room + ".current", { type: "state", _id: "Temperatures." + room + ".current", native: {}, common: { type: "number", name: "Current temperature", read: true, write: false, role: "admin" } });
+		this.setObjectNotExists("Temperatures." + room + ".target", { type: "state", _id: "Temperatures." + room + ".target", native: {}, common: { type: "number", name: "Target temperature", read: true, write: true, role: "admin" } });
+		this.setObjectNotExists("Temperatures." + room + ".targetUntil", { type: "state", _id: "Temperatures." + room + ".target", native: {}, common: { type: "string", name: "Target temperature until", read: true, write: true, role: "admin" } });
+
+		this.setStateAsync("Temperatures." + room + ".current", Number(temp), true);
+		this.setStateAsync("Temperatures." + room + ".target", Number(targetTemperature["target"]), true);
+		this.setStateAsync("Temperatures." + room + ".targetUntil",targetTemperature["targetUntil"], true);
+
+	}
+
+	convertToShortRoomName(room) {
 		const shortRoomNameParts = room.split(".");
-		const shortRoomName = shortRoomNameParts[shortRoomNameParts.length - 1];
-		this.setObjectNotExists("Temperatures." + shortRoomName + ".current", { type: "state", _id: "Temperatures." + shortRoomName + ".current", native: {}, common: { type: "number", name: "Current temperature", read: true, write: false, role: "admin" } });
-		this.setObjectNotExists("Temperatures." + shortRoomName + ".target", { type: "state", _id: "Temperatures." + shortRoomName + ".target", native: {}, common: { type: "number", name: "Target temperature", read: true, write: false, role: "admin" } });
-		this.setStateAsync("Temperatures." + shortRoomName + ".current", Number(temp), true);
-		this.setStateAsync("Temperatures." + shortRoomName + ".target", Number(targetTemperature), true);
+		return shortRoomNameParts[shortRoomNameParts.length - 1];
+	}
+
+	buildRoomNames() {
+		const longRoomNames = Object.keys(this.rooms.result);
+		const shortRoomNames = [];
+		for (let i = 0; i < longRoomNames.length; i++) {
+			shortRoomNames.push(this.convertToShortRoomName(longRoomNames[i]));
+		}
+		return shortRoomNames;
+
 	}
 
 	isCurrentPeriod(period) {
