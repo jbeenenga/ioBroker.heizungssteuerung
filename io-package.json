@@ -1,163 +1,163 @@
 {
-    "common": {
-        "name": "heizungssteuerung",
-        "version": "1.4.6",
-        "news": {
-            "1.4.6": {
-                "en": "small fix",
-                "de": "kleine fix",
-                "ru": "небольшой фикс",
-                "pt": "pequena correção",
-                "nl": "klein",
-                "fr": "petit montage",
-                "it": "piccola correzione",
-                "es": "pequeño",
-                "pl": "niewielki",
-                "zh-cn": "小型配件"
-            },
-            "1.4.5": {
-                "en": "correct type of temperatures to write into states",
-                "de": "richtige art von temperaturen in zustände zu schreiben",
-                "ru": "правильный тип температур для записи в государства",
-                "pt": "tipo correto de temperaturas para escrever em estados",
-                "nl": "correcte temperatuur om in staat te schrijven",
-                "fr": "type correct de températures pour écrire dans les états",
-                "it": "corretto tipo di temperatura da scrivere in stati",
-                "es": "tipo correcto de temperaturas para escribir en estados",
-                "pl": "poprawny typ temperatury do pisania w stanach",
-                "zh-cn": "评 注"
-            },
-            "1.4.4": {
-                "en": "small fix for state creation",
-                "de": "kleine fix für staatliche schöpfung",
-                "ru": "небольшой фикс для создания государства",
-                "pt": "pequena correção para a criação do estado",
-                "nl": "kleine fixatie voor staats creatie",
-                "fr": "petit fix pour la création d'état",
-                "it": "piccolo fix per la creazione di stato",
-                "es": "pequeña fijación para la creación del estado",
-                "pl": "drobne rozwiązanie dla stworzenia państwa",
-                "zh-cn": "建国小型固定"
-            },
-            "1.4.3": {
-                "en": "small fix for state creation",
-                "de": "kleine fix für staatliche schöpfung",
-                "ru": "небольшой фикс для создания государства",
-                "pt": "pequena correção para a criação do estado",
-                "nl": "kleine fixatie voor staats creatie",
-                "fr": "petit fix pour la création d'état",
-                "it": "piccolo fix per la creazione di stato",
-                "es": "pequeña fijación para la creación del estado",
-                "pl": "drobne rozwiązanie dla stworzenia państwa",
-                "zh-cn": "建国小型固定"
-            },
-            "1.4.2": {
-                "en": "small fix for state creation",
-                "de": "kleine fix für staatliche schöpfung",
-                "ru": "небольшой фикс для создания государства",
-                "pt": "pequena correção para a criação do estado",
-                "nl": "kleine fixatie voor staats creatie",
-                "fr": "petit fix pour la création d'état",
-                "it": "piccolo fix per la creazione di stato",
-                "es": "pequeña fijación para la creación del estado",
-                "pl": "drobne rozwiązanie dla stworzenia państwa",
-                "zh-cn": "建国小型固定"
-            },
-            "1.4.1": {
-                "en": "little logging fixes",
-                "de": "kleine logging fixes",
-                "ru": "маленькие исправления",
-                "pt": "pequenas correções de log",
-                "nl": "kleine loggingsresten",
-                "fr": "petites corrections de journalisation",
-                "it": "piccole correzioni di registrazione",
-                "es": "pequeñas correcciones de registro",
-                "pl": "drobne logiki",
-                "zh-cn": "伐木很少"
-            },
-            "1.4.0": {
-                "en": "add default temperature\nwrite current and target temperature into states",
-                "de": "standardtemperatur hinzufügen\nstrom und zieltemperatur in zustände schreiben",
-                "ru": "добавить температуру по умолчанию\nнапишите текущую и целевую температуру в государства",
-                "pt": "adicionar temperatura padrão\nescrever temperatura atual e alvo em estados",
-                "nl": "voeg de temperatuur toe\nschrijf huidige en doeltemperatuur in staat",
-                "fr": "ajouter la température par défaut\nécrire la température actuelle et cible dans les états",
-                "it": "aggiungere la temperatura predefinita\nscrivere corrente e temperatura di destinazione in stati",
-                "es": "añadir temperatura predeterminada\nescribir la temperatura actual y objetivo en los estados",
-                "pl": "dodanie dokładnej temperatury\nczytamy bieżącą i celową temperaturę",
-                "zh-cn": "增加缺气\na. 国家的当前和目标温度"
-            }
-        },
-        "titleLang": {
-            "en": "heatingcontrol",
-            "de": "heizsteuerung",
-            "ru": "отопление",
-            "pt": "controle de aquecimento",
-            "nl": "heling control",
-            "fr": "chauffage",
-            "it": "controllo del riscaldamento",
-            "es": "calefacción",
-            "pl": "ogrzewanie",
-            "zh-cn": "控制"
-        },
-        "desc": {
-            "en": "heatingcontrol",
-            "de": "heizsteuerung",
-            "ru": "отопление",
-            "pt": "controle de aquecimento",
-            "nl": "heling control",
-            "fr": "chauffage",
-            "it": "controllo del riscaldamento",
-            "es": "calefacción",
-            "pl": "ogrzewanie",
-            "zh-cn": "控制"
-        },
-        "authors": [
-            "jbeenenga <j.beenenga@gmail.com>"
-        ],
-        "keywords": [
-            "home automation",
-            "heating"
-        ],
-        "license": "MIT",
-        "platform": "Javascript/Node.js",
-        "main": "main.js",
-        "icon": "heizungssteuerung.png",
-        "enabled": true,
-        "extIcon": "https://raw.githubusercontent.com/jbeenenga/ioBroker.heizungssteuerung/main/admin/heizungssteuerung.png",
-        "readme": "https://github.com/jbeenenga/ioBroker.heizungssteuerung/blob/main/README.md",
-        "loglevel": "info",
-        "mode": "daemon",
-        "type": "climate-control",
-        "compact": true,
-        "connectionType": "local",
-        "dataSource": "poll",
-        "materialize": true,
-        "adminUI": {
-            "config": "json"
-        },
-        "dependencies": [
-            {
-                "js-controller": ">=2.0.0"
-            }
-        ],
-        "globalDependencies": [
-            {
-                "admin": ">=5.3.8"
-            }
-        ]
+  "common": {
+    "name": "heizungssteuerung",
+    "version": "1.5.0",
+    "news": {
+      "1.5.0": {
+        "en": "add possibility to overwrite temperature temporarily\nadd config for temperature offset\nadd boost and pause function",
+        "de": "die möglichkeit, die temperatur vorübergehend zu überschreiben\nadd config für temperaturversatz\nboost und pausenfunktion hinzufügen",
+        "ru": "добавить возможность переписать температуру временно\nдобавить config для компенсации температуры\nдобавить функцию импульса и паузы",
+        "pt": "adicionar possibilidade de sobrescrever a temperatura temporariamente\nadd config para deslocamento de temperatura\nadicionar função de impulso e pausa",
+        "nl": "voeg de mogelijkheid om de temperatuur tijdelijk te overschrijven\nvoeg configuur toe\nvoeg boos en pauzefunctie toe",
+        "fr": "ajouter la possibilité d'écraser temporairement la température\najouter la configuration pour décaler la température\najouter la fonction boost et pause",
+        "it": "aggiungere la possibilità di sovrascrivere temporaneamente la temperatura\naggiungere config per l'offset della temperatura\naggiungere funzione boost e pausa",
+        "es": "añadir posibilidad de sobreescribir la temperatura temporalmente\nañadir configuración para el offset de temperatura\nañadir el impulso y la función de pausa",
+        "pl": "dokładna możliwość przepisania temperatury czasowo\ndodać konfigurowalne odwrót temperatury\nfunkcja dodatkowa i przerwy",
+        "zh-cn": "增加临时过度温度的可能性\n增减温度\na. 增加和减刑职能"
+      },
+      "1.4.6": {
+        "en": "small fix",
+        "de": "kleine fix",
+        "ru": "небольшой фикс",
+        "pt": "pequena correção",
+        "nl": "klein",
+        "fr": "petit montage",
+        "it": "piccola correzione",
+        "es": "pequeño",
+        "pl": "niewielki",
+        "zh-cn": "小型配件"
+      },
+      "1.4.5": {
+        "en": "correct type of temperatures to write into states",
+        "de": "richtige art von temperaturen in zustände zu schreiben",
+        "ru": "правильный тип температур для записи в государства",
+        "pt": "tipo correto de temperaturas para escrever em estados",
+        "nl": "correcte temperatuur om in staat te schrijven",
+        "fr": "type correct de températures pour écrire dans les états",
+        "it": "corretto tipo di temperatura da scrivere in stati",
+        "es": "tipo correcto de temperaturas para escribir en estados",
+        "pl": "poprawny typ temperatury do pisania w stanach",
+        "zh-cn": "评 注"
+      },
+      "1.4.4": {
+        "en": "small fix for state creation",
+        "de": "kleine fix für staatliche schöpfung",
+        "ru": "небольшой фикс для создания государства",
+        "pt": "pequena correção para a criação do estado",
+        "nl": "kleine fixatie voor staats creatie",
+        "fr": "petit fix pour la création d'état",
+        "it": "piccolo fix per la creazione di stato",
+        "es": "pequeña fijación para la creación del estado",
+        "pl": "drobne rozwiązanie dla stworzenia państwa",
+        "zh-cn": "建国小型固定"
+      },
+      "1.4.3": {
+        "en": "small fix for state creation",
+        "de": "kleine fix für staatliche schöpfung",
+        "ru": "небольшой фикс для создания государства",
+        "pt": "pequena correção para a criação do estado",
+        "nl": "kleine fixatie voor staats creatie",
+        "fr": "petit fix pour la création d'état",
+        "it": "piccolo fix per la creazione di stato",
+        "es": "pequeña fijación para la creación del estado",
+        "pl": "drobne rozwiązanie dla stworzenia państwa",
+        "zh-cn": "建国小型固定"
+      },
+      "1.4.2": {
+        "en": "small fix for state creation",
+        "de": "kleine fix für staatliche schöpfung",
+        "ru": "небольшой фикс для создания государства",
+        "pt": "pequena correção para a criação do estado",
+        "nl": "kleine fixatie voor staats creatie",
+        "fr": "petit fix pour la création d'état",
+        "it": "piccolo fix per la creazione di stato",
+        "es": "pequeña fijación para la creación del estado",
+        "pl": "drobne rozwiązanie dla stworzenia państwa",
+        "zh-cn": "建国小型固定"
+      },
+      "1.4.1": {
+        "en": "little logging fixes",
+        "de": "kleine logging fixes",
+        "ru": "маленькие исправления",
+        "pt": "pequenas correções de log",
+        "nl": "kleine loggingsresten",
+        "fr": "petites corrections de journalisation",
+        "it": "piccole correzioni di registrazione",
+        "es": "pequeñas correcciones de registro",
+        "pl": "drobne logiki",
+        "zh-cn": "伐木很少"
+      }
     },
-    "native": {
-        "isHeatingMode": 0,
-        "stopCoolingIfHumIsHigherThan": 65,
-        "updateIntervall": 30,
-        "defaultTemperature": 18,
-        "sensors": [],
-        "periods": [],
-        "pauseIntervall": 30,
-        "boostIntervall": 30,
-        "startStopDifference": 0.5
+    "titleLang": {
+      "en": "heatingcontrol",
+      "de": "heizsteuerung",
+      "ru": "отопление",
+      "pt": "controle de aquecimento",
+      "nl": "heling control",
+      "fr": "chauffage",
+      "it": "controllo del riscaldamento",
+      "es": "calefacción",
+      "pl": "ogrzewanie",
+      "zh-cn": "控制"
     },
-    "objects": [],
-    "instanceObjects": []
+    "desc": {
+      "en": "heatingcontrol",
+      "de": "heizsteuerung",
+      "ru": "отопление",
+      "pt": "controle de aquecimento",
+      "nl": "heling control",
+      "fr": "chauffage",
+      "it": "controllo del riscaldamento",
+      "es": "calefacción",
+      "pl": "ogrzewanie",
+      "zh-cn": "控制"
+    },
+    "authors": [
+      "jbeenenga <j.beenenga@gmail.com>"
+    ],
+    "keywords": [
+      "home automation",
+      "heating"
+    ],
+    "license": "MIT",
+    "platform": "Javascript/Node.js",
+    "main": "main.js",
+    "icon": "heizungssteuerung.png",
+    "enabled": true,
+    "extIcon": "https://raw.githubusercontent.com/jbeenenga/ioBroker.heizungssteuerung/main/admin/heizungssteuerung.png",
+    "readme": "https://github.com/jbeenenga/ioBroker.heizungssteuerung/blob/main/README.md",
+    "loglevel": "info",
+    "mode": "daemon",
+    "type": "climate-control",
+    "compact": true,
+    "connectionType": "local",
+    "dataSource": "poll",
+    "materialize": true,
+    "adminUI": {
+      "config": "json"
+    },
+    "dependencies": [
+      {
+        "js-controller": ">=2.0.0"
+      }
+    ],
+    "globalDependencies": [
+      {
+        "admin": ">=5.3.8"
+      }
+    ]
+  },
+  "native": {
+    "isHeatingMode": 0,
+    "stopCoolingIfHumIsHigherThan": 65,
+    "updateIntervall": 30,
+    "defaultTemperature": 18,
+    "sensors": [],
+    "periods": [],
+    "pauseIntervall": 30,
+    "boostIntervall": 30,
+    "startStopDifference": 0.5
+  },
+  "objects": [],
+  "instanceObjects": []
 }
