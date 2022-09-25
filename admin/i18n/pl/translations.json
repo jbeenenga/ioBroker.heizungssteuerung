@@ -21,5 +21,8 @@
     "Heating": "Ogrzewanie",
     "Temperature": "Temperatura",
     "UpdateIntervall": "Interwał aktualizacji w sekundach",
-    "DefaultTemperature": "Domyślna temperatura"
+    "DefaultTemperature": "Domyślna temperatura",
+    "PauseIntervall": "Czas do zakończenia pauzy zakończy się w minutach",
+    "BoostIntervall": "Czas do końca doładowania za kilka minut",
+    "StartStopDifference": "Różnica od temperatury docelowej do rozpoczęcia lub zakończenia ogrzewania"
 }

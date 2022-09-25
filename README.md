@@ -13,7 +13,7 @@
 
 ## Heizungssteuerung adapter for ioBroker
 
-This adapter can be used to manage heating systems. You can choose between cooling and heating mode.
+This adapter can be used to manage heating systems. You can choose between cooling and heating mode and activate boost or pause for one room. Furthermore you can overwrite the target temperature for one room.
 
 ## Configuration
 To use the adapter you have to add rooms to rooms enum and add the sensors and engines to the rooms. 
@@ -23,6 +23,16 @@ Furthermore you have to add the functions temperature, humidity and engine to th
 *heating mode:* you can choose beween cooling and heating.
 
 *Stop cooling if humidity is higher than:*  If humudity is reached, cooling will be stopped. It only works, if you have add the humidity sensor to the Function and the Room.
+
+*Update intervall in seconds:* Define how often the adapter will check the temperatures an set the engines
+
+*Default temperature:* Define the temperature to set if no period is matching for the a room
+
+*Time until pause will be end in minutes:* Define the time until die pause state will be reset to inactive in minutes
+
+*Time until boost will be end in minutes:* Define the time until die boost state will be reset to inactive in minutes
+
+*Diffenernce from target temperature until start or stop heating:* Define the difference from target temperature until the adapter will start or stop heating. For example if 20° is target temperature, this setting is 0.5 and engine is off heting will start if temperature is lower than 19.5° and will stop heating if temperature is higher tan 20.5°.
 
 ### Periods
 You can define periods for every room and time. Forthermore you can define whether this period should be used for cooling or heating. If heating mode is not matching to the setted mode on main settings the period will be ignored.
@@ -35,6 +45,8 @@ You can define periods for every room and time. Forthermore you can define wheth
 -->
 ### **WORK IN PROGRESS**
 * (jbeenenga) add possibility to overwrite temperature temporarily
+* (jbeenenga) add config for temperature offset
+* (jbeenenga) add boost and pause function
 
 ### 1.4.6 (2022-09-12)
 * (jbeenenga) small fix

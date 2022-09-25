@@ -21,5 +21,8 @@
     "Heating": "Обогрев",
     "Temperature": "Температура",
     "UpdateIntervall": "Интервал обновления в секундах",
-    "DefaultTemperature": "Температура по умолчанию"
+    "DefaultTemperature": "Температура по умолчанию",
+    "PauseIntervall": "Время до окончания паузы в минутах",
+    "BoostIntervall": "Время до окончания буста в минутах",
+    "StartStopDifference": "Разница от заданной температуры до начала или остановки нагрева"
 }

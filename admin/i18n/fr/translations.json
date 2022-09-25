@@ -21,5 +21,8 @@
     "Heating": "Chauffage",
     "Temperature": "Température",
     "UpdateIntervall": "Intervalle de mise à jour en secondes",
-    "DefaultTemperature": "Température par défaut"
+    "DefaultTemperature": "Température par défaut",
+    "PauseIntervall": "Le temps jusqu'à la pause sera terminé en minutes",
+    "BoostIntervall": "Le temps jusqu'à la fin du boost sera en minutes",
+    "StartStopDifference": "Différence de la température cible jusqu'au démarrage ou à l'arrêt du chauffage"
 }

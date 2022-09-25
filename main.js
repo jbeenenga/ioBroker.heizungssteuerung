@@ -23,6 +23,8 @@ class Heizungssteuerung extends utils.Adapter {
 		this.on("unload", this.onUnload.bind(this));
 		this.roomNames = [];
 		this.rooms = {};
+		this.timeRegEx = new RegExp("^\\d\\d:\\d\\d");
+
 	}
 
 	/**
@@ -37,6 +39,10 @@ class Heizungssteuerung extends utils.Adapter {
 		this.log.debug("tempSensorMap created: " + JSON.stringify(this.tempSensorMap));
 		this.log.debug("humSensorMap created: " + JSON.stringify(this.humSensorMap));
 		this.log.debug("engineMap created: " + JSON.stringify(this.engineMap));
+
+		this.initGeneralStates();
+		this.initRoomStates();
+
 		if (this.interval1 != undefined) {
 			this.clearInterval(this.interval1);
 		}
@@ -46,18 +52,58 @@ class Heizungssteuerung extends utils.Adapter {
 	async check() {
 		const now = new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
 
+		const boostedRooms = await this.buildSpecialRoomsList("boost", this.config.boostIntervall);
+		const pausedRooms = await this.buildSpecialRoomsList("pause", this.config.pauseIntervall);
 		const roomTempMap = await this.buildDefaultRoomTempMap(now);
+
+		//-------------------------------------------------
+		// check pause all
+		//-------------------------------------------------
+		const pauseAll = await this.getStateAsync("Actions.pauseAll");
+		if (pauseAll != undefined && pauseAll.val == true) {
+			if (pauseAll.ts > new Date().getTime() - (this.config.pauseIntervall * 60000)) {
+				this.log.info("State pauseAll is active so all engines will be deactivated");
+				this.roomNames.forEach((value) => pausedRooms.push(value));
+			} else {
+				this.setStateAsync("Actions.pauseAll", false);
+				this.log.info("State pauseAll was deactivated");
+			}
+		}
+
+		//-------------------------------------------------
+		// check boost all
+		//-------------------------------------------------
+		const boostAll = await this.getStateAsync("Actions.boostAll");
+		if (boostAll != undefined && boostAll.val == true) {
+			if (boostAll.ts > new Date().getTime() - (this.config.boostIntervall * 60000)) {
+				this.log.info("State boostAll is active so all engines will be deactivated");
+				this.roomNames.forEach((value) => boostedRooms.push(value));
+			} else {
+				this.setStateAsync("Actions.boostAll", false);
+				this.log.info("State boostAll was deactivated");
+			}
+		}
+
 
 		for (let i = 0; i < this.config.periods.length; i++) {
 			const currentPeriod = this.config.periods[i];
 			const shortRoomName = this.convertToShortRoomName(currentPeriod["room"]);
-			this.log.debug("currentPeriod[from] > now: "+ JSON.stringify((currentPeriod["from"] > now)));
-			this.log.debug("currentPeriod[from] < roomTempMap[shortRoomName][targetUntil]: "+ JSON.stringify((currentPeriod["from"] < roomTempMap[shortRoomName]["targetUntil"])));
+			if (pausedRooms.includes(shortRoomName)) {
+				roomTempMap[shortRoomName]["target"] = -100;
+				roomTempMap[shortRoomName]["targetUntil"] = "pause";
 
-			if (currentPeriod["from"] > now && (currentPeriod["from"] < roomTempMap[shortRoomName]["targetUntil"]||  roomTempMap[shortRoomName]["targetUntil"] == now)) {
+				continue;
+			}
+			if (boostedRooms.includes(shortRoomName)) {
+				roomTempMap[shortRoomName]["target"] = 100;
+				roomTempMap[shortRoomName]["targetUntil"] = "boost";
+
+				continue;
+			}
+			if (currentPeriod["from"] > now && (currentPeriod["from"] < roomTempMap[shortRoomName]["targetUntil"])) {
 				roomTempMap[shortRoomName]["targetUntil"] = currentPeriod["from"];
 			}
-			if ( roomTempMap[shortRoomName]["targetUntil"] > now) {
+			if (roomTempMap[shortRoomName]["targetUntil"] > now && roomTempMap[shortRoomName]["targetUntil"] != "24:00") {
 				continue;
 			}
 			if ((this.config.isHeatingMode == 0) == currentPeriod["heating"] && this.isCurrentPeriod(currentPeriod)) {
@@ -83,10 +129,15 @@ class Heizungssteuerung extends utils.Adapter {
 			const room = this.roomNames[i];
 			const targetTemperatureFromState = await this.getStateAsync("Temperatures." + room + ".target");
 			const targetTemperatureUntilFromState = await this.getStateAsync("Temperatures." + room + ".targetUntil");
-			if (targetTemperatureFromState == undefined || targetTemperatureUntilFromState == undefined || targetTemperatureUntilFromState.val < now) {
-				roomTempMap[room] = { "target": this.config.defaultTemperature, "targetUntil": now };
+			if (targetTemperatureFromState == undefined || targetTemperatureUntilFromState == undefined) {
+				roomTempMap[room] = { "target": this.config.defaultTemperature, "targetUntil": "24:00" };
 			} else {
-				roomTempMap[room] = { "target": targetTemperatureFromState.val, "targetUntil": targetTemperatureUntilFromState.val };
+				// @ts-ignore
+				if (targetTemperatureUntilFromState.val < now || !this.timeRegEx.test(targetTemperatureFromState.val)) {
+					roomTempMap[room] = { "target": this.config.defaultTemperature, "targetUntil": "24:00" };
+				} else {
+					roomTempMap[room] = { "target": targetTemperatureFromState.val, "targetUntil": targetTemperatureUntilFromState.val };
+				}
 
 			}
 		}
@@ -138,11 +189,11 @@ class Heizungssteuerung extends utils.Adapter {
 		this.writeTemperaturesIntoState(room, temp, targetTemperature);
 
 		if (this.config.isHeatingMode == 0) {
-			if (temp < (Number(targetTemperature["target"]) - 1 / 2)) {
+			if (temp < (Number(targetTemperature["target"]) - this.config.startStopDifference)) {
 				this.log.debug("set " + this.engineMap[room] + " to true");
 				this.setForeignStateAsync(this.engineMap[room], true);
 			}
-			if (temp > (Number(targetTemperature["target"]) + 1 / 2)) {
+			if (temp > (Number(targetTemperature["target"]) + this.config.startStopDifference)) {
 				this.log.debug("set " + this.engineMap[room] + " to false");
 				this.setForeignStateAsync(this.engineMap[room], false);
 			}
@@ -156,16 +207,50 @@ class Heizungssteuerung extends utils.Adapter {
 				}
 
 			}
-			if (temp < (Number(targetTemperature["target"]) - 1 / 2)) {
+			if (temp < (Number(targetTemperature["target"]) - this.config.startStopDifference)) {
 				this.log.debug("set " + this.engineMap[room] + " to false");
 				this.setForeignStateAsync(this.engineMap[room], false);
 			}
-			if (temp > (Number(targetTemperature["target"]) + 1 / 2)) {
+			if (temp > (Number(targetTemperature["target"]) + this.config.startStopDifference)) {
 				this.log.debug("set " + this.engineMap[room] + " to true");
 				this.setForeignStateAsync(this.engineMap[room], true);
 			}
 		}
 
+	}
+
+	/**
+	 * @param {string} actionName
+	 */
+	async buildSpecialRoomsList(actionName, validIntervall) {
+		const boostedRooms = [];
+		const boostValidUntil = new Date().getTime() - validIntervall * 60000;
+		this.log.debug("validIntervall: " + validIntervall);
+		for (let i = 0; i < this.roomNames.length; i++) {
+			const boost = await this.getStateAsync("Actions." + this.roomNames[i] + "." + actionName);
+			if (boost != undefined && boost.val == true) {
+				if (boost.ts > boostValidUntil) {
+					boostedRooms.push(this.roomNames[i]);
+				} else {
+					this.setStateAsync("Actions." + this.roomNames[i] + "." + actionName, false);
+					this.setState("Temperatures." + this.roomNames[i] + ".targetUntil", "00:00", true);
+				}
+			}
+		}
+		return boostedRooms;
+	}
+
+	initRoomStates() {
+		for (let i = 0; i < this.roomNames.length; i++) {
+			const roomName = this.roomNames[i];
+			this.setObjectNotExists("Actions." + roomName + ".boost", { type: "state", _id: "Actions." + roomName + ".boost", native: {}, common: { type: "boolean", name: "Activate boost for this room", read: true, write: true, role: "admin", def: false } });
+			this.setObjectNotExists("Actions." + roomName + ".pause", { type: "state", _id: "Actions." + roomName + ".pause", native: {}, common: { type: "boolean", name: "Activate pause for this room", read: true, write: true, role: "admin", def: false } });
+		}
+	}
+
+	initGeneralStates() {
+		this.setObjectNotExists("Actions.pauseAll", { type: "state", _id: "Actions.pauseAll", native: {}, common: { type: "boolean", name: "Activate boost for any room", read: true, write: true, role: "admin", def: false } });
+		this.setObjectNotExists("Actions.boostAll", { type: "state", _id: "Actions.boostAll", native: {}, common: { type: "boolean", name: "Activate boost for any room", read: true, write: true, role: "admin", def: false } });
 	}
 
 	writeTemperaturesIntoState(room, temp, targetTemperature) {
@@ -176,7 +261,7 @@ class Heizungssteuerung extends utils.Adapter {
 
 		this.setStateAsync("Temperatures." + room + ".current", Number(temp), true);
 		this.setStateAsync("Temperatures." + room + ".target", Number(targetTemperature["target"]), true);
-		this.setStateAsync("Temperatures." + room + ".targetUntil",targetTemperature["targetUntil"], true);
+		this.setStateAsync("Temperatures." + room + ".targetUntil", targetTemperature["targetUntil"], true);
 
 	}
 

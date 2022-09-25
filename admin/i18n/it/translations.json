@@ -21,5 +21,8 @@
     "Heating": "Il riscaldamento",
     "Temperature": "Temperatura",
     "UpdateIntervall": "Intervallo di aggiornamento in secondi",
-    "DefaultTemperature": "Temperatura predefinita"
+    "DefaultTemperature": "Temperatura predefinita",
+    "PauseIntervall": "Il tempo prima che la pausa finisca tra pochi minuti",
+    "BoostIntervall": "Il tempo prima che il boost terminerà in pochi minuti",
+    "StartStopDifference": "Differenza dalla temperatura target fino all'avvio o all'arresto del riscaldamento"
 }

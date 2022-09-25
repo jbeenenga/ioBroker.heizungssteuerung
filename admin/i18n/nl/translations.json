@@ -21,5 +21,8 @@
     "Heating": "Verwarming",
     "Temperature": "Temperatuur",
     "UpdateIntervall": "Update-interval in seconden",
-    "DefaultTemperature": "Standaard temperatuur"
+    "DefaultTemperature": "Standaard temperatuur",
+    "PauseIntervall": "Tijd tot het einde van de pauze in minuten",
+    "BoostIntervall": "Tijd tot het einde van de boost in minuten",
+    "StartStopDifference": "Verschil van doeltemperatuur tot start of stop verwarming"
 }

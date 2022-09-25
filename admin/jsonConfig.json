@@ -31,6 +31,18 @@
                 "defaultTemperature": {
                     "type": "number",
                     "label": "DefaultTemperature"
+                }, 
+                "boostIntervall": {
+                    "type": "number",
+                    "label": "BoostIntervall"
+                }, 
+                "pauseIntervall": {
+                    "type": "number",
+                    "label": "PauseIntervall"
+                },
+                "startStopDifference":{
+                    "type": "number",
+                    "label": "startStopDifference"
                 }
             }
         },
