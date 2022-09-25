@@ -1,8 +1,20 @@
 {
   "common": {
     "name": "heizungssteuerung",
-    "version": "1.5.0",
+    "version": "1.5.1",
     "news": {
+      "1.5.1": {
+        "en": "fix for overwrite temperature",
+        "de": "für überschreiben temperatur",
+        "ru": "исправить для перезаписываемой температуры",
+        "pt": "correção para a temperatura de substituição",
+        "nl": "_",
+        "fr": "fixation pour la température de surécriture",
+        "it": "correzione della temperatura di sovrascrittura",
+        "es": "fijado para la temperatura de sobreescritura",
+        "pl": "naprawić temperaturę przepisania",
+        "zh-cn": "fix 过滤温度"
+      },
       "1.5.0": {
         "en": "add possibility to overwrite temperature temporarily\nadd config for temperature offset\nadd boost and pause function",
         "de": "die möglichkeit, die temperatur vorübergehend zu überschreiben\nadd config für temperaturversatz\nboost und pausenfunktion hinzufügen",
@@ -74,18 +86,6 @@
         "es": "pequeña fijación para la creación del estado",
         "pl": "drobne rozwiązanie dla stworzenia państwa",
         "zh-cn": "建国小型固定"
-      },
-      "1.4.1": {
-        "en": "little logging fixes",
-        "de": "kleine logging fixes",
-        "ru": "маленькие исправления",
-        "pt": "pequenas correções de log",
-        "nl": "kleine loggingsresten",
-        "fr": "petites corrections de journalisation",
-        "it": "piccole correzioni di registrazione",
-        "es": "pequeñas correcciones de registro",
-        "pl": "drobne logiki",
-        "zh-cn": "伐木很少"
       }
     },
     "titleLang": {
