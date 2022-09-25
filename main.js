@@ -100,7 +100,7 @@ class Heizungssteuerung extends utils.Adapter {
 
 				continue;
 			}
-			if (currentPeriod["from"] > now && (currentPeriod["from"] < roomTempMap[shortRoomName]["targetUntil"])) {
+			if (currentPeriod["from"] > now && (currentPeriod["until"] > roomTempMap[shortRoomName]["targetUntil"])) {
 				roomTempMap[shortRoomName]["targetUntil"] = currentPeriod["from"];
 			}
 			if (roomTempMap[shortRoomName]["targetUntil"] > now && roomTempMap[shortRoomName]["targetUntil"] != "24:00") {
