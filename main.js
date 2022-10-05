@@ -23,8 +23,6 @@ class Heizungssteuerung extends utils.Adapter {
 		this.on("unload", this.onUnload.bind(this));
 		this.roomNames = [];
 		this.rooms = {};
-		this.timeRegEx = new RegExp("^\\d\\d:\\d\\d");
-
 	}
 
 	/**
@@ -100,9 +98,12 @@ class Heizungssteuerung extends utils.Adapter {
 
 				continue;
 			}
-			if (currentPeriod["from"] > now && (currentPeriod["until"] > roomTempMap[shortRoomName]["targetUntil"])) {
+
+			if (currentPeriod["from"] > now && (currentPeriod["from"] < roomTempMap[shortRoomName]["targetUntil"])) {
+				this.log.debug("targetUntil will be set to " + currentPeriod["from"]);
 				roomTempMap[shortRoomName]["targetUntil"] = currentPeriod["from"];
 			}
+			this.log.debug("roomTempMap[shortRoomName][targetUntil]: " + roomTempMap[shortRoomName]["targetUntil"]);
 			if (roomTempMap[shortRoomName]["targetUntil"] > now && roomTempMap[shortRoomName]["targetUntil"] != "24:00") {
 				continue;
 			}
@@ -133,7 +134,7 @@ class Heizungssteuerung extends utils.Adapter {
 				roomTempMap[room] = { "target": this.config.defaultTemperature, "targetUntil": "24:00" };
 			} else {
 				// @ts-ignore
-				if (targetTemperatureUntilFromState.val < now || !this.timeRegEx.test(targetTemperatureFromState.val)) {
+				if (targetTemperatureUntilFromState.val < now || targetTemperatureFromState.val == "boost" || targetTemperatureFromState.val == "pause") {
 					roomTempMap[room] = { "target": this.config.defaultTemperature, "targetUntil": "24:00" };
 				} else {
 					roomTempMap[room] = { "target": targetTemperatureFromState.val, "targetUntil": targetTemperatureUntilFromState.val };
@@ -262,7 +263,6 @@ class Heizungssteuerung extends utils.Adapter {
 		this.setStateAsync("Temperatures." + room + ".current", Number(temp), true);
 		this.setStateAsync("Temperatures." + room + ".target", Number(targetTemperature["target"]), true);
 		this.setStateAsync("Temperatures." + room + ".targetUntil", targetTemperature["targetUntil"], true);
-
 	}
 
 	convertToShortRoomName(room) {
