@@ -1,8 +1,20 @@
 {
   "common": {
     "name": "heizungssteuerung",
-    "version": "1.5.1",
+    "version": "1.5.2",
     "news": {
+      "1.5.2": {
+        "en": "fix for overwrite temperature",
+        "de": "für überschreiben temperatur",
+        "ru": "исправить для перезаписываемой температуры",
+        "pt": "correção para a temperatura de substituição",
+        "nl": "_",
+        "fr": "fixation pour la température de surécriture",
+        "it": "correzione della temperatura di sovrascrittura",
+        "es": "fijado para la temperatura de sobreescritura",
+        "pl": "naprawić temperaturę przepisania",
+        "zh-cn": "fix 过滤温度"
+      },
       "1.5.1": {
         "en": "fix for overwrite temperature",
         "de": "für überschreiben temperatur",
@@ -64,18 +76,6 @@
         "zh-cn": "建国小型固定"
       },
       "1.4.3": {
-        "en": "small fix for state creation",
-        "de": "kleine fix für staatliche schöpfung",
-        "ru": "небольшой фикс для создания государства",
-        "pt": "pequena correção para a criação do estado",
-        "nl": "kleine fixatie voor staats creatie",
-        "fr": "petit fix pour la création d'état",
-        "it": "piccolo fix per la creazione di stato",
-        "es": "pequeña fijación para la creación del estado",
-        "pl": "drobne rozwiązanie dla stworzenia państwa",
-        "zh-cn": "建国小型固定"
-      },
-      "1.4.2": {
         "en": "small fix for state creation",
         "de": "kleine fix für staatliche schöpfung",
         "ru": "небольшой фикс для создания государства",
