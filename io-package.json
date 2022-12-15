@@ -1,7 +1,7 @@
 {
   "common": {
     "name": "heizungssteuerung",
-    "version": "1.6.0",
+    "version": "1.6.1",
     "news": {
       "1.5.2": {
         "en": "fix for overwrite temperature",
