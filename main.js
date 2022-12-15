@@ -144,9 +144,6 @@ class Heizungssteuerung extends utils.Adapter {
 			if (targetTemperatureFromState == undefined || targetTemperatureUntilFromState == undefined) {
 				roomTempMap[room] = { "target": this.config.defaultTemperature, "targetUntil": "24:00" };
 			} else {
-				this.log.debug("targetTemperatureUntilFromState is "+ JSON.stringify(targetTemperatureUntilFromState));
-				this.log.debug("now is "+ now);
-
 				// @ts-ignore
 				if (targetTemperatureUntilFromState.val < now || targetTemperatureFromState.val == "boost" || targetTemperatureFromState.val == "pause") {
 					this.log.debug("Target until was set to 24:00");

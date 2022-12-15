@@ -44,6 +44,9 @@ You can define periods for every room and time. Forthermore you can define wheth
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
+### **WORK IN PROGRESS**
+* (jbeenenga) removed unnecessary debug output
+
 ### 1.6.2 (2022-12-15)
 * (jbeenenga) fix for temperature calculation
 
