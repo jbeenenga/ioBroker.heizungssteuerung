@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "heizungssteuerung",
-    "version": "1.6.2",
+    "version": "1.6.3",
     "news": {
+      "1.6.3": {
+        "en": "removed unnecessary debug output",
+        "de": "entfernt unnötige debug-ausgang",
+        "ru": "удалили ненужный отладочный выход",
+        "pt": "saída de depuração desnecessária",
+        "nl": "verwijder onnodige debug output",
+        "fr": "sortie de débogage inutile",
+        "it": "rimosso non necessario debug output",
+        "es": "depuración innecesaria",
+        "pl": "usunąć",
+        "uk": "видалено непотрібний відключення",
+        "zh-cn": "删除不必要的产出"
+      },
       "1.6.2": {
         "en": "fix for temperature calculation",
         "de": "temperaturberechnung fixieren",
@@ -75,18 +88,6 @@
         "es": "tipo correcto de temperaturas para escribir en estados",
         "pl": "poprawny typ temperatury do pisania w stanach",
         "zh-cn": "评 注"
-      },
-      "1.4.4": {
-        "en": "small fix for state creation",
-        "de": "kleine fix für staatliche schöpfung",
-        "ru": "небольшой фикс для создания государства",
-        "pt": "pequena correção para a criação do estado",
-        "nl": "kleine fixatie voor staats creatie",
-        "fr": "petit fix pour la création d'état",
-        "it": "piccolo fix per la creazione di stato",
-        "es": "pequeña fijación para la creación del estado",
-        "pl": "drobne rozwiązanie dla stworzenia państwa",
-        "zh-cn": "建国小型固定"
       }
     },
     "titleLang": {
