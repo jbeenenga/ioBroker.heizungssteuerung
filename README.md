@@ -18,6 +18,7 @@ This adapter can be used to manage heating systems. You can choose between cooli
 ## Configuration
 To use the adapter you have to add rooms to rooms enum and add the sensors and engines to the rooms. 
 Furthermore you have to add the functions temperature, humidity and engine to the correct states. The enums will be created after the first start of the Adapter. If you have no humidity sensor you can leave it empty.
+![Configuration exampe](img/configExample.png)
 
 ### Main Settings
 *heating mode:* you can choose beween cooling and heating.
@@ -43,6 +44,9 @@ You can define periods for every room and time. Forthermore you can define wheth
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
+### **WORK IN PROGRESS**
+* (jbeenenga) fix for temperature calculation
+
 ### 1.5.2 (2022-10-05)
 * (jbeenenga) fix for overwrite temperature
 
