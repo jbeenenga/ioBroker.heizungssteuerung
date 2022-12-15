@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "heizungssteuerung",
-    "version": "1.6.1",
+    "version": "1.6.2",
     "news": {
+      "1.6.2": {
+        "en": "fix for temperature calculation",
+        "de": "temperaturberechnung fixieren",
+        "ru": "исправить для расчета температуры",
+        "pt": "correção para cálculo de temperatura",
+        "nl": "vertaling:",
+        "fr": "fixation pour le calcul de la température",
+        "it": "correzione per il calcolo della temperatura",
+        "es": "fijado para el cálculo de temperatura",
+        "pl": "obliczenia temperatury",
+        "uk": "фіксація для розрахунку температури",
+        "zh-cn": "f 温度计算ix"
+      },
       "1.5.2": {
         "en": "fix for overwrite temperature",
         "de": "für überschreiben temperatur",
@@ -64,18 +77,6 @@
         "zh-cn": "评 注"
       },
       "1.4.4": {
-        "en": "small fix for state creation",
-        "de": "kleine fix für staatliche schöpfung",
-        "ru": "небольшой фикс для создания государства",
-        "pt": "pequena correção para a criação do estado",
-        "nl": "kleine fixatie voor staats creatie",
-        "fr": "petit fix pour la création d'état",
-        "it": "piccolo fix per la creazione di stato",
-        "es": "pequeña fijación para la creación del estado",
-        "pl": "drobne rozwiązanie dla stworzenia państwa",
-        "zh-cn": "建国小型固定"
-      },
-      "1.4.3": {
         "en": "small fix for state creation",
         "de": "kleine fix für staatliche schöpfung",
         "ru": "небольшой фикс для создания государства",
