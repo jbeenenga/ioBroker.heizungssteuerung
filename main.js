@@ -40,7 +40,7 @@ class Heizungssteuerung extends utils.Adapter {
 
 		this.initGeneralStates();
 		this.initRoomStates();
-		if (this.config.resetTemperaturesOnStart){
+		if (this.config.resetTemperaturesOnStart) {
 			this.writeInitialTemperaturesIntoState();
 		}
 
@@ -52,7 +52,7 @@ class Heizungssteuerung extends utils.Adapter {
 
 	async check() {
 		const now = new Date().toLocaleTimeString([], { hourCycle: "h23", hour: "2-digit", minute: "2-digit" });
-
+		this.log.debug("current time is " + now);
 		const boostedRooms = await this.buildSpecialRoomsList("boost", this.config.boostIntervall);
 		const pausedRooms = await this.buildSpecialRoomsList("pause", this.config.pauseIntervall);
 		const roomTempMap = await this.buildDefaultRoomTempMap(now);

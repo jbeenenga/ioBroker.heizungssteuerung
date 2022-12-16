@@ -21,6 +21,7 @@
                     ]
                 },
                 "stopCoolingIfHumIsHigherThan": {
+                    "newLine": true,
                     "type": "number",
                     "label": "StopCoolingIfHumIsHigherThan"
                 }, 
