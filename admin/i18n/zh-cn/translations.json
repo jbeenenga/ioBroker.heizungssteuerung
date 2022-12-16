@@ -24,5 +24,6 @@
     "DefaultTemperature": "默认温度",
     "PauseIntervall": "直到暂停的时间将以分钟为单位结束",
     "BoostIntervall": "直到提升结束的时间将在几分钟内结束",
-    "StartStopDifference": "开始或停止加热前与目标温度的差异"
+    "StartStopDifference": "开始或停止加热前与目标温度的差异",
+    "ResetTemperaturesOnAdapterStart": "在适配器启动时将温度重置为默认值"
 }

@@ -23,6 +23,8 @@ Furthermore you have to add the functions temperature, humidity and engine to th
 ### Main Settings
 *heating mode:* you can choose beween cooling and heating.
 
+*Reset temperatures to default on adapter starts:* if this setting is active, all temperature states will be overwritten with default temperature and targetUntil. So the next temperature check will set the temperatures to the configured temperatures setted in periods.
+
 *Stop cooling if humidity is higher than:*  If humudity is reached, cooling will be stopped. It only works, if you have add the humidity sensor to the Function and the Room.
 
 *Update intervall in seconds:* Define how often the adapter will check the temperatures an set the engines
@@ -44,6 +46,9 @@ You can define periods for every room and time. Forthermore you can define wheth
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
+### **WORK IN PROGRESS**
+* (jbeenenga) add possibility to reset temperatures on adapter start
+
 ### 1.6.4 (2022-12-16)
 * (jbeenenga) add more debug outputs
 * (jbeenenga) fixed incorrect period to room mapping

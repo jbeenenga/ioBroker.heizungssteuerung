@@ -42,7 +42,11 @@
                 },
                 "startStopDifference":{
                     "type": "number",
-                    "label": "startStopDifference"
+                    "label": "StartStopDifference"
+                },
+                "resetTemperaturesOnStart":{
+                    "type": "checkbox",
+                    "label": "ResetTemperaturesOnStart"
                 }
             }
         },

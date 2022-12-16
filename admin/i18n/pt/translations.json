@@ -24,5 +24,6 @@
     "DefaultTemperature": "Temperatura padrão",
     "PauseIntervall": "O tempo até a pausa terminar em minutos",
     "BoostIntervall": "Tempo até que o impulso termine em minutos",
-    "StartStopDifference": "Diferença da temperatura alvo até iniciar ou parar o aquecimento"
+    "StartStopDifference": "Diferença da temperatura alvo até iniciar ou parar o aquecimento",
+    "ResetTemperaturesOnAdapterStart": "Redefina as temperaturas para o padrão na inicialização do adaptador"
 }

@@ -24,5 +24,6 @@
     "DefaultTemperature": "Standaard temperatuur",
     "PauseIntervall": "Tijd tot het einde van de pauze in minuten",
     "BoostIntervall": "Tijd tot het einde van de boost in minuten",
-    "StartStopDifference": "Verschil van doeltemperatuur tot start of stop verwarming"
+    "StartStopDifference": "Verschil van doeltemperatuur tot start of stop verwarming",
+    "ResetTemperaturesOnAdapterStart": "Reset de standaardtemperaturen bij het opstarten van de adapter"
 }

@@ -40,6 +40,9 @@ class Heizungssteuerung extends utils.Adapter {
 
 		this.initGeneralStates();
 		this.initRoomStates();
+		if (this.config.resetTemperaturesOnStart){
+			this.writeInitialTemperaturesIntoState();
+		}
 
 		if (this.interval1 != undefined) {
 			this.clearInterval(this.interval1);
@@ -132,7 +135,7 @@ class Heizungssteuerung extends utils.Adapter {
 	getPeriodsForRoom(roomName) {
 		const periods = [];
 		this.config.periods.forEach((period) => {
-			if (period["room"] == ("enum.rooms."+ roomName)) {
+			if (period["room"] == ("enum.rooms." + roomName)) {
 				periods.push(period);
 			}
 		});
@@ -271,14 +274,21 @@ class Heizungssteuerung extends utils.Adapter {
 	}
 
 	writeTemperaturesIntoState(room, temp, targetTemperature) {
-		//const shortRoomName = this.convertToShortRoomName(room);
-		this.setObjectNotExists("Temperatures." + room + ".current", { type: "state", _id: "Temperatures." + room + ".current", native: {}, common: { type: "number", name: "Current temperature", read: true, write: false, role: "admin" } });
-		this.setObjectNotExists("Temperatures." + room + ".target", { type: "state", _id: "Temperatures." + room + ".target", native: {}, common: { type: "number", name: "Target temperature", read: true, write: true, role: "admin" } });
-		this.setObjectNotExists("Temperatures." + room + ".targetUntil", { type: "state", _id: "Temperatures." + room + ".target", native: {}, common: { type: "string", name: "Target temperature until", read: true, write: true, role: "admin" } });
-
 		this.setStateAsync("Temperatures." + room + ".current", Number(temp), true);
 		this.setStateAsync("Temperatures." + room + ".target", Number(targetTemperature["target"]), true);
 		this.setStateAsync("Temperatures." + room + ".targetUntil", targetTemperature["targetUntil"], true);
+	}
+
+	writeInitialTemperaturesIntoState() {
+		this.roomNames.forEach((room) => {
+			this.setObjectNotExists("Temperatures." + room + ".current", { type: "state", _id: "Temperatures." + room + ".current", native: {}, common: { type: "number", name: "Current temperature", read: true, write: false, role: "admin" } });
+			this.setObjectNotExists("Temperatures." + room + ".target", { type: "state", _id: "Temperatures." + room + ".target", native: {}, common: { type: "number", name: "Target temperature", read: true, write: true, role: "admin" } });
+			this.setObjectNotExists("Temperatures." + room + ".targetUntil", { type: "state", _id: "Temperatures." + room + ".target", native: {}, common: { type: "string", name: "Target temperature until", read: true, write: true, role: "admin" } });
+		});
+		this.roomNames.forEach((room) => {
+			this.setStateAsync("Temperatures." + room + ".target", this.config.defaultTemperature, true);
+			this.setStateAsync("Temperatures." + room + ".targetUntil", "24:00", true);
+		});
 	}
 
 	convertToShortRoomName(room) {

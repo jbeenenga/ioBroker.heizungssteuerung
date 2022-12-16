@@ -22,5 +22,6 @@
     "DefaultTemperature": "Default temperature",
     "PauseIntervall": "Time until pause will be end in minutes",
     "BoostIntervall": "Time until boost will be end in minutes",
-    "StartStopDifference": "Diffenernce from target temperature until start or stop heating"
+    "StartStopDifference": "Diffenernce from target temperature until start or stop heating",
+    "ResetTemperaturesOnStart": "Reset temperatures to default on adapter starts"
 }

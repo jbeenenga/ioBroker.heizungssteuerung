@@ -25,5 +25,6 @@
     "PauseIntervall": "Tiempo hasta que finalice la pausa en minutos",
     "BoostIntervall": "Tiempo hasta que finalice el impulso en minutos",
     "startStopDifference": "Diferencia desde la temperatura objetivo hasta el inicio o la parada del calentamiento",
-    "StartStopDifference": "Diferencia desde la temperatura objetivo hasta el inicio o la parada del calentamiento"
+    "StartStopDifference": "Diferencia desde la temperatura objetivo hasta el inicio o la parada del calentamiento",
+    "ResetTemperaturesOnAdapterStart": "Restablecer las temperaturas a los valores predeterminados al iniciar el adaptador"
 }

@@ -24,5 +24,6 @@
     "DefaultTemperature": "Standardtemperatur",
     "PauseIntervall": "Zeit bis zum Ende der Pause in Minuten",
     "BoostIntervall": "Zeit bis zum Ende des Boosts in Minuten",
-    "StartStopDifference": "Differenz zur Solltemperatur bis zum Beginn oder Ende des Aufheizens"
+    "StartStopDifference": "Differenz zur Solltemperatur bis zum Beginn oder Ende des Aufheizens",
+    "ResetTemperaturesOnAdapterStart": "Zurücksetzen der Temperaturen auf die Standardwerte beim Start des Adapters"
 }

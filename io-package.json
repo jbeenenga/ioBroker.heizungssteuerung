@@ -52,7 +52,8 @@
         "it": "correzione della temperatura di sovrascrittura",
         "es": "fijado para la temperatura de sobreescritura",
         "pl": "naprawić temperaturę przepisania",
-        "zh-cn": "fix 过滤温度"
+        "zh-cn": "fix 过滤温度",
+        "uk": "виправлення температури перезапису"
       },
       "1.5.1": {
         "en": "fix for overwrite temperature",
@@ -64,7 +65,8 @@
         "it": "correzione della temperatura di sovrascrittura",
         "es": "fijado para la temperatura de sobreescritura",
         "pl": "naprawić temperaturę przepisania",
-        "zh-cn": "fix 过滤温度"
+        "zh-cn": "fix 过滤温度",
+        "uk": "виправлення температури перезапису"
       },
       "1.5.0": {
         "en": "add possibility to overwrite temperature temporarily\nadd config for temperature offset\nadd boost and pause function",
@@ -76,7 +78,8 @@
         "it": "aggiungere la possibilità di sovrascrivere temporaneamente la temperatura\naggiungere config per l'offset della temperatura\naggiungere funzione boost e pausa",
         "es": "añadir posibilidad de sobreescribir la temperatura temporalmente\nañadir configuración para el offset de temperatura\nañadir el impulso y la función de pausa",
         "pl": "dokładna możliwość przepisania temperatury czasowo\ndodać konfigurowalne odwrót temperatury\nfunkcja dodatkowa i przerwy",
-        "zh-cn": "增加临时过度温度的可能性\n增减温度\na. 增加和减刑职能"
+        "zh-cn": "增加临时过度温度的可能性\n增减温度\na. 增加和减刑职能",
+        "uk": "додати можливість тимчасово перезаписати температуру\nдодати конфігурацію для зміщення температури\nдодати функцію посилення та паузи"
       },
       "1.4.6": {
         "en": "small fix",
@@ -88,7 +91,8 @@
         "it": "piccola correzione",
         "es": "pequeño",
         "pl": "niewielki",
-        "zh-cn": "小型配件"
+        "zh-cn": "小型配件",
+        "uk": "невелике виправлення"
       }
     },
     "titleLang": {
@@ -101,7 +105,8 @@
       "it": "controllo del riscaldamento",
       "es": "calefacción",
       "pl": "ogrzewanie",
-      "zh-cn": "控制"
+      "zh-cn": "控制",
+      "uk": "контроль нагріву"
     },
     "desc": {
       "en": "heatingcontrol",
@@ -113,7 +118,8 @@
       "it": "controllo del riscaldamento",
       "es": "calefacción",
       "pl": "ogrzewanie",
-      "zh-cn": "控制"
+      "zh-cn": "控制",
+      "uk": "контроль нагріву"
     },
     "authors": [
       "jbeenenga <j.beenenga@gmail.com>"
@@ -152,6 +158,7 @@
   },
   "native": {
     "isHeatingMode": 0,
+    "resetTemperaturesOnStart": false,
     "stopCoolingIfHumIsHigherThan": 65,
     "updateIntervall": 30,
     "defaultTemperature": 18,
