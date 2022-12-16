@@ -1,173 +1,173 @@
 {
-  "common": {
-    "name": "heizungssteuerung",
-    "version": "1.6.4",
-    "news": {
-      "1.6.4": {
-        "en": "add more debug outputs\nfixed incorrect period to room mapping",
-        "de": "mehr debug-ausgänge hinzufügen\nunrichtige zeit für die raumkartierung",
-        "ru": "добавить больше выводов debug\nфиксированный неправильный период к картепингу комнаты",
-        "pt": "adicionar mais saídas de depuração\nperíodo incorreto fixo para mapeamento de quarto",
-        "nl": "voeg meer debug outputs toe\nincorrecte periode naar kamermappen",
-        "fr": "ajouter plus de sorties de débogage\npériode incorrecte fixe pour la cartographie de la pièce",
-        "it": "aggiungere più uscite di debug\nperiodo fisso non corretto per la mappatura della camera",
-        "es": "añadir más productos de depuración\nperíodo incorrecto fijo a la asignación de la habitación",
-        "pl": "dodać\nnieprawidłowy okres mapowania pokoju",
-        "uk": "додати більше вихідних\nфіксований невірний період до оформлення номера",
-        "zh-cn": "产出增加\n固定不正确的时间"
-      },
-      "1.6.3": {
-        "en": "removed unnecessary debug output",
-        "de": "entfernt unnötige debug-ausgang",
-        "ru": "удалили ненужный отладочный выход",
-        "pt": "saída de depuração desnecessária",
-        "nl": "verwijder onnodige debug output",
-        "fr": "sortie de débogage inutile",
-        "it": "rimosso non necessario debug output",
-        "es": "depuración innecesaria",
-        "pl": "usunąć",
-        "uk": "видалено непотрібний відключення",
-        "zh-cn": "删除不必要的产出"
-      },
-      "1.6.2": {
-        "en": "fix for temperature calculation",
-        "de": "temperaturberechnung fixieren",
-        "ru": "исправить для расчета температуры",
-        "pt": "correção para cálculo de temperatura",
-        "nl": "vertaling:",
-        "fr": "fixation pour le calcul de la température",
-        "it": "correzione per il calcolo della temperatura",
-        "es": "fijado para el cálculo de temperatura",
-        "pl": "obliczenia temperatury",
-        "uk": "фіксація для розрахунку температури",
-        "zh-cn": "f 温度计算ix"
-      },
-      "1.5.2": {
-        "en": "fix for overwrite temperature",
-        "de": "für überschreiben temperatur",
-        "ru": "исправить для перезаписываемой температуры",
-        "pt": "correção para a temperatura de substituição",
-        "nl": "_",
-        "fr": "fixation pour la température de surécriture",
-        "it": "correzione della temperatura di sovrascrittura",
-        "es": "fijado para la temperatura de sobreescritura",
-        "pl": "naprawić temperaturę przepisania",
-        "zh-cn": "fix 过滤温度",
-        "uk": "виправлення температури перезапису"
-      },
-      "1.5.1": {
-        "en": "fix for overwrite temperature",
-        "de": "für überschreiben temperatur",
-        "ru": "исправить для перезаписываемой температуры",
-        "pt": "correção para a temperatura de substituição",
-        "nl": "_",
-        "fr": "fixation pour la température de surécriture",
-        "it": "correzione della temperatura di sovrascrittura",
-        "es": "fijado para la temperatura de sobreescritura",
-        "pl": "naprawić temperaturę przepisania",
-        "zh-cn": "fix 过滤温度",
-        "uk": "виправлення температури перезапису"
-      },
-      "1.5.0": {
-        "en": "add possibility to overwrite temperature temporarily\nadd config for temperature offset\nadd boost and pause function",
-        "de": "die möglichkeit, die temperatur vorübergehend zu überschreiben\nadd config für temperaturversatz\nboost und pausenfunktion hinzufügen",
-        "ru": "добавить возможность переписать температуру временно\nдобавить config для компенсации температуры\nдобавить функцию импульса и паузы",
-        "pt": "adicionar possibilidade de sobrescrever a temperatura temporariamente\nadd config para deslocamento de temperatura\nadicionar função de impulso e pausa",
-        "nl": "voeg de mogelijkheid om de temperatuur tijdelijk te overschrijven\nvoeg configuur toe\nvoeg boos en pauzefunctie toe",
-        "fr": "ajouter la possibilité d'écraser temporairement la température\najouter la configuration pour décaler la température\najouter la fonction boost et pause",
-        "it": "aggiungere la possibilità di sovrascrivere temporaneamente la temperatura\naggiungere config per l'offset della temperatura\naggiungere funzione boost e pausa",
-        "es": "añadir posibilidad de sobreescribir la temperatura temporalmente\nañadir configuración para el offset de temperatura\nañadir el impulso y la función de pausa",
-        "pl": "dokładna możliwość przepisania temperatury czasowo\ndodać konfigurowalne odwrót temperatury\nfunkcja dodatkowa i przerwy",
-        "zh-cn": "增加临时过度温度的可能性\n增减温度\na. 增加和减刑职能",
-        "uk": "додати можливість тимчасово перезаписати температуру\nдодати конфігурацію для зміщення температури\nдодати функцію посилення та паузи"
-      },
-      "1.4.6": {
-        "en": "small fix",
-        "de": "kleine fix",
-        "ru": "небольшой фикс",
-        "pt": "pequena correção",
-        "nl": "klein",
-        "fr": "petit montage",
-        "it": "piccola correzione",
-        "es": "pequeño",
-        "pl": "niewielki",
-        "zh-cn": "小型配件",
-        "uk": "невелике виправлення"
-      }
+    "common": {
+        "name": "heizungssteuerung",
+        "version": "1.6.4",
+        "news": {
+            "1.6.4": {
+                "en": "add more debug outputs\nfixed incorrect period to room mapping",
+                "de": "mehr debug-ausgänge hinzufügen\nunrichtige zeit für die raumkartierung",
+                "ru": "добавить больше выводов debug\nфиксированный неправильный период к картепингу комнаты",
+                "pt": "adicionar mais saídas de depuração\nperíodo incorreto fixo para mapeamento de quarto",
+                "nl": "voeg meer debug outputs toe\nincorrecte periode naar kamermappen",
+                "fr": "ajouter plus de sorties de débogage\npériode incorrecte fixe pour la cartographie de la pièce",
+                "it": "aggiungere più uscite di debug\nperiodo fisso non corretto per la mappatura della camera",
+                "es": "añadir más productos de depuración\nperíodo incorrecto fijo a la asignación de la habitación",
+                "pl": "dodać\nnieprawidłowy okres mapowania pokoju",
+                "uk": "додати більше вихідних\nфіксований невірний період до оформлення номера",
+                "zh-cn": "产出增加\n固定不正确的时间"
+            },
+            "1.6.3": {
+                "en": "removed unnecessary debug output",
+                "de": "entfernt unnötige debug-ausgang",
+                "ru": "удалили ненужный отладочный выход",
+                "pt": "saída de depuração desnecessária",
+                "nl": "verwijder onnodige debug output",
+                "fr": "sortie de débogage inutile",
+                "it": "rimosso non necessario debug output",
+                "es": "depuración innecesaria",
+                "pl": "usunąć",
+                "uk": "видалено непотрібний відключення",
+                "zh-cn": "删除不必要的产出"
+            },
+            "1.6.2": {
+                "en": "fix for temperature calculation",
+                "de": "temperaturberechnung fixieren",
+                "ru": "исправить для расчета температуры",
+                "pt": "correção para cálculo de temperatura",
+                "nl": "vertaling:",
+                "fr": "fixation pour le calcul de la température",
+                "it": "correzione per il calcolo della temperatura",
+                "es": "fijado para el cálculo de temperatura",
+                "pl": "obliczenia temperatury",
+                "uk": "фіксація для розрахунку температури",
+                "zh-cn": "f 温度计算ix"
+            },
+            "1.5.2": {
+                "en": "fix for overwrite temperature",
+                "de": "für überschreiben temperatur",
+                "ru": "исправить для перезаписываемой температуры",
+                "pt": "correção para a temperatura de substituição",
+                "nl": "_",
+                "fr": "fixation pour la température de surécriture",
+                "it": "correzione della temperatura di sovrascrittura",
+                "es": "fijado para la temperatura de sobreescritura",
+                "pl": "naprawić temperaturę przepisania",
+                "zh-cn": "fix 过滤温度",
+                "uk": "виправлення температури перезапису"
+            },
+            "1.5.1": {
+                "en": "fix for overwrite temperature",
+                "de": "für überschreiben temperatur",
+                "ru": "исправить для перезаписываемой температуры",
+                "pt": "correção para a temperatura de substituição",
+                "nl": "_",
+                "fr": "fixation pour la température de surécriture",
+                "it": "correzione della temperatura di sovrascrittura",
+                "es": "fijado para la temperatura de sobreescritura",
+                "pl": "naprawić temperaturę przepisania",
+                "zh-cn": "fix 过滤温度",
+                "uk": "виправлення температури перезапису"
+            },
+            "1.5.0": {
+                "en": "add possibility to overwrite temperature temporarily\nadd config for temperature offset\nadd boost and pause function",
+                "de": "die möglichkeit, die temperatur vorübergehend zu überschreiben\nadd config für temperaturversatz\nboost und pausenfunktion hinzufügen",
+                "ru": "добавить возможность переписать температуру временно\nдобавить config для компенсации температуры\nдобавить функцию импульса и паузы",
+                "pt": "adicionar possibilidade de sobrescrever a temperatura temporariamente\nadd config para deslocamento de temperatura\nadicionar função de impulso e pausa",
+                "nl": "voeg de mogelijkheid om de temperatuur tijdelijk te overschrijven\nvoeg configuur toe\nvoeg boos en pauzefunctie toe",
+                "fr": "ajouter la possibilité d'écraser temporairement la température\najouter la configuration pour décaler la température\najouter la fonction boost et pause",
+                "it": "aggiungere la possibilità di sovrascrivere temporaneamente la temperatura\naggiungere config per l'offset della temperatura\naggiungere funzione boost e pausa",
+                "es": "añadir posibilidad de sobreescribir la temperatura temporalmente\nañadir configuración para el offset de temperatura\nañadir el impulso y la función de pausa",
+                "pl": "dokładna możliwość przepisania temperatury czasowo\ndodać konfigurowalne odwrót temperatury\nfunkcja dodatkowa i przerwy",
+                "zh-cn": "增加临时过度温度的可能性\n增减温度\na. 增加和减刑职能",
+                "uk": "додати можливість тимчасово перезаписати температуру\nдодати конфігурацію для зміщення температури\nдодати функцію посилення та паузи"
+            },
+            "1.4.6": {
+                "en": "small fix",
+                "de": "kleine fix",
+                "ru": "небольшой фикс",
+                "pt": "pequena correção",
+                "nl": "klein",
+                "fr": "petit montage",
+                "it": "piccola correzione",
+                "es": "pequeño",
+                "pl": "niewielki",
+                "zh-cn": "小型配件",
+                "uk": "невелике виправлення"
+            }
+        },
+        "titleLang": {
+            "en": "heatingcontrol",
+            "de": "heizsteuerung",
+            "ru": "отопление",
+            "pt": "controle de aquecimento",
+            "nl": "heling control",
+            "fr": "chauffage",
+            "it": "controllo del riscaldamento",
+            "es": "calefacción",
+            "pl": "ogrzewanie",
+            "zh-cn": "控制",
+            "uk": "контроль нагріву"
+        },
+        "desc": {
+            "en": "heatingcontrol",
+            "de": "heizsteuerung",
+            "ru": "отопление",
+            "pt": "controle de aquecimento",
+            "nl": "heling control",
+            "fr": "chauffage",
+            "it": "controllo del riscaldamento",
+            "es": "calefacción",
+            "pl": "ogrzewanie",
+            "zh-cn": "控制",
+            "uk": "контроль нагріву"
+        },
+        "authors": [
+            "jbeenenga <j.beenenga@gmail.com>"
+        ],
+        "keywords": [
+            "home automation",
+            "heating"
+        ],
+        "license": "MIT",
+        "platform": "Javascript/Node.js",
+        "main": "main.js",
+        "icon": "heizungssteuerung.png",
+        "enabled": true,
+        "extIcon": "https://raw.githubusercontent.com/jbeenenga/ioBroker.heizungssteuerung/main/admin/heizungssteuerung.png",
+        "readme": "https://github.com/jbeenenga/ioBroker.heizungssteuerung/blob/main/README.md",
+        "loglevel": "info",
+        "mode": "daemon",
+        "type": "climate-control",
+        "compact": true,
+        "connectionType": "local",
+        "dataSource": "poll",
+        "materialize": true,
+        "adminUI": {
+            "config": "json"
+        },
+        "dependencies": [
+            {
+                "js-controller": ">=2.0.0"
+            }
+        ],
+        "globalDependencies": [
+            {
+                "admin": ">=5.3.8"
+            }
+        ]
     },
-    "titleLang": {
-      "en": "heatingcontrol",
-      "de": "heizsteuerung",
-      "ru": "отопление",
-      "pt": "controle de aquecimento",
-      "nl": "heling control",
-      "fr": "chauffage",
-      "it": "controllo del riscaldamento",
-      "es": "calefacción",
-      "pl": "ogrzewanie",
-      "zh-cn": "控制",
-      "uk": "контроль нагріву"
+    "native": {
+        "isHeatingMode": 0,
+        "resetTemperaturesOnStart": false,
+        "stopCoolingIfHumIsHigherThan": 65,
+        "updateIntervall": 30,
+        "defaultTemperature": 18,
+        "sensors": [],
+        "periods": [],
+        "pauseIntervall": 30,
+        "boostIntervall": 30,
+        "startStopDifference": 0.5
     },
-    "desc": {
-      "en": "heatingcontrol",
-      "de": "heizsteuerung",
-      "ru": "отопление",
-      "pt": "controle de aquecimento",
-      "nl": "heling control",
-      "fr": "chauffage",
-      "it": "controllo del riscaldamento",
-      "es": "calefacción",
-      "pl": "ogrzewanie",
-      "zh-cn": "控制",
-      "uk": "контроль нагріву"
-    },
-    "authors": [
-      "jbeenenga <j.beenenga@gmail.com>"
-    ],
-    "keywords": [
-      "home automation",
-      "heating"
-    ],
-    "license": "MIT",
-    "platform": "Javascript/Node.js",
-    "main": "main.js",
-    "icon": "heizungssteuerung.png",
-    "enabled": true,
-    "extIcon": "https://raw.githubusercontent.com/jbeenenga/ioBroker.heizungssteuerung/main/admin/heizungssteuerung.png",
-    "readme": "https://github.com/jbeenenga/ioBroker.heizungssteuerung/blob/main/README.md",
-    "loglevel": "info",
-    "mode": "daemon",
-    "type": "climate-control",
-    "compact": true,
-    "connectionType": "local",
-    "dataSource": "poll",
-    "materialize": true,
-    "adminUI": {
-      "config": "json"
-    },
-    "dependencies": [
-      {
-        "js-controller": ">=2.0.0"
-      }
-    ],
-    "globalDependencies": [
-      {
-        "admin": ">=5.3.8"
-      }
-    ]
-  },
-  "native": {
-    "isHeatingMode": 0,
-    "resetTemperaturesOnStart": false,
-    "stopCoolingIfHumIsHigherThan": 65,
-    "updateIntervall": 30,
-    "defaultTemperature": 18,
-    "sensors": [],
-    "periods": [],
-    "pauseIntervall": 30,
-    "boostIntervall": 30,
-    "startStopDifference": 0.5
-  },
-  "objects": [],
-  "instanceObjects": []
+    "objects": [],
+    "instanceObjects": []
 }

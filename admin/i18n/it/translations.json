@@ -25,5 +25,6 @@
     "PauseIntervall": "Il tempo prima che la pausa finisca tra pochi minuti",
     "BoostIntervall": "Il tempo prima che il boost terminerà in pochi minuti",
     "StartStopDifference": "Differenza dalla temperatura target fino all'avvio o all'arresto del riscaldamento",
-    "ResetTemperaturesOnAdapterStart": "Ripristina le temperature predefinite all'avvio dell'adattatore"
+    "ResetTemperaturesOnAdapterStart": "Ripristina le temperature predefinite all'avvio dell'adattatore",
+    "ResetTemperaturesOnStart": "Ripristina le temperature predefinite all'avvio dell'adattatore"
 }

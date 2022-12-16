@@ -25,5 +25,6 @@
     "PauseIntervall": "Czas do zakończenia pauzy zakończy się w minutach",
     "BoostIntervall": "Czas do końca doładowania za kilka minut",
     "StartStopDifference": "Różnica od temperatury docelowej do rozpoczęcia lub zakończenia ogrzewania",
-    "ResetTemperaturesOnAdapterStart": "Zresetuj temperatury do domyślnych po uruchomieniu adaptera"
+    "ResetTemperaturesOnAdapterStart": "Zresetuj temperatury do domyślnych po uruchomieniu adaptera",
+    "ResetTemperaturesOnStart": "Zresetuj temperatury do domyślnych po uruchomieniu adaptera"
 }

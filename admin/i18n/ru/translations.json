@@ -25,5 +25,6 @@
     "PauseIntervall": "Время до окончания паузы в минутах",
     "BoostIntervall": "Время до окончания буста в минутах",
     "StartStopDifference": "Разница от заданной температуры до начала или остановки нагрева",
-    "ResetTemperaturesOnAdapterStart": "Сбросить температуру по умолчанию при запуске адаптера"
+    "ResetTemperaturesOnAdapterStart": "Сбросить температуру по умолчанию при запуске адаптера",
+    "ResetTemperaturesOnStart": "Сбросить температуру по умолчанию при запуске адаптера"
 }
