@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "heizungssteuerung",
-    "version": "1.6.3",
+    "version": "1.6.4",
     "news": {
+      "1.6.4": {
+        "en": "add more debug outputs\nfixed incorrect period to room mapping",
+        "de": "mehr debug-ausgänge hinzufügen\nunrichtige zeit für die raumkartierung",
+        "ru": "добавить больше выводов debug\nфиксированный неправильный период к картепингу комнаты",
+        "pt": "adicionar mais saídas de depuração\nperíodo incorreto fixo para mapeamento de quarto",
+        "nl": "voeg meer debug outputs toe\nincorrecte periode naar kamermappen",
+        "fr": "ajouter plus de sorties de débogage\npériode incorrecte fixe pour la cartographie de la pièce",
+        "it": "aggiungere più uscite di debug\nperiodo fisso non corretto per la mappatura della camera",
+        "es": "añadir más productos de depuración\nperíodo incorrecto fijo a la asignación de la habitación",
+        "pl": "dodać\nnieprawidłowy okres mapowania pokoju",
+        "uk": "додати більше вихідних\nфіксований невірний період до оформлення номера",
+        "zh-cn": "产出增加\n固定不正确的时间"
+      },
       "1.6.3": {
         "en": "removed unnecessary debug output",
         "de": "entfernt unnötige debug-ausgang",
@@ -76,18 +89,6 @@
         "es": "pequeño",
         "pl": "niewielki",
         "zh-cn": "小型配件"
-      },
-      "1.4.5": {
-        "en": "correct type of temperatures to write into states",
-        "de": "richtige art von temperaturen in zustände zu schreiben",
-        "ru": "правильный тип температур для записи в государства",
-        "pt": "tipo correto de temperaturas para escrever em estados",
-        "nl": "correcte temperatuur om in staat te schrijven",
-        "fr": "type correct de températures pour écrire dans les états",
-        "it": "corretto tipo di temperatura da scrivere in stati",
-        "es": "tipo correcto de temperaturas para escribir en estados",
-        "pl": "poprawny typ temperatury do pisania w stanach",
-        "zh-cn": "评 注"
       }
     },
     "titleLang": {
