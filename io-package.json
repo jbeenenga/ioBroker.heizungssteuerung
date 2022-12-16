@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "heizungssteuerung",
-    "version": "1.6.6",
+    "version": "1.6.7",
     "news": {
+      "1.6.7": {
+        "en": "fix date format",
+        "de": "datumsformat",
+        "ru": "исправить формат даты",
+        "pt": "corrigir o formato da data",
+        "nl": "vertaling:",
+        "fr": "format de date",
+        "it": "formato della data di correzione",
+        "es": "formato de fecha fija",
+        "pl": "format zapisu",
+        "uk": "формат дати фіксації",
+        "zh-cn": "f 固定日期"
+      },
       "1.6.6": {
         "en": "add debug output",
         "de": "debug ausgabe hinzufügen",
@@ -69,19 +82,6 @@
         "zh-cn": "f 温度计算ix"
       },
       "1.5.2": {
-        "en": "fix for overwrite temperature",
-        "de": "für überschreiben temperatur",
-        "ru": "исправить для перезаписываемой температуры",
-        "pt": "correção para a temperatura de substituição",
-        "nl": "_",
-        "fr": "fixation pour la température de surécriture",
-        "it": "correzione della temperatura di sovrascrittura",
-        "es": "fijado para la temperatura de sobreescritura",
-        "pl": "naprawić temperaturę przepisania",
-        "zh-cn": "fix 过滤温度",
-        "uk": "виправлення температури перезапису"
-      },
-      "1.5.1": {
         "en": "fix for overwrite temperature",
         "de": "für überschreiben temperatur",
         "ru": "исправить для перезаписываемой температуры",
