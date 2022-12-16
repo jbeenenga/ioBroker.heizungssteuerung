@@ -48,7 +48,7 @@ class Heizungssteuerung extends utils.Adapter {
 	}
 
 	async check() {
-		const now = new Date().toLocaleTimeString([], {hourCycle: "h23", hour: "2-digit", minute: "2-digit" });
+		const now = new Date().toLocaleTimeString([], { hourCycle: "h23", hour: "2-digit", minute: "2-digit" });
 
 		const boostedRooms = await this.buildSpecialRoomsList("boost", this.config.boostIntervall);
 		const pausedRooms = await this.buildSpecialRoomsList("pause", this.config.pauseIntervall);
@@ -85,13 +85,17 @@ class Heizungssteuerung extends utils.Adapter {
 
 		for (let i = 0; i < this.roomNames.length; i++) {
 			const currentRoom = this.roomNames[i];
+			this.log.debug("start check for " + currentRoom);
+
 			if (pausedRooms.includes(currentRoom)) {
+				this.log.debug(this.roomNames + " is paused");
 				roomTempMap[currentRoom]["target"] = -100;
 				roomTempMap[currentRoom]["targetUntil"] = "pause";
 
 				continue;
 			}
 			if (boostedRooms.includes(currentRoom)) {
+				this.log.debug(this.roomNames + " is boosed");
 				roomTempMap[currentRoom]["target"] = 100;
 				roomTempMap[currentRoom]["targetUntil"] = "boost";
 
@@ -99,13 +103,13 @@ class Heizungssteuerung extends utils.Adapter {
 			}
 
 			const periodsForRoom = this.getPeriodsForRoom(currentRoom);
-
+			this.log.debug("found following periods for room " + currentRoom + ": " + JSON.stringify(periodsForRoom));
 			periodsForRoom.forEach((period) => {
 				if (period["from"] > now && (period["from"] < roomTempMap[currentRoom]["targetUntil"])) {
 					this.log.debug("targetUntil for room " + currentRoom + " will be set to " + period["from"]);
 					roomTempMap[currentRoom]["targetUntil"] = period["from"];
 				}
-				if (period[currentRoom]["targetUntil"] > now && roomTempMap[currentRoom]["targetUntil"] != "24:00") {
+				if (roomTempMap[currentRoom]["targetUntil"] > now && roomTempMap[currentRoom]["targetUntil"] != "24:00") {
 					return;
 				}
 				if ((this.config.isHeatingMode == 0) == period["heating"] && this.isCurrentPeriod(period)) {
@@ -128,7 +132,7 @@ class Heizungssteuerung extends utils.Adapter {
 	getPeriodsForRoom(roomName) {
 		const periods = [];
 		this.config.periods.forEach((period) => {
-			if (period["room"] == roomName) {
+			if (period["room"] == ("enum.rooms."+ roomName)) {
 				periods.push(period);
 			}
 		});
