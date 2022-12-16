@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "heizungssteuerung",
-    "version": "1.6.5",
+    "version": "1.6.6",
     "news": {
+      "1.6.6": {
+        "en": "add debug output",
+        "de": "debug ausgabe hinzufügen",
+        "ru": "добавить вывод debug",
+        "pt": "adicionar saída de depuração",
+        "nl": "vertaling:",
+        "fr": "ajouter la sortie debug",
+        "it": "aggiungere l'output debug",
+        "es": "añadir la salida de depuración",
+        "pl": "debugowanie",
+        "uk": "add debug вихід",
+        "zh-cn": "增加谷物"
+      },
       "1.6.5": {
         "en": "add possibility to reset temperatures on adapter start",
         "de": "möglichkeit zur rückstellung von temperaturen am adapterstart",
@@ -80,19 +93,6 @@
         "pl": "naprawić temperaturę przepisania",
         "zh-cn": "fix 过滤温度",
         "uk": "виправлення температури перезапису"
-      },
-      "1.5.0": {
-        "en": "add possibility to overwrite temperature temporarily\nadd config for temperature offset\nadd boost and pause function",
-        "de": "die möglichkeit, die temperatur vorübergehend zu überschreiben\nadd config für temperaturversatz\nboost und pausenfunktion hinzufügen",
-        "ru": "добавить возможность переписать температуру временно\nдобавить config для компенсации температуры\nдобавить функцию импульса и паузы",
-        "pt": "adicionar possibilidade de sobrescrever a temperatura temporariamente\nadd config para deslocamento de temperatura\nadicionar função de impulso e pausa",
-        "nl": "voeg de mogelijkheid om de temperatuur tijdelijk te overschrijven\nvoeg configuur toe\nvoeg boos en pauzefunctie toe",
-        "fr": "ajouter la possibilité d'écraser temporairement la température\najouter la configuration pour décaler la température\najouter la fonction boost et pause",
-        "it": "aggiungere la possibilità di sovrascrivere temporaneamente la temperatura\naggiungere config per l'offset della temperatura\naggiungere funzione boost e pausa",
-        "es": "añadir posibilidad de sobreescribir la temperatura temporalmente\nañadir configuración para el offset de temperatura\nañadir el impulso y la función de pausa",
-        "pl": "dokładna możliwość przepisania temperatury czasowo\ndodać konfigurowalne odwrót temperatury\nfunkcja dodatkowa i przerwy",
-        "zh-cn": "增加临时过度温度的可能性\n增减温度\na. 增加和减刑职能",
-        "uk": "додати можливість тимчасово перезаписати температуру\nдодати конфігурацію для зміщення температури\nдодати функцію посилення та паузи"
       }
     },
     "titleLang": {
