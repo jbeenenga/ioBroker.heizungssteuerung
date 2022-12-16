@@ -46,8 +46,9 @@ You can define periods for every room and time. Forthermore you can define wheth
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
-### 1.6.6 (2022-12-16)
-* (jbeenenga) add debug output
+
+### **WORK IN PROGRESS**
+* (jbeenenga) fix date format
 
 ### 1.6.5 (2022-12-16)
 * (jbeenenga) add possibility to reset temperatures on adapter start
@@ -61,12 +62,6 @@ You can define periods for every room and time. Forthermore you can define wheth
 
 ### 1.6.2 (2022-12-15)
 * (jbeenenga) fix for temperature calculation
-
-### 1.5.2 (2022-10-05)
-* (jbeenenga) fix for overwrite temperature
-
-### 1.5.1 (2022-09-25)
-* (jbeenenga) fix for overwrite temperature
 
 ### 1.5.0 (2022-09-25)
 * (jbeenenga) add possibility to overwrite temperature temporarily

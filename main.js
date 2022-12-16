@@ -115,7 +115,7 @@ class Heizungssteuerung extends utils.Adapter {
 				if (roomTempMap[currentRoom]["targetUntil"] > now && roomTempMap[currentRoom]["targetUntil"] != "24:00") {
 					return;
 				}
-				if ((this.config.isHeatingMode == 0) == period["heating"] && this.isCurrentPeriod(period)) {
+				if ((this.config.isHeatingMode == 0) == period["heating"] && this.isCurrentPeriod(period,now)) {
 					this.log.debug("The period is matching " + JSON.stringify(period));
 					roomTempMap[currentRoom]["target"] = period["temp"];
 					roomTempMap[currentRoom]["targetUntil"] = period["until"];
@@ -306,13 +306,13 @@ class Heizungssteuerung extends utils.Adapter {
 
 	}
 
-	isCurrentPeriod(period) {
+	isCurrentPeriod(period, now) {
 		let day = new Date().getDay() - 1;
 		day = day < 0 ? 6 : day;
 		if (!period[day]) {
 			return false;
 		}
-		const now = new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+
 		if (now < period["from"] || now > period["until"]) {
 			return false;
 		}
