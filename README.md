@@ -46,7 +46,7 @@ You can define periods for every room and time. Forthermore you can define wheth
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
-### **WORK IN PROGRESS**
+### 1.6.5 (2022-12-16)
 * (jbeenenga) add possibility to reset temperatures on adapter start
 
 ### 1.6.4 (2022-12-16)
