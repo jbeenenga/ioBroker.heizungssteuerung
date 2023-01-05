@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "heizungssteuerung",
-    "version": "1.6.7",
+    "version": "1.7.0",
     "news": {
+      "1.7.0": {
+        "en": "fix bug for end boost or pause mode\nprovide corrent humidity in temperatures",
+        "de": "fehler beheben für end-boost oder pause-modus\nliefern korrente luftfeuchtigkeit bei temperaturen",
+        "ru": "исправить баг для конечного увеличения или режима паузы\nобеспечить коррозийную влажность при температурах",
+        "pt": "corrigir o erro para o modo de impulso final ou pausa\nfornecer umidade corrente em temperaturas",
+        "nl": "vertaling:\nveroorzaak corrent vochtigheid in temperatuur",
+        "fr": "correction d'un bug pour le boost final ou le mode pause\nfournir l'humidité corrente dans les températures",
+        "it": "correggere bug per la modalità end boost o pausa\nfornire l'umidità corrente nelle temperature",
+        "es": "corregir fallo para el impulso final o modo de pausa\nproporcionar humedad corrent en temperaturas",
+        "pl": "naprawić trąb\nwilgotność korowa",
+        "uk": "виправити помилки для кінцевого підсилювача або паузи режим\nзабезпечує високу вологість при температурі",
+        "zh-cn": "fix 结 论\n提供温度的湿度"
+      },
       "1.6.7": {
         "en": "fix date format",
         "de": "datumsformat",
@@ -80,19 +93,6 @@
         "pl": "obliczenia temperatury",
         "uk": "фіксація для розрахунку температури",
         "zh-cn": "f 温度计算ix"
-      },
-      "1.5.2": {
-        "en": "fix for overwrite temperature",
-        "de": "für überschreiben temperatur",
-        "ru": "исправить для перезаписываемой температуры",
-        "pt": "correção para a temperatura de substituição",
-        "nl": "_",
-        "fr": "fixation pour la température de surécriture",
-        "it": "correzione della temperatura di sovrascrittura",
-        "es": "fijado para la temperatura de sobreescritura",
-        "pl": "naprawić temperaturę przepisania",
-        "zh-cn": "fix 过滤温度",
-        "uk": "виправлення температури перезапису"
       }
     },
     "titleLang": {

@@ -1,6 +1,6 @@
 {
   "name": "iobroker.heizungssteuerung",
-  "version": "1.6.7",
+  "version": "1.7.0",
   "description": "heizungssteuerung",
   "author": {
     "name": "jbeenenga",

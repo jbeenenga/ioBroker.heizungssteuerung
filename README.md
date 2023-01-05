@@ -46,7 +46,7 @@ You can define periods for every room and time. Forthermore you can define wheth
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
-### **WORK IN PROGRESS**
+### 1.7.0 (2023-01-05)
 * (jbeenenga) fix bug for end boost or pause mode
 * (jbeenenga) provide corrent humidity in temperatures
 
