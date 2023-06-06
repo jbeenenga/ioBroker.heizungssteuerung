@@ -6,15 +6,21 @@
 
 // The adapter-core module gives you access to the core ioBroker functions
 // you need to create an adapter
-const utils = require("@iobroker/adapter-core");
+import * as utils from "@iobroker/adapter-core";
+import { Period } from "./models/period"
+import { TempTarget } from "./models/tempTarget";
+import { Tracing } from "trace_events";
 
 class Heizungssteuerung extends utils.Adapter {
+	roomNames: string[];
+	rooms: Record<string, any>;
+	tempSensorMap!: Map<string, string>;
+	humSensorMap!: Map<string, string>;
+	engineMap!: Map<string, string>;
+	interval!: ioBroker.Interval;
 
 
-	/**
-	 * @param {Partial<utils.AdapterOptions>} [options={}]
-	 */
-	constructor(options) {
+	public constructor(options: Partial<utils.AdapterOptions> = {}) {
 		super({
 			...options,
 			name: "heizungssteuerung",
@@ -44,13 +50,13 @@ class Heizungssteuerung extends utils.Adapter {
 			this.writeInitialTemperaturesIntoState();
 		}
 
-		if (this.interval1 != undefined) {
-			this.clearInterval(this.interval1);
+		if (this.interval != undefined) {
+			this.clearInterval(this.interval);
 		}
-		this.interval1 = this.setInterval(this.check.bind(this), this.config.updateIntervall * 1000);
+		this.interval = this.setInterval(this.check.bind(this), this.config.updateIntervall * 1000);
 	}
 
-	async check() {
+	private async check(): Promise<void> {
 		const now = new Date().toLocaleTimeString([], { hourCycle: "h23", hour: "2-digit", minute: "2-digit" });
 		this.log.debug("current time is " + now);
 		const boostedRooms = await this.buildSpecialRoomsList("boost", this.config.boostIntervall);
@@ -86,78 +92,80 @@ class Heizungssteuerung extends utils.Adapter {
 		}
 
 
-		for (let i = 0; i < this.roomNames.length; i++) {
-			const currentRoom = this.roomNames[i];
-			this.log.debug("start check for " + currentRoom);
-
-			if (pausedRooms.includes(currentRoom)) {
-				this.log.debug(this.roomNames + " is paused");
-				roomTempMap[currentRoom]["target"] = -100;
-				roomTempMap[currentRoom]["targetUntil"] = "pause";
-
-				continue;
-			}
-			if (boostedRooms.includes(currentRoom)) {
-				this.log.debug(this.roomNames + " is boosed");
-				roomTempMap[currentRoom]["target"] = 100;
-				roomTempMap[currentRoom]["targetUntil"] = "boost";
-
-				continue;
-			}
-
-			const periodsForRoom = this.getPeriodsForRoom(currentRoom);
-			this.log.debug("found following periods for room " + currentRoom + ": " + JSON.stringify(periodsForRoom));
-			periodsForRoom.forEach((period) => {
-				if (period["from"] > now && (period["from"] < roomTempMap[currentRoom]["targetUntil"])) {
-					this.log.debug("targetUntil for room " + currentRoom + " will be set to " + period["from"]);
-					roomTempMap[currentRoom]["targetUntil"] = period["from"];
-				}
-				if (roomTempMap[currentRoom]["targetUntil"] > now && roomTempMap[currentRoom]["targetUntil"] != "24:00") {
-					return;
-				}
-				if ((this.config.isHeatingMode == 0) == period["heating"] && this.isCurrentPeriod(period, now)) {
-					this.log.debug("The period is matching " + JSON.stringify(period));
-					roomTempMap[currentRoom]["target"] = period["temp"];
-					roomTempMap[currentRoom]["targetUntil"] = period["until"];
-				} else {
-					this.log.debug("The period is not matching " + JSON.stringify(this.config.periods[i]));
-				}
-			});
-		}
+		this.roomNames.forEach((currentRoom) => this.fillRommTemperatures(currentRoom, pausedRooms, boostedRooms, roomTempMap, now));
 
 		this.log.debug("Temperatures will be set like: " + JSON.stringify(roomTempMap));
 
 		for (let i = 0; i < this.roomNames.length; i++) {
-			this.setTemperatureForRoom(this.roomNames[i], roomTempMap[this.roomNames[i]]);
+			this.setTemperatureForRoom(this.roomNames[i], roomTempMap.get(this.roomNames[i])!);
 		}
 	}
 
-	getPeriodsForRoom(roomName) {
-		const periods = [];
-		this.config.periods.forEach((period) => {
-			if (period["room"] == ("enum.rooms." + roomName)) {
+	private fillRommTemperatures(currentRoom: string, pausedRooms: Array<string>, boostedRooms: Array<string>, roomTempMap: Map<string, TempTarget>, now: string) {
+		this.log.debug("start check for " + currentRoom);
+
+		if (pausedRooms.includes(currentRoom)) {
+			this.log.debug(currentRoom + " is paused");
+			roomTempMap.set(currentRoom, { "temp": -100, "until": "pause" });
+			return;
+		}
+		if (boostedRooms.includes(currentRoom)) {
+			this.log.debug(currentRoom + " is boosed");
+			roomTempMap.set(currentRoom, { "temp": 100, "until": "boost" });
+			return;
+		}
+
+		const periodsForRoom = this.getPeriodsForRoom(currentRoom);
+		this.log.debug("found following periods for room " + currentRoom + ": " + JSON.stringify(periodsForRoom));
+		periodsForRoom.forEach((period) => {
+			if (period.from > now && (period.from < roomTempMap.get(currentRoom)!.until)) {
+				this.log.debug("targetUntil for room " + currentRoom + " will be set to " + period.from);
+				roomTempMap.get(currentRoom)!.until = period.from;
+			}
+			if (roomTempMap.get(currentRoom)!.until > now && roomTempMap.get(currentRoom)!.until != "24:00") {
+				return;
+			}
+			if ((this.config.isHeatingMode == 0) == period.heating && this.isCurrentPeriod(period, now)) {
+				this.log.debug("The period is matching " + JSON.stringify(period));
+				roomTempMap.set(currentRoom, { "temp": period["temp"], "until": period["until"] });
+			} else {
+				this.log.debug("The period is not matching " + JSON.stringify(period));
+			}
+		});
+	}
+
+	/**
+	 * @param {string} roomName name of the room
+	 */
+	private getPeriodsForRoom(roomName: string) {
+		const periods = new Array<Period>();
+		(this.config.periods as Period[]).forEach((period) => {
+			if (period.room == ("enum.rooms." + roomName)) {
 				periods.push(period);
 			}
 		});
 		return periods;
 	}
 
-	async buildDefaultRoomTempMap(now) {
-		const roomTempMap = {};
+	/**
+	 * @param {string } now current time as string formatted as "HH:MM"
+	 */
+	async buildDefaultRoomTempMap(now: string): Promise<Map<string, TempTarget>> {
+		const roomTempMap = new Map<string, TempTarget>();
 		for (let i = 0; i < this.roomNames.length; i++) {
 			const room = this.roomNames[i];
 			const targetTemperatureFromState = await this.getStateAsync("Temperatures." + room + ".target");
 			const targetTemperatureUntilFromState = await this.getStateAsync("Temperatures." + room + ".targetUntil");
 			if (targetTemperatureFromState == undefined || targetTemperatureUntilFromState == undefined) {
-				roomTempMap[room] = { "target": this.config.defaultTemperature, "targetUntil": "24:00" };
+				roomTempMap.set(room, { "temp": this.config.defaultTemperature, "until": "24:00" });
 			} else {
 				this.log.debug("Target until from state is " + JSON.stringify(targetTemperatureUntilFromState));
 				// @ts-ignore
 				if (targetTemperatureUntilFromState.val < now || targetTemperatureUntilFromState.val == "boost" || targetTemperatureUntilFromState.val == "pause") {
 					this.log.debug("Target until was set to 24:00");
-					roomTempMap[room] = { "target": this.config.defaultTemperature, "targetUntil": "24:00" };
+					roomTempMap.set(room, { "temp": this.config.defaultTemperature, "until": "24:00" });
 				} else {
-					roomTempMap[room] = { "target": targetTemperatureFromState.val, "targetUntil": targetTemperatureUntilFromState.val };
+					roomTempMap.set(room, { "temp": Number(targetTemperatureFromState.val), "until": String(targetTemperatureUntilFromState.val) });
 				}
 
 			}
@@ -165,9 +173,13 @@ class Heizungssteuerung extends utils.Adapter {
 		return roomTempMap;
 	}
 
-	async buildFunctionToRoomMap(functionId, functionName) {
+	/**
+	 * @param {string} functionId id of the function
+	 * @param {string} functionName name of the function
+	 */
+	private async buildFunctionToRoomMap(functionId: string, functionName: string): Promise<Map<string, string>> {
 		this.setForeignObjectNotExists(functionId, { "type": "enum", "common": { "name": functionName, "members": [] }, "native": {}, "_id": functionId });
-		const functionToRoomMap = {};
+		const functionToRoomMap = new Map<string, string>();
 		const funcTemp = await this.getForeignObjectAsync(functionId);
 
 		if (funcTemp == undefined) {
@@ -178,7 +190,7 @@ class Heizungssteuerung extends utils.Adapter {
 			for (let j = 0; j < this.roomNames.length; j++) {
 				for (let k = 0; k < this.rooms.result["enum.rooms." + this.roomNames[j]]["common"]["members"].length; k++) {
 					if (this.rooms.result["enum.rooms." + this.roomNames[j]]["common"]["members"][k] == funcTemp["common"]["members"][i]) {
-						functionToRoomMap[this.roomNames[j]] = funcTemp["common"]["members"][i];
+						functionToRoomMap.set(this.roomNames[j], funcTemp["common"]["members"][i]);
 					}
 				}
 			}
@@ -186,68 +198,71 @@ class Heizungssteuerung extends utils.Adapter {
 		return functionToRoomMap;
 	}
 
-	async setTemperatureForRoom(room, targetTemperature) {
-		if (this.tempSensorMap == undefined || this.tempSensorMap[room] == undefined) {
+	/**
+	 * @param {string} room current room name
+	 * @param {{ [x: string]: any; }} targetTemperature map including target temperatures
+	 */
+	async setTemperatureForRoom(room: string, targetTemperature: TempTarget) {
+		if (this.tempSensorMap.get(room) == undefined) {
 			this.log.info("Temperature sensor for room " + room + " not found");
 			return;
 		}
-		if (this.engineMap == undefined || this.engineMap[room] == undefined) {
+		if (this.engineMap.get(room) == undefined) {
 			this.log.info("Engine for room " + room + " not found");
 			return;
 		}
-		const tempState = await this.getForeignStateAsync(this.tempSensorMap[room]);
+		const tempState = await this.getForeignStateAsync(this.tempSensorMap.get(room)!);
 		if (tempState == undefined) {
 			return;
 		}
-		const temp = tempState.val;
-		this.log.debug("In " + room + " it is " + temp + " and should be " + JSON.stringify(targetTemperature["target"]));
+		const temp = Number(tempState.val);
+		this.log.debug("In " + room + " it is " + temp + " and should be " + targetTemperature.temp);
 
 		if (temp == null) {
 			this.log.warn("Temperature for room " + room + " is not defined");
 			return;
 		}
-		let humidity;
-		if (this.humSensorMap != undefined && this.humSensorMap[room] != undefined) {
-			humidity = await this.getForeignStateAsync(this.humSensorMap[room]);
-		}
-		this.writeTemperaturesIntoState(room, temp, humidity, targetTemperature);
+		let humidity = await this.getForeignStateAsync(this.humSensorMap.get(room)!);
+
+		this.writeTemperaturesIntoState(room, temp, humidity!, targetTemperature);
 
 		if (this.config.isHeatingMode == 0) {
-			if (temp < (Number(targetTemperature["target"]) - this.config.startStopDifference)) {
-				this.log.debug("set " + this.engineMap[room] + " to true");
-				this.setForeignStateAsync(this.engineMap[room], true);
+			if (temp < (targetTemperature.temp - this.config.startStopDifference)) {
+				this.log.debug("set " + this.engineMap.get(room) + " to true");
+				this.setForeignStateAsync(this.engineMap.get(room)!, true);
 			}
-			if (temp > (Number(targetTemperature["target"]) + this.config.startStopDifference)) {
-				this.log.debug("set " + this.engineMap[room] + " to false");
-				this.setForeignStateAsync(this.engineMap[room], false);
+			if (temp > (targetTemperature.temp + this.config.startStopDifference)) {
+				this.log.debug("set " + this.engineMap.get(room) + " to false");
+				this.setForeignStateAsync(this.engineMap.get(room)!, false);
 			}
 		} else {
 
-			if (humidity != undefined && humidity.val != undefined && this.config.stopCoolingIfHumIsHigherThan < humidity.val) {
+			if (humidity != undefined && humidity.val != undefined && this.config.stopCoolingIfHumIsHigherThan < Number(humidity.val)) {
 				this.log.info("Deactivate engine for " + room + " because humidity maximum reached");
-				this.setForeignStateAsync(this.engineMap[room], false);
+				this.setForeignStateAsync(this.engineMap.get(room)!, false);
 				return;
 			}
 
 
-			if (temp < (Number(targetTemperature["target"]) - this.config.startStopDifference)) {
-				this.log.debug("set " + this.engineMap[room] + " to false");
-				this.setForeignStateAsync(this.engineMap[room], false);
+			if (temp < (targetTemperature.temp - this.config.startStopDifference)) {
+				this.log.debug("set " + this.engineMap.get(room) + " to false");
+				this.setForeignStateAsync(this.engineMap.get(room)!, false);
 			}
-			if (temp > (Number(targetTemperature["target"]) + this.config.startStopDifference)) {
-				this.log.debug("set " + this.engineMap[room] + " to true");
-				this.setForeignStateAsync(this.engineMap[room], true);
+			if (temp > (targetTemperature.temp + this.config.startStopDifference)) {
+				this.log.debug("set " + this.engineMap.get(room) + " to true");
+				this.setForeignStateAsync(this.engineMap.get(room)!, true);
 			}
 		}
 
 	}
 
 	/**
-	 * @param {string} actionName
+	 * @param {string} actionName name of the current action
+	 * @param {number} validIntervall time until action is not valid
 	 */
-	async buildSpecialRoomsList(actionName, validIntervall) {
-		const boostedRooms = [];
-		const boostValidUntil = new Date().getTime() - validIntervall * 60000;
+	private async buildSpecialRoomsList(actionName: string, validIntervall: number): Promise<Array<string>> {
+		const boostedRooms = new Array<string>();
+		const boostValidUntil = new Date().getTime() - (validIntervall * 60000);
 		this.log.debug("validIntervall: " + validIntervall);
 		for (let i = 0; i < this.roomNames.length; i++) {
 			const boost = await this.getStateAsync("Actions." + this.roomNames[i] + "." + actionName);
@@ -276,13 +291,19 @@ class Heizungssteuerung extends utils.Adapter {
 		this.setObjectNotExists("Actions.boostAll", { type: "state", _id: "Actions.boostAll", native: {}, common: { type: "boolean", name: "Activate boost for any room", read: true, write: true, role: "admin", def: false } });
 	}
 
-	writeTemperaturesIntoState(room, temp, humidity, targetTemperature) {
+	/**
+	 * @param {string} room name of the room
+	 * @param {number} temp temperature to set
+	 * @param {ioBroker.State | null | undefined} humidity State including current humidity
+	 * @param {{ [x: string]: any; }} targetTemperature target temperature map
+	 */
+	writeTemperaturesIntoState(room: string, temp: number, humidity: ioBroker.State, targetTemperature: TempTarget) {
 		this.setStateAsync("Temperatures." + room + ".current", Number(temp), true);
 		if (humidity != undefined && humidity.val != undefined) {
 			this.setStateAsync("Temperatures." + room + ".currentHumidity", Number(humidity.val), true);
 		}
-		this.setStateAsync("Temperatures." + room + ".target", Number(targetTemperature["target"]), true);
-		this.setStateAsync("Temperatures." + room + ".targetUntil", targetTemperature["targetUntil"], true);
+		this.setStateAsync("Temperatures." + room + ".target", targetTemperature.temp, true);
+		this.setStateAsync("Temperatures." + room + ".targetUntil", targetTemperature.temp, true);
 	}
 
 	writeInitialTemperaturesIntoState() {
@@ -298,7 +319,10 @@ class Heizungssteuerung extends utils.Adapter {
 		});
 	}
 
-	convertToShortRoomName(room) {
+	/**
+	 * @param {string} room name of the room
+	 */
+	convertToShortRoomName(room: string) {
 		const shortRoomNameParts = room.split(".");
 		return shortRoomNameParts[shortRoomNameParts.length - 1];
 	}
@@ -313,33 +337,65 @@ class Heizungssteuerung extends utils.Adapter {
 
 	}
 
-	isCurrentPeriod(period, now) {
+	/**
+	 * @param {any[]} period array of period definitions
+	 * @param {string | number} now
+	 */
+	isCurrentPeriod(period: Period, now: string) {
 		let day = new Date().getDay() - 1;
 		day = day < 0 ? 6 : day;
-		if (!period[day]) {
+
+
+		if (!this.isPeriodActiveToday(period, day)) {
 			return false;
 		}
 
-		if (now < period["from"] || now > period["until"]) {
+		if (now < period.from || now > period.until) {
 			return false;
 		}
 		return true;
 	}
 
+	private isPeriodActiveToday(period: Period, day: number): boolean {
+		switch (day) {
+			case 0: {
+				return period[0];
+			}
+			case 1: {
+				return period[1];
+			}
+			case 2: {
+				return period[2];
+			}
+			case 3: {
+				return period[3];
+			}
+			case 4: {
+				return period[4];
+			}
+			case 5: {
+				return period[5];
+			}
+			case 6: {
+				return period[6];
+			}
+		}
+		return false;
+	}
 
 
 	/**
 	 * Is called when adapter shuts down - callback has to be called under any circumstances!
 	 * @param {() => void} callback
 	 */
-	onUnload(callback) {
+	onUnload(callback: () => void): void {
 		try {
 			// Here you must clear all timeouts or intervals that may still be active
 			// clearTimeout(timeout1);
 			// clearTimeout(timeout2);
 			// ...
-			if (this.interval1 != undefined) {
-				this.clearInterval(this.interval1);
+			if (this.interval != undefined) {
+				this.clearInterval(this.interval);
 			}
 			this.connected = false;
 			callback();
@@ -351,11 +407,8 @@ class Heizungssteuerung extends utils.Adapter {
 
 if (require.main !== module) {
 	// Export the constructor in compact mode
-	/**
-	 * @param {Partial<utils.AdapterOptions>} [options={}]
-	 */
-	module.exports = (options) => new Heizungssteuerung(options);
+	module.exports = (options: Partial<utils.AdapterOptions> | undefined) => new Heizungssteuerung(options);
 } else {
 	// otherwise start the instance directly
-	new Heizungssteuerung();
+	(() => new Heizungssteuerung())();
 }
