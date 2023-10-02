@@ -17,7 +17,7 @@ class Heizungssteuerung extends utils.Adapter {
 	tempSensorMap!: Map<string, string>;
 	humSensorMap!: Map<string, string>;
 	engineMap!: Map<string, string>;
-	interval!: ioBroker.Interval;
+	interval!: ioBroker.Interval | undefined;
 
 
 	public constructor(options: Partial<utils.AdapterOptions> = {}) {
