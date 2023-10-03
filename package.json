@@ -19,7 +19,7 @@
     "url": "git@github.com:jbeenenga/ioBroker.heizungssteuerung.git"
   },
   "dependencies": {
-    "@iobroker/adapter-core": "^2.6.8"
+    "@iobroker/adapter-core": "^3.0.3"
   },
   "devDependencies": {
     "@alcalzone/release-script": "^3.5.9",
