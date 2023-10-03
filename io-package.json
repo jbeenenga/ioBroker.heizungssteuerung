@@ -1,173 +1,173 @@
 {
-  "common": {
-    "name": "heizungssteuerung",
-    "version": "1.7.0",
-    "news": {
-      "1.7.0": {
-        "en": "fix bug for end boost or pause mode\nprovide corrent humidity in temperatures",
-        "de": "fehler beheben für end-boost oder pause-modus\nliefern korrente luftfeuchtigkeit bei temperaturen",
-        "ru": "исправить баг для конечного увеличения или режима паузы\nобеспечить коррозийную влажность при температурах",
-        "pt": "corrigir o erro para o modo de impulso final ou pausa\nfornecer umidade corrente em temperaturas",
-        "nl": "vertaling:\nveroorzaak corrent vochtigheid in temperatuur",
-        "fr": "correction d'un bug pour le boost final ou le mode pause\nfournir l'humidité corrente dans les températures",
-        "it": "correggere bug per la modalità end boost o pausa\nfornire l'umidità corrente nelle temperature",
-        "es": "corregir fallo para el impulso final o modo de pausa\nproporcionar humedad corrent en temperaturas",
-        "pl": "naprawić trąb\nwilgotność korowa",
-        "uk": "виправити помилки для кінцевого підсилювача або паузи режим\nзабезпечує високу вологість при температурі",
-        "zh-cn": "fix 结 论\n提供温度的湿度"
-      },
-      "1.6.7": {
-        "en": "fix date format",
-        "de": "datumsformat",
-        "ru": "исправить формат даты",
-        "pt": "corrigir o formato da data",
-        "nl": "vertaling:",
-        "fr": "format de date",
-        "it": "formato della data di correzione",
-        "es": "formato de fecha fija",
-        "pl": "format zapisu",
-        "uk": "формат дати фіксації",
-        "zh-cn": "f 固定日期"
-      },
-      "1.6.6": {
-        "en": "add debug output",
-        "de": "debug ausgabe hinzufügen",
-        "ru": "добавить вывод debug",
-        "pt": "adicionar saída de depuração",
-        "nl": "vertaling:",
-        "fr": "ajouter la sortie debug",
-        "it": "aggiungere l'output debug",
-        "es": "añadir la salida de depuración",
-        "pl": "debugowanie",
-        "uk": "add debug вихід",
-        "zh-cn": "增加谷物"
-      },
-      "1.6.5": {
-        "en": "add possibility to reset temperatures on adapter start",
-        "de": "möglichkeit zur rückstellung von temperaturen am adapterstart",
-        "ru": "добавить возможность сброса температур на запуске адаптера",
-        "pt": "adicionar possibilidade para redefinir temperaturas no início do adaptador",
-        "nl": "voeg de mogelijkheid om de temperatuur te resetten op adapter start",
-        "fr": "ajouter la possibilité de réinitialiser les températures sur le démarrage de l'adaptateur",
-        "it": "aggiungere la possibilità di reset delle temperature sull'avvio dell'adattatore",
-        "es": "añadir posibilidad de restablecer temperaturas en el arranque del adaptador",
-        "pl": "dostosowywanie temperatury do resetu",
-        "uk": "додати можливість скидання температур при запуску адаптера",
-        "zh-cn": "增加在适应人员开端重新塑温的可能性"
-      },
-      "1.6.4": {
-        "en": "add more debug outputs\nfixed incorrect period to room mapping",
-        "de": "mehr debug-ausgänge hinzufügen\nunrichtige zeit für die raumkartierung",
-        "ru": "добавить больше выводов debug\nфиксированный неправильный период к картепингу комнаты",
-        "pt": "adicionar mais saídas de depuração\nperíodo incorreto fixo para mapeamento de quarto",
-        "nl": "voeg meer debug outputs toe\nincorrecte periode naar kamermappen",
-        "fr": "ajouter plus de sorties de débogage\npériode incorrecte fixe pour la cartographie de la pièce",
-        "it": "aggiungere più uscite di debug\nperiodo fisso non corretto per la mappatura della camera",
-        "es": "añadir más productos de depuración\nperíodo incorrecto fijo a la asignación de la habitación",
-        "pl": "dodać\nnieprawidłowy okres mapowania pokoju",
-        "uk": "додати більше вихідних\nфіксований невірний період до оформлення номера",
-        "zh-cn": "产出增加\n固定不正确的时间"
-      },
-      "1.6.3": {
-        "en": "removed unnecessary debug output",
-        "de": "entfernt unnötige debug-ausgang",
-        "ru": "удалили ненужный отладочный выход",
-        "pt": "saída de depuração desnecessária",
-        "nl": "verwijder onnodige debug output",
-        "fr": "sortie de débogage inutile",
-        "it": "rimosso non necessario debug output",
-        "es": "depuración innecesaria",
-        "pl": "usunąć",
-        "uk": "видалено непотрібний відключення",
-        "zh-cn": "删除不必要的产出"
-      },
-      "1.6.2": {
-        "en": "fix for temperature calculation",
-        "de": "temperaturberechnung fixieren",
-        "ru": "исправить для расчета температуры",
-        "pt": "correção para cálculo de temperatura",
-        "nl": "vertaling:",
-        "fr": "fixation pour le calcul de la température",
-        "it": "correzione per il calcolo della temperatura",
-        "es": "fijado para el cálculo de temperatura",
-        "pl": "obliczenia temperatury",
-        "uk": "фіксація для розрахунку температури",
-        "zh-cn": "f 温度计算ix"
-      }
+    "common": {
+        "name": "heizungssteuerung",
+        "version": "1.7.0",
+        "news": {
+            "1.7.0": {
+                "en": "fix bug for end boost or pause mode\nprovide corrent humidity in temperatures",
+                "de": "fehler beheben für end-boost oder pause-modus\nliefern korrente luftfeuchtigkeit bei temperaturen",
+                "ru": "исправить баг для конечного увеличения или режима паузы\nобеспечить коррозийную влажность при температурах",
+                "pt": "corrigir o erro para o modo de impulso final ou pausa\nfornecer umidade corrente em temperaturas",
+                "nl": "vertaling:\nveroorzaak corrent vochtigheid in temperatuur",
+                "fr": "correction d'un bug pour le boost final ou le mode pause\nfournir l'humidité corrente dans les températures",
+                "it": "correggere bug per la modalità end boost o pausa\nfornire l'umidità corrente nelle temperature",
+                "es": "corregir fallo para el impulso final o modo de pausa\nproporcionar humedad corrent en temperaturas",
+                "pl": "naprawić trąb\nwilgotność korowa",
+                "uk": "виправити помилки для кінцевого підсилювача або паузи режим\nзабезпечує високу вологість при температурі",
+                "zh-cn": "fix 结 论\n提供温度的湿度"
+            },
+            "1.6.7": {
+                "en": "fix date format",
+                "de": "datumsformat",
+                "ru": "исправить формат даты",
+                "pt": "corrigir o formato da data",
+                "nl": "vertaling:",
+                "fr": "format de date",
+                "it": "formato della data di correzione",
+                "es": "formato de fecha fija",
+                "pl": "format zapisu",
+                "uk": "формат дати фіксації",
+                "zh-cn": "f 固定日期"
+            },
+            "1.6.6": {
+                "en": "add debug output",
+                "de": "debug ausgabe hinzufügen",
+                "ru": "добавить вывод debug",
+                "pt": "adicionar saída de depuração",
+                "nl": "vertaling:",
+                "fr": "ajouter la sortie debug",
+                "it": "aggiungere l'output debug",
+                "es": "añadir la salida de depuración",
+                "pl": "debugowanie",
+                "uk": "add debug вихід",
+                "zh-cn": "增加谷物"
+            },
+            "1.6.5": {
+                "en": "add possibility to reset temperatures on adapter start",
+                "de": "möglichkeit zur rückstellung von temperaturen am adapterstart",
+                "ru": "добавить возможность сброса температур на запуске адаптера",
+                "pt": "adicionar possibilidade para redefinir temperaturas no início do adaptador",
+                "nl": "voeg de mogelijkheid om de temperatuur te resetten op adapter start",
+                "fr": "ajouter la possibilité de réinitialiser les températures sur le démarrage de l'adaptateur",
+                "it": "aggiungere la possibilità di reset delle temperature sull'avvio dell'adattatore",
+                "es": "añadir posibilidad de restablecer temperaturas en el arranque del adaptador",
+                "pl": "dostosowywanie temperatury do resetu",
+                "uk": "додати можливість скидання температур при запуску адаптера",
+                "zh-cn": "增加在适应人员开端重新塑温的可能性"
+            },
+            "1.6.4": {
+                "en": "add more debug outputs\nfixed incorrect period to room mapping",
+                "de": "mehr debug-ausgänge hinzufügen\nunrichtige zeit für die raumkartierung",
+                "ru": "добавить больше выводов debug\nфиксированный неправильный период к картепингу комнаты",
+                "pt": "adicionar mais saídas de depuração\nperíodo incorreto fixo para mapeamento de quarto",
+                "nl": "voeg meer debug outputs toe\nincorrecte periode naar kamermappen",
+                "fr": "ajouter plus de sorties de débogage\npériode incorrecte fixe pour la cartographie de la pièce",
+                "it": "aggiungere più uscite di debug\nperiodo fisso non corretto per la mappatura della camera",
+                "es": "añadir más productos de depuración\nperíodo incorrecto fijo a la asignación de la habitación",
+                "pl": "dodać\nnieprawidłowy okres mapowania pokoju",
+                "uk": "додати більше вихідних\nфіксований невірний період до оформлення номера",
+                "zh-cn": "产出增加\n固定不正确的时间"
+            },
+            "1.6.3": {
+                "en": "removed unnecessary debug output",
+                "de": "entfernt unnötige debug-ausgang",
+                "ru": "удалили ненужный отладочный выход",
+                "pt": "saída de depuração desnecessária",
+                "nl": "verwijder onnodige debug output",
+                "fr": "sortie de débogage inutile",
+                "it": "rimosso non necessario debug output",
+                "es": "depuración innecesaria",
+                "pl": "usunąć",
+                "uk": "видалено непотрібний відключення",
+                "zh-cn": "删除不必要的产出"
+            },
+            "1.6.2": {
+                "en": "fix for temperature calculation",
+                "de": "temperaturberechnung fixieren",
+                "ru": "исправить для расчета температуры",
+                "pt": "correção para cálculo de temperatura",
+                "nl": "vertaling:",
+                "fr": "fixation pour le calcul de la température",
+                "it": "correzione per il calcolo della temperatura",
+                "es": "fijado para el cálculo de temperatura",
+                "pl": "obliczenia temperatury",
+                "uk": "фіксація для розрахунку температури",
+                "zh-cn": "f 温度计算ix"
+            }
+        },
+        "titleLang": {
+            "en": "heatingcontrol",
+            "de": "heizsteuerung",
+            "ru": "отопление",
+            "pt": "controle de aquecimento",
+            "nl": "heling control",
+            "fr": "chauffage",
+            "it": "controllo del riscaldamento",
+            "es": "calefacción",
+            "pl": "ogrzewanie",
+            "zh-cn": "控制",
+            "uk": "контроль нагріву"
+        },
+        "desc": {
+            "en": "heatingcontrol",
+            "de": "heizsteuerung",
+            "ru": "отопление",
+            "pt": "controle de aquecimento",
+            "nl": "heling control",
+            "fr": "chauffage",
+            "it": "controllo del riscaldamento",
+            "es": "calefacción",
+            "pl": "ogrzewanie",
+            "zh-cn": "控制",
+            "uk": "контроль нагріву"
+        },
+        "authors": [
+            "jbeenenga <j.beenenga@gmail.com>"
+        ],
+        "keywords": [
+            "home automation",
+            "heating"
+        ],
+        "license": "MIT",
+        "platform": "Javascript/Node.js",
+        "main": "main.js",
+        "icon": "heizungssteuerung.png",
+        "enabled": true,
+        "extIcon": "https://raw.githubusercontent.com/jbeenenga/ioBroker.heizungssteuerung/main/admin/heizungssteuerung.png",
+        "readme": "https://github.com/jbeenenga/ioBroker.heizungssteuerung/blob/main/README.md",
+        "loglevel": "info",
+        "mode": "daemon",
+        "type": "climate-control",
+        "compact": true,
+        "connectionType": "local",
+        "dataSource": "poll",
+        "adminUI": {
+            "config": "json"
+        },
+        "dependencies": [
+			{
+				"js-controller": ">=3.3.22"
+			}
+		],
+        "globalDependencies": [
+            {
+                "admin": ">=5.3.8"
+            }
+        ]
     },
-    "titleLang": {
-      "en": "heatingcontrol",
-      "de": "heizsteuerung",
-      "ru": "отопление",
-      "pt": "controle de aquecimento",
-      "nl": "heling control",
-      "fr": "chauffage",
-      "it": "controllo del riscaldamento",
-      "es": "calefacción",
-      "pl": "ogrzewanie",
-      "zh-cn": "控制",
-      "uk": "контроль нагріву"
+    "native": {
+        "isHeatingMode": 0,
+        "resetTemperaturesOnStart": false,
+        "stopCoolingIfHumIsHigherThan": 65,
+        "updateIntervall": 30,
+        "defaultTemperature": 18,
+        "sensors": [],
+        "periods": [],
+        "pauseIntervall": 30,
+        "boostIntervall": 30,
+        "startStopDifference": 0.5,
+        "absenceTemperature": 18
     },
-    "desc": {
-      "en": "heatingcontrol",
-      "de": "heizsteuerung",
-      "ru": "отопление",
-      "pt": "controle de aquecimento",
-      "nl": "heling control",
-      "fr": "chauffage",
-      "it": "controllo del riscaldamento",
-      "es": "calefacción",
-      "pl": "ogrzewanie",
-      "zh-cn": "控制",
-      "uk": "контроль нагріву"
-    },
-    "authors": [
-      "jbeenenga <j.beenenga@gmail.com>"
-    ],
-    "keywords": [
-      "home automation",
-      "heating"
-    ],
-    "license": "MIT",
-    "platform": "Javascript/Node.js",
-    "main": "main.js",
-    "icon": "heizungssteuerung.png",
-    "enabled": true,
-    "extIcon": "https://raw.githubusercontent.com/jbeenenga/ioBroker.heizungssteuerung/main/admin/heizungssteuerung.png",
-    "readme": "https://github.com/jbeenenga/ioBroker.heizungssteuerung/blob/main/README.md",
-    "loglevel": "info",
-    "mode": "daemon",
-    "type": "climate-control",
-    "compact": true,
-    "connectionType": "local",
-    "dataSource": "poll",
-    "materialize": true,
-    "adminUI": {
-      "config": "json"
-    },
-    "dependencies": [
-      {
-        "js-controller": ">=2.0.0"
-      }
-    ],
-    "globalDependencies": [
-      {
-        "admin": ">=5.3.8"
-      }
-    ]
-  },
-  "native": {
-    "isHeatingMode": 0,
-    "resetTemperaturesOnStart": false,
-    "stopCoolingIfHumIsHigherThan": 65,
-    "updateIntervall": 30,
-    "defaultTemperature": 18,
-    "sensors": [],
-    "periods": [],
-    "pauseIntervall": 30,
-    "boostIntervall": 30,
-    "startStopDifference": 0.5
-  },
-  "objects": [],
-  "instanceObjects": []
+    "objects": [],
+    "instanceObjects": []
 }
