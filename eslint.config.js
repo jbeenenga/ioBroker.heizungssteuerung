@@ -1,4 +1,4 @@
-export default [
+module.exports = [
     {
         rules: {
             semi: "error",
@@ -6,3 +6,10 @@ export default [
         }
     }
 ];
+
+
+
+
+
+
+
