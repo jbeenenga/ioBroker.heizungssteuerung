@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": ["../../src/models/tempTarget.ts"],
-  "sourcesContent": ["export interface TempTarget{\n    temp: number;\n    until: string;\n}"],
-  "mappings": ";;;;;;;;;;;;;;AAAA;AAAA;",
-  "names": []
-}

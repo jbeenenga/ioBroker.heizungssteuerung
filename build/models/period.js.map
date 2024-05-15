@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": ["../../src/models/period.ts"],
-  "sourcesContent": ["export interface Period {\n  room: string;\n  from: string;\n  until: string;\n  heating: boolean;\n  temp: number;\n  0: boolean;\n  1: boolean;\n  2: boolean;\n  3: boolean;\n  4: boolean;\n  5: boolean;\n  6: boolean;\n}\n"],
-  "mappings": ";;;;;;;;;;;;;;AAAA;AAAA;",
-  "names": []
-}
