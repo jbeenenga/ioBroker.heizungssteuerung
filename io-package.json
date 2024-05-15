@@ -145,10 +145,10 @@
             "config": "json"
         },
         "dependencies": [
-			{
-				"js-controller": ">=3.3.22"
-			}
-		],
+            {
+                "js-controller": ">=3.3.22"
+            }
+        ],
         "globalDependencies": [
             {
                 "admin": ">=5.3.8"

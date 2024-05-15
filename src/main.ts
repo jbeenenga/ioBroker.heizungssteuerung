@@ -9,6 +9,7 @@
 import * as utils from "@iobroker/adapter-core";
 import { Period } from "./models/period";
 import { TempTarget } from "./models/tempTarget";
+import { log } from "console";
 
 class Heizungssteuerung extends utils.Adapter {
 	roomNames: string[];
@@ -57,6 +58,7 @@ class Heizungssteuerung extends utils.Adapter {
 
 	private async check(): Promise<void> {
 		const now = new Date().toLocaleTimeString([], { hourCycle: "h23", hour: "2-digit", minute: "2-digit" });
+		const nowAsDate = new Date().toLocaleString('de-DE', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' });
 		this.log.debug("current time is " + now);
 		const boostedRooms = await this.buildSpecialRoomsList("boost", this.config.boostIntervall);
 		const pausedRooms = await this.buildSpecialRoomsList("pause", this.config.pauseIntervall);
@@ -66,6 +68,7 @@ class Heizungssteuerung extends utils.Adapter {
 		// check pause all
 		//-------------------------------------------------
 		const pauseAll = await this.getStateAsync("Actions.pauseAll");
+		const absenceUntil = await this.getStateAsync("Actions.absenceUntil");
 		if (pauseAll != undefined && pauseAll.val == true) {
 			if (pauseAll.ts > new Date().getTime() - (this.config.pauseIntervall * 60000)) {
 				this.log.info("State pauseAll is active so all engines will be deactivated");
@@ -75,6 +78,11 @@ class Heizungssteuerung extends utils.Adapter {
 				this.log.info("State pauseAll was deactivated");
 			}
 		}
+
+		//-------------------------------------------------
+		// check absence
+		//-------------------------------------------------
+		const absenceActive = absenceUntil == null || absenceUntil.val == null || absenceUntil.val > nowAsDate;
 
 		//-------------------------------------------------
 		// check boost all
@@ -91,7 +99,7 @@ class Heizungssteuerung extends utils.Adapter {
 		}
 
 
-		this.roomNames.forEach((currentRoom) => this.fillRommTemperatures(currentRoom, pausedRooms, boostedRooms, roomTempMap, now));
+		this.roomNames.forEach((currentRoom) => this.fillRommTemperatures(currentRoom, pausedRooms, boostedRooms, roomTempMap, absenceActive, now));
 
 		this.log.debug("Temperatures will be set like: " + JSON.stringify(roomTempMap));
 
@@ -100,17 +108,21 @@ class Heizungssteuerung extends utils.Adapter {
 		}
 	}
 
-	private fillRommTemperatures(currentRoom: string, pausedRooms: Array<string>, boostedRooms: Array<string>, roomTempMap: Map<string, TempTarget>, now: string) {
+	private fillRommTemperatures(currentRoom: string, pausedRooms: Array<string>, boostedRooms: Array<string>, roomTempMap: Map<string, TempTarget>, absenceActive: boolean, now: string) {
 		this.log.debug("start check for " + currentRoom);
 
 		if (pausedRooms.includes(currentRoom)) {
 			this.log.debug(currentRoom + " is paused");
-			roomTempMap.set(currentRoom, { "temp": -100, "until": "pause" });
+			roomTempMap.set(currentRoom, { "temp": this.getPauseTemperature(), "until": "pause" });
 			return;
 		}
 		if (boostedRooms.includes(currentRoom)) {
 			this.log.debug(currentRoom + " is boosed");
-			roomTempMap.set(currentRoom, { "temp": 100, "until": "boost" });
+			roomTempMap.set(currentRoom, { "temp": this.getBoostTemperature(), "until": "boost" });
+			return;
+		}
+		if (absenceActive) {
+			this.log.debug("absence is active, so " + currentRoom + " will be set to default temperature.");
 			return;
 		}
 
@@ -133,6 +145,22 @@ class Heizungssteuerung extends utils.Adapter {
 		});
 	}
 
+	private isPeriodValid(period: Period): boolean {
+		if (!period.from.match("^(?:0?[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$") || !period.from.match("^(?:0?[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$")) {
+			this.log.warn("The given period is not valid and will be ignored: " + JSON.stringify(period));
+			return false;
+		}
+		return true;
+	}
+
+	private getBoostTemperature(): number {
+		return this.config.isHeatingMode == 0 ? 100 : -100;
+	}
+
+	private getPauseTemperature(): number {
+		return this.config.isHeatingMode == 0 ? -100 : 100;
+	}
+
 	/**
 	 * @param {string} roomName name of the room
 	 */
@@ -140,6 +168,7 @@ class Heizungssteuerung extends utils.Adapter {
 		const periods = new Array<Period>();
 		(this.config.periods as Period[]).forEach((period) => {
 			if (period.room == ("enum.rooms." + roomName)) {
+				checkAndCorrectPeriod(period);
 				periods.push(period);
 			}
 		});
@@ -288,6 +317,8 @@ class Heizungssteuerung extends utils.Adapter {
 	initGeneralStates() {
 		this.setObjectNotExists("Actions.pauseAll", { type: "state", _id: "Actions.pauseAll", native: {}, common: { type: "boolean", name: "Activate boost for any room", read: true, write: true, role: "admin", def: false } });
 		this.setObjectNotExists("Actions.boostAll", { type: "state", _id: "Actions.boostAll", native: {}, common: { type: "boolean", name: "Activate boost for any room", read: true, write: true, role: "admin", def: false } });
+		this.setObjectNotExists("Actions.absenceUntil", { type: "state", _id: "Actions.absenceUntil", native: {}, common: { type: "string", name: "Date and time until absence mode should be active (Format-Examlpe: \"2024-01-01 14:00\")", read: true, write: true, role: "admin", def: "2024-01-01 14:00" } });
+
 	}
 
 	/**
@@ -302,7 +333,7 @@ class Heizungssteuerung extends utils.Adapter {
 			this.setStateAsync("Temperatures." + room + ".currentHumidity", Number(humidity.val), true);
 		}
 		this.setStateAsync("Temperatures." + room + ".target", targetTemperature.temp, true);
-		this.setStateAsync("Temperatures." + room + ".targetUntil", targetTemperature.temp, true);
+		this.setStateAsync("Temperatures." + room + ".targetUntil", targetTemperature.until, true);
 	}
 
 	writeInitialTemperaturesIntoState() {
@@ -328,6 +359,7 @@ class Heizungssteuerung extends utils.Adapter {
 
 	buildRoomNames() {
 		const longRoomNames = Object.keys(this.rooms.result);
+
 		const shortRoomNames = [];
 		for (let i = 0; i < longRoomNames.length; i++) {
 			shortRoomNames.push(this.convertToShortRoomName(longRoomNames[i]));
@@ -343,7 +375,9 @@ class Heizungssteuerung extends utils.Adapter {
 	isCurrentPeriod(period: Period, now: string) {
 		let day = new Date().getDay() - 1;
 		day = day < 0 ? 6 : day;
-
+		if (!this.isPeriodValid(period)) {
+			return false;
+		}
 
 		if (!this.isPeriodActiveToday(period, day)) {
 			return false;
@@ -411,3 +445,5 @@ if (require.main !== module) {
 	// otherwise start the instance directly
 	(() => new Heizungssteuerung())();
 }
+
+

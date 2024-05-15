@@ -48,10 +48,6 @@
                 "resetTemperaturesOnStart": {
                     "type": "checkbox",
                     "label": "ResetTemperaturesOnStart"
-                },
-                "absenceTemperature": {
-                    "type": "number",
-                    "label": "AbsenceTemperature"
                 }
             }
         },
