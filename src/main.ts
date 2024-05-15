@@ -9,7 +9,6 @@
 import * as utils from "@iobroker/adapter-core";
 import { Period } from "./models/period"
 import { TempTarget } from "./models/tempTarget";
-import { Tracing } from "trace_events";
 
 class Heizungssteuerung extends utils.Adapter {
 	roomNames: string[];
