@@ -10,6 +10,7 @@ import * as utils from "@iobroker/adapter-core";
 import { Period } from "./models/period";
 import { TempTarget } from "./models/tempTarget";
 import { log } from "console";
+import { permission } from "process";
 
 class Heizungssteuerung extends utils.Adapter {
 	roomNames: string[];
@@ -145,12 +146,36 @@ class Heizungssteuerung extends utils.Adapter {
 		});
 	}
 
-	private isPeriodValid(period: Period): boolean {
+	private isPeriodValid(period: Period, autoCorrect: boolean): boolean {
 		if (!period.from.match("^(?:0?[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$") || !period.from.match("^(?:0?[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$")) {
-			this.log.warn("The given period is not valid and will be ignored: " + JSON.stringify(period));
-			return false;
+			if (autoCorrect) {
+				this.tryToCorrectPeriod(period);
+			}
+			if (this.isPeriodValid(period, false)) {
+				this.log.warn("The given period is not valid and will be ignored: " + JSON.stringify(period));
+				return false;
+			}
 		}
 		return true;
+	}
+
+	private tryToCorrectPeriod(period: Period): void {
+		period.from = this.correctTime(period.from);
+		period.until = this.correctTime(period.until);
+	}
+
+	private correctTime(time: string): string {
+		const timeParts = time.split(":");
+		if (timeParts.length == 2) {
+			while (timeParts[0].length < 2) {
+				timeParts[0] = "0" + timeParts[0]
+			}
+			while (timeParts[1].length < 2) {
+				timeParts[1] = "0" + timeParts[1]
+			}
+			return timeParts[0] + ":" + timeParts[1];
+		}
+		return time;
 	}
 
 	private getBoostTemperature(): number {
@@ -375,7 +400,7 @@ class Heizungssteuerung extends utils.Adapter {
 	isCurrentPeriod(period: Period, now: string) {
 		let day = new Date().getDay() - 1;
 		day = day < 0 ? 6 : day;
-		if (!this.isPeriodValid(period)) {
+		if (!this.isPeriodValid(period, true)) {
 			return false;
 		}
 
