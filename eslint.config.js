@@ -6,10 +6,3 @@ module.exports = [
         }
     }
 ];
-
-
-
-
-
-
-
