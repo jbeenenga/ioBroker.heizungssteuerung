@@ -191,7 +191,6 @@ class Heizungssteuerung extends utils.Adapter {
 		const periods = new Array<Period>();
 		(this.config.periods as Period[]).forEach((period) => {
 			if (period.room == ("enum.rooms." + roomName)) {
-				checkAndCorrectPeriod(period);
 				periods.push(period);
 			}
 		});

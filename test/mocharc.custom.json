@@ -5,10 +5,6 @@
 		"source-map-support/register"
 	],
 	"watch-files": [
-		"!(node_modules|test)/**/*.test.ts",
-		"!(node_modules|test)/**/*.test.js",
-		"src/**/*.test.ts",
-		"test/**/test!(PackageFiles|Startup).ts",
-		"test/**/test!(PackageFiles|Startup).js"
+		"src/**/*.test.ts"
 	]
 }

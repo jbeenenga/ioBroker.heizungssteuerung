@@ -19,7 +19,7 @@
     "url": "git@github.com:jbeenenga/ioBroker.heizungssteuerung.git"
   },
   "engines": {
-    "node": ">= 18"
+    "node": ">= 20"
   },
   "dependencies": {
     "@iobroker/adapter-core": "^3.1.6"
@@ -32,11 +32,11 @@
     "@types/chai": "^4.3.11",
     "@types/chai-as-promised": "^7.1.8",
     "@types/mocha": "^10.0.7",
-    "@types/node": "^22.5.1",
+    "@types/node": "^20.16.5",
     "@types/proxyquire": "^1.3.31",
     "@types/sinon": "^17.0.3",
     "@types/sinon-chai": "^3.2.12",
-    "@tsconfig/node18": "^18.2.4",
+    "@tsconfig/node20": "^20.1.4",
     "chai": "^4.5.0",
     "chai-as-promised": "^8.0.0",
     "eslint": "^9.9.1",
@@ -44,17 +44,17 @@
     "proxyquire": "^2.1.3",
     "sinon": "^18.0.0",
     "sinon-chai": "^3.7.0",
-    "typescript": "~5.5.4"
+    "ts-node": "^10.9.2",
+    "typescript": "~5.0.4"
   },
   "main": "build/main.js",
   "files": [
-    "admin{,/!(src)/**}/!(tsconfig|tsconfig.*).json",
+    "admin{,/!(src)/**}/!(tsconfig|tsconfig.*|.eslintrc).{json,json5}",
     "admin{,/!(src)/**}/*.{html,css,png,svg,jpg,js}",
     "build/",
     "www/",
     "io-package.json",
-    "LICENSE",
-    "main.js"
+    "LICENSE"
   ],
   "scripts": {
     "prebuild": "rimraf build",
@@ -65,15 +65,35 @@
     "watch:ts": "build-adapter ts --watch",
     "test:ts": "mocha --config test/mocharc.custom.json src/**/*.test.ts",
     "test:package": "mocha test/package --exit",
-    "test:unit": "mocha test/unit --exit",
     "test:integration": "mocha test/integration --exit",
     "test": "npm run test:ts && npm run test:package",
-    "check": "tsc --noEmit -p tsconfig.check.json",
-    "lint": "eslint -c --ext .ts src/",
+    "check": "tsc --noEmit",
+    "coverage": "nyc npm run test:ts",
+    "lint": "eslint --ext .ts src/",
     "translate": "translate-adapter",
     "release": "release-script patch --yes",
     "release-minor": "release-script minor --yes",
     "release-major": "release-script major --yes"
+  },
+  "nyc": {
+    "include": [
+      "src/**/*.ts"
+    ],
+    "exclude": [
+      "src/**/*.test.ts"
+    ],
+    "extension": [
+      ".ts"
+    ],
+    "require": [
+      "ts-node/register"
+    ],
+    "reporter": [
+      "text-summary",
+      "html"
+    ],
+    "sourceMap": true,
+    "instrument": true
   },
   "bugs": {
     "url": "https://github.com/jbeenenga/ioBroker.heizungssteuerung/issues"
