@@ -210,7 +210,7 @@ class Heizungssteuerung extends utils.Adapter {
 				roomTempMap.set(room, { "temp": this.config.defaultTemperature, "until": "24:00" });
 			} else {
 				this.log.debug("Target until from state is " + JSON.stringify(targetTemperatureUntilFromState));
-				if (targetTemperatureUntilFromState.val < now || targetTemperatureUntilFromState.val == "boost" || targetTemperatureUntilFromState.val == "pause") {
+				if (targetTemperatureUntilFromState.val == null || targetTemperatureUntilFromState.val < now || targetTemperatureUntilFromState?.val == "boost" || targetTemperatureUntilFromState?.val == "pause") {
 					this.log.debug("Target until was set to 24:00");
 					roomTempMap.set(room, { "temp": this.config.defaultTemperature, "until": "24:00" });
 				} else {
