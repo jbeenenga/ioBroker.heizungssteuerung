@@ -7,7 +7,7 @@
 // The adapter-core module gives you access to the core ioBroker functions
 // you need to create an adapter
 import * as utils from "@iobroker/adapter-core";
-import { Period } from "./models/period";
+import { Period } from "./models/periods";
 import { TempTarget } from "./models/tempTarget";
 
 class Heizungssteuerung extends utils.Adapter {
