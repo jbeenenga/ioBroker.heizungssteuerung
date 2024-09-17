@@ -330,15 +330,15 @@ class Heizungssteuerung extends utils.Adapter {
 	initRoomStates(): void {
 		for (let i = 0; i < this.roomNames.length; i++) {
 			const roomName = this.roomNames[i];
-			this.setObjectNotExists("Actions." + roomName + ".boost", { type: "state", _id: "Actions." + roomName + ".boost", native: {}, common: { type: "boolean", name: "Activate boost for this room", read: true, write: true, role: "admin", def: false } });
-			this.setObjectNotExists("Actions." + roomName + ".pause", { type: "state", _id: "Actions." + roomName + ".pause", native: {}, common: { type: "boolean", name: "Activate pause for this room", read: true, write: true, role: "admin", def: false } });
+			this.setObjectNotExists("Actions." + roomName + ".boost", { type: "state", _id: "Actions." + roomName + ".boost", native: {}, common: { type: "boolean", name: "Activate boost for this room", read: true, write: true, role: "state", def: false } });
+			this.setObjectNotExists("Actions." + roomName + ".pause", { type: "state", _id: "Actions." + roomName + ".pause", native: {}, common: { type: "boolean", name: "Activate pause for this room", read: true, write: true, role: "state", def: false } });
 		}
 	}
 
 	initGeneralStates(): void {
-		this.setObjectNotExists("Actions.pauseAll", { type: "state", _id: "Actions.pauseAll", native: {}, common: { type: "boolean", name: "Activate boost for any room", read: true, write: true, role: "admin", def: false } });
-		this.setObjectNotExists("Actions.boostAll", { type: "state", _id: "Actions.boostAll", native: {}, common: { type: "boolean", name: "Activate boost for any room", read: true, write: true, role: "admin", def: false } });
-		this.setObjectNotExists("Actions.absenceUntil", { type: "state", _id: "Actions.absenceUntil", native: {}, common: { type: "string", name: "Date and time until absence mode should be active (Format-Examlpe: \"2024-01-01 14:00\")", read: true, write: true, role: "admin", def: "2024-01-01 14:00" } });
+		this.setObjectNotExists("Actions.pauseAll", { type: "state", _id: "Actions.pauseAll", native: {}, common: { type: "boolean", name: "Activate boost for any room", read: true, write: true, role: "state", def: false } });
+		this.setObjectNotExists("Actions.boostAll", { type: "state", _id: "Actions.boostAll", native: {}, common: { type: "boolean", name: "Activate boost for any room", read: true, write: true, role: "state", def: false } });
+		this.setObjectNotExists("Actions.absenceUntil", { type: "state", _id: "Actions.absenceUntil", native: {}, common: { type: "string", name: "Date and time until absence mode should be active (Format-Examlpe: \"2024-01-01 14:00\")", read: true, write: true, role: "state", def: "2024-01-01 14:00" } });
 
 	}
 
@@ -359,10 +359,10 @@ class Heizungssteuerung extends utils.Adapter {
 
 	writeInitialTemperaturesIntoState(): void {
 		this.roomNames.forEach((room) => {
-			this.setObjectNotExists("Temperatures." + room + ".current", { type: "state", _id: "Temperatures." + room + ".current", native: {}, common: { type: "number", name: "Current temperature", read: true, write: false, role: "admin" } });
-			this.setObjectNotExists("Temperatures." + room + ".currentHumidity", { type: "state", _id: "Temperatures." + room + ".currentHumidity", native: {}, common: { type: "number", name: "Current humidity", read: true, write: false, role: "admin" } });
-			this.setObjectNotExists("Temperatures." + room + ".target", { type: "state", _id: "Temperatures." + room + ".target", native: {}, common: { type: "number", name: "Target temperature", read: true, write: true, role: "admin" } });
-			this.setObjectNotExists("Temperatures." + room + ".targetUntil", { type: "state", _id: "Temperatures." + room + ".target", native: {}, common: { type: "string", name: "Target temperature until", read: true, write: true, role: "admin" } });
+			this.setObjectNotExists("Temperatures." + room + ".current", { type: "state", _id: "Temperatures." + room + ".current", native: {}, common: { type: "number", name: "Current temperature", read: true, write: false, role: "state" } });
+			this.setObjectNotExists("Temperatures." + room + ".currentHumidity", { type: "state", _id: "Temperatures." + room + ".currentHumidity", native: {}, common: { type: "number", name: "Current humidity", read: true, write: false, role: "state" } });
+			this.setObjectNotExists("Temperatures." + room + ".target", { type: "state", _id: "Temperatures." + room + ".target", native: {}, common: { type: "number", name: "Target temperature", read: true, write: true, role: "state" } });
+			this.setObjectNotExists("Temperatures." + room + ".targetUntil", { type: "state", _id: "Temperatures." + room + ".target", native: {}, common: { type: "string", name: "Target temperature until", read: true, write: true, role: "state" } });
 		});
 		this.roomNames.forEach((room) => {
 			this.setStateAsync("Temperatures." + room + ".target", this.config.defaultTemperature, true);
