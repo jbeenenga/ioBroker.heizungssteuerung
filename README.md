@@ -107,7 +107,7 @@ The main image created by Freepick (https://www.flaticon.com/de/kostenloses-icon
 ## License
 MIT License
 
-Copyright (c) 2023 jbeenenga <j.beenenga@gmail.com>
+Copyright (c) 2024 jbeenenga <j.beenenga@gmail.com>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
