@@ -71,7 +71,7 @@ This config is avaliable for all room in general and for special rooms.
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
-### **WORK IN PROGRESS**
+### 2.0.0 (2024-09-17)
 * (jbeenenga) update dependencies
 * (jbeenenga) add absence mode
 * (jbeenenga) fix pause and boost for cooling mode
