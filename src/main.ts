@@ -57,7 +57,7 @@ class Heizungssteuerung extends utils.Adapter {
 
 	private async check(): Promise<void> {
 		const now = new Date().toLocaleTimeString([], { hourCycle: "h23", hour: "2-digit", minute: "2-digit" });
-		const nowAsDate = new Date().toLocaleString('de-DE', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+		const nowAsDate = new Date().toLocaleString("de-DE", { day: "2-digit", month: "2-digit", year: "numeric", hour: "2-digit", minute: "2-digit" });
 		this.log.debug("current time is " + now);
 		const boostedRooms = await this.buildSpecialRoomsList("boost", this.config.boostIntervall);
 		const pausedRooms = await this.buildSpecialRoomsList("pause", this.config.pauseIntervall);
@@ -107,7 +107,7 @@ class Heizungssteuerung extends utils.Adapter {
 		}
 	}
 
-	private fillRommTemperatures(currentRoom: string, pausedRooms: Array<string>, boostedRooms: Array<string>, roomTempMap: Map<string, TempTarget>, absenceActive: boolean, now: string) {
+	private fillRommTemperatures(currentRoom: string, pausedRooms: Array<string>, boostedRooms: Array<string>, roomTempMap: Map<string, TempTarget>, absenceActive: boolean, now: string): void {
 		this.log.debug("start check for " + currentRoom);
 
 		if (pausedRooms.includes(currentRoom)) {
@@ -187,7 +187,7 @@ class Heizungssteuerung extends utils.Adapter {
 	/**
 	 * @param {string} roomName name of the room
 	 */
-	private getPeriodsForRoom(roomName: string) {
+	private getPeriodsForRoom(roomName: string): Array<Period> {
 		const periods = new Array<Period>();
 		(this.config.periods as Period[]).forEach((period) => {
 			if (period.room == ("enum.rooms." + roomName)) {
@@ -210,7 +210,6 @@ class Heizungssteuerung extends utils.Adapter {
 				roomTempMap.set(room, { "temp": this.config.defaultTemperature, "until": "24:00" });
 			} else {
 				this.log.debug("Target until from state is " + JSON.stringify(targetTemperatureUntilFromState));
-				// @ts-ignore
 				if (targetTemperatureUntilFromState.val < now || targetTemperatureUntilFromState.val == "boost" || targetTemperatureUntilFromState.val == "pause") {
 					this.log.debug("Target until was set to 24:00");
 					roomTempMap.set(room, { "temp": this.config.defaultTemperature, "until": "24:00" });
@@ -252,7 +251,7 @@ class Heizungssteuerung extends utils.Adapter {
 	 * @param {string} room current room name
 	 * @param {{ [x: string]: any; }} targetTemperature map including target temperatures
 	 */
-	async setTemperatureForRoom(room: string, targetTemperature: TempTarget) {
+	async setTemperatureForRoom(room: string, targetTemperature: TempTarget): Promise<void> {
 		if (this.tempSensorMap.get(room) == undefined) {
 			this.log.info("Temperature sensor for room " + room + " not found");
 			return;
@@ -272,7 +271,7 @@ class Heizungssteuerung extends utils.Adapter {
 			this.log.warn("Temperature for room " + room + " is not defined");
 			return;
 		}
-		let humidity = await this.getForeignStateAsync(this.humSensorMap.get(room)!);
+		const humidity = await this.getForeignStateAsync(this.humSensorMap.get(room)!);
 
 		this.writeTemperaturesIntoState(room, temp, humidity!, targetTemperature);
 
@@ -328,7 +327,7 @@ class Heizungssteuerung extends utils.Adapter {
 		return boostedRooms;
 	}
 
-	initRoomStates() {
+	initRoomStates(): void {
 		for (let i = 0; i < this.roomNames.length; i++) {
 			const roomName = this.roomNames[i];
 			this.setObjectNotExists("Actions." + roomName + ".boost", { type: "state", _id: "Actions." + roomName + ".boost", native: {}, common: { type: "boolean", name: "Activate boost for this room", read: true, write: true, role: "admin", def: false } });
@@ -336,7 +335,7 @@ class Heizungssteuerung extends utils.Adapter {
 		}
 	}
 
-	initGeneralStates() {
+	initGeneralStates(): void {
 		this.setObjectNotExists("Actions.pauseAll", { type: "state", _id: "Actions.pauseAll", native: {}, common: { type: "boolean", name: "Activate boost for any room", read: true, write: true, role: "admin", def: false } });
 		this.setObjectNotExists("Actions.boostAll", { type: "state", _id: "Actions.boostAll", native: {}, common: { type: "boolean", name: "Activate boost for any room", read: true, write: true, role: "admin", def: false } });
 		this.setObjectNotExists("Actions.absenceUntil", { type: "state", _id: "Actions.absenceUntil", native: {}, common: { type: "string", name: "Date and time until absence mode should be active (Format-Examlpe: \"2024-01-01 14:00\")", read: true, write: true, role: "admin", def: "2024-01-01 14:00" } });
@@ -349,7 +348,7 @@ class Heizungssteuerung extends utils.Adapter {
 	 * @param {ioBroker.State | null | undefined} humidity State including current humidity
 	 * @param {{ [x: string]: any; }} targetTemperature target temperature map
 	 */
-	writeTemperaturesIntoState(room: string, temp: number, humidity: ioBroker.State, targetTemperature: TempTarget) {
+	writeTemperaturesIntoState(room: string, temp: number, humidity: ioBroker.State, targetTemperature: TempTarget): void {
 		this.setStateAsync("Temperatures." + room + ".current", Number(temp), true);
 		if (humidity != undefined && humidity.val != undefined) {
 			this.setStateAsync("Temperatures." + room + ".currentHumidity", Number(humidity.val), true);
@@ -358,7 +357,7 @@ class Heizungssteuerung extends utils.Adapter {
 		this.setStateAsync("Temperatures." + room + ".targetUntil", targetTemperature.until, true);
 	}
 
-	writeInitialTemperaturesIntoState() {
+	writeInitialTemperaturesIntoState(): void {
 		this.roomNames.forEach((room) => {
 			this.setObjectNotExists("Temperatures." + room + ".current", { type: "state", _id: "Temperatures." + room + ".current", native: {}, common: { type: "number", name: "Current temperature", read: true, write: false, role: "admin" } });
 			this.setObjectNotExists("Temperatures." + room + ".currentHumidity", { type: "state", _id: "Temperatures." + room + ".currentHumidity", native: {}, common: { type: "number", name: "Current humidity", read: true, write: false, role: "admin" } });
@@ -374,12 +373,12 @@ class Heizungssteuerung extends utils.Adapter {
 	/**
 	 * @param {string} room name of the room
 	 */
-	convertToShortRoomName(room: string) {
+	convertToShortRoomName(room: string): string {
 		const shortRoomNameParts = room.split(".");
 		return shortRoomNameParts[shortRoomNameParts.length - 1];
 	}
 
-	buildRoomNames() {
+	buildRoomNames(): string[] {
 		const longRoomNames = Object.keys(this.rooms.result);
 
 		const shortRoomNames = [];
@@ -394,7 +393,7 @@ class Heizungssteuerung extends utils.Adapter {
 	 * @param {any[]} period array of period definitions
 	 * @param {string | number} now
 	 */
-	isCurrentPeriod(period: Period, now: string) {
+	isCurrentPeriod(period: Period, now: string): boolean {
 		let day = new Date().getDay() - 1;
 		day = day < 0 ? 6 : day;
 		if (!this.isPeriodValid(period, true)) {
