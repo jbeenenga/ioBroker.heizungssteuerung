@@ -13,7 +13,9 @@
 	"connectionType": "local",
 	"dataSource": "poll",
 	"connectionIndicator": "yes",
-	"language": "JavaScript",
+	"language": "TypeScript",
+	"nodeVersion": "16",
+	"adminUi": "json",
 	"adminReact": "no",
 	"tools": [
 		"ESLint",
