@@ -1,4 +1,4 @@
-export interface TempTarget{
+export interface TempTarget {
     temp: number;
     until: string;
 }
