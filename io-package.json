@@ -128,9 +128,11 @@
 			"home automation",
 			"heating"
 		],
-		"license": "MIT",
+		"licenseInformation": {
+			"type": "free",
+			"license": "MIT"
+		},
 		"platform": "Javascript/Node.js",
-		"main": "main.js",
 		"icon": "heizungssteuerung.png",
 		"enabled": true,
 		"extIcon": "https://raw.githubusercontent.com/jbeenenga/ioBroker.heizungssteuerung/main/admin/heizungssteuerung.png",
