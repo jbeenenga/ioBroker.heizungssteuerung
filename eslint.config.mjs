@@ -18,24 +18,11 @@ export default [
     ]
   },
   {
-    // Angepasste Regeln für eine sanftere Migration + deine spezifischen Regeln
     rules: {
-      // Regeln aus deiner alten .eslintrc.js (angepasst)
-      indent: 'off',
-      '@typescript-eslint/indent': [
-        'error',
-        'tab',
-        {
-          SwitchCase: 1
-        }
-      ],
+      indent: ["error", "tab"],
       quotes: [
         'error',
-        'double',
-        {
-          avoidEscape: true,
-          allowTemplateLiterals: true
-        }
+        'double'
       ],
       '@typescript-eslint/no-parameter-properties': 'off',
       '@typescript-eslint/no-explicit-any': 'warn', // warning statt off für Migration
