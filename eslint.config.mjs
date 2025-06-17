@@ -19,8 +19,15 @@ export default [
   },
   {
     rules: {
-      indent: ['error', 'tab'],
-      quotes: ['error', 'double'],
+      'indent': 'off',
+      '@typescript-eslint/indent': [
+        'error',
+        'tab',
+        {
+          'SwitchCase': 0   // ← Keine zusätzliche Einrückung für case-Labels
+        }
+      ],
+      'quotes': ['error', 'double'],
       '@typescript-eslint/no-parameter-properties': 'off',
       '@typescript-eslint/no-explicit-any': 'warn', // warning statt off für Migration
       '@typescript-eslint/no-use-before-define': [
