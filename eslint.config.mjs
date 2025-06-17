@@ -19,11 +19,8 @@ export default [
   },
   {
     rules: {
-      indent: ["error", "tab"],
-      quotes: [
-        'error',
-        'double'
-      ],
+      indent: ['error', 'tab'],
+      quotes: ['error', 'double'],
       '@typescript-eslint/no-parameter-properties': 'off',
       '@typescript-eslint/no-explicit-any': 'warn', // warning statt off für Migration
       '@typescript-eslint/no-use-before-define': [
