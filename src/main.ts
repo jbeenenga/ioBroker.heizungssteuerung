@@ -76,7 +76,7 @@ class Heizungssteuerung extends utils.Adapter {
 				this.log.info("State pauseAll is active so all engines will be deactivated");
 				this.roomNames.forEach((value) => pausedRooms.push(value));
 			} else {
-				this.setStateAsync("Actions.pauseAll", false);
+				await this.setStateAsync("Actions.pauseAll", false);
 				this.log.info("State pauseAll was deactivated");
 			}
 		}
@@ -95,7 +95,7 @@ class Heizungssteuerung extends utils.Adapter {
 				this.log.info("State boostAll is active so all engines will be deactivated");
 				this.roomNames.forEach((value) => boostedRooms.push(value));
 			} else {
-				this.setStateAsync("Actions.boostAll", false);
+				await this.setStateAsync("Actions.boostAll", false);
 				this.log.info("State boostAll was deactivated");
 			}
 		}
@@ -107,7 +107,7 @@ class Heizungssteuerung extends utils.Adapter {
 		this.log.debug("Temperatures will be set like: " + JSON.stringify(roomTempMap));
 
 		for (let i = 0; i < this.roomNames.length; i++) {
-			this.setTemperatureForRoom(this.roomNames[i], roomTempMap.get(this.roomNames[i])!);
+			await this.setTemperatureForRoom(this.roomNames[i], roomTempMap.get(this.roomNames[i])!);
 		}
 	}
 
@@ -248,7 +248,7 @@ class Heizungssteuerung extends utils.Adapter {
 	 * @param {string} functionName name of the function
 	 */
 	private async buildFunctionToRoomMap(functionId: string, functionName: string): Promise<Map<string, string>> {
-		this.setForeignObjectNotExists(functionId, {
+		void this.setForeignObjectNotExists(functionId, {
 			type: "enum",
 			common: { name: functionName, members: [] },
 			native: {},
@@ -311,11 +311,11 @@ class Heizungssteuerung extends utils.Adapter {
 		if (this.config.isHeatingMode == 0) {
 			if (temp < targetTemperature.temp - this.config.startStopDifference) {
 				this.log.debug("set " + this.engineMap.get(room) + " to true");
-				this.setForeignStateAsync(this.engineMap.get(room)!, true);
+				await this.setForeignStateAsync(this.engineMap.get(room)!, true);
 			}
 			if (temp > targetTemperature.temp + this.config.startStopDifference) {
 				this.log.debug("set " + this.engineMap.get(room) + " to false");
-				this.setForeignStateAsync(this.engineMap.get(room)!, false);
+				await this.setForeignStateAsync(this.engineMap.get(room)!, false);
 			}
 		} else {
 			if (
@@ -324,17 +324,17 @@ class Heizungssteuerung extends utils.Adapter {
 				this.config.stopCoolingIfHumIsHigherThan < Number(humidity.val)
 			) {
 				this.log.info("Deactivate engine for " + room + " because humidity maximum reached");
-				this.setForeignStateAsync(this.engineMap.get(room)!, false);
+				await this.setForeignStateAsync(this.engineMap.get(room)!, false);
 				return;
 			}
 
 			if (temp < targetTemperature.temp - this.config.startStopDifference) {
 				this.log.debug("set " + this.engineMap.get(room) + " to false");
-				this.setForeignStateAsync(this.engineMap.get(room)!, false);
+				await this.setForeignStateAsync(this.engineMap.get(room)!, false);
 			}
 			if (temp > targetTemperature.temp + this.config.startStopDifference) {
 				this.log.debug("set " + this.engineMap.get(room) + " to true");
-				this.setForeignStateAsync(this.engineMap.get(room)!, true);
+				await this.setForeignStateAsync(this.engineMap.get(room)!, true);
 			}
 		}
 	}
@@ -353,8 +353,8 @@ class Heizungssteuerung extends utils.Adapter {
 				if (boost.ts > boostValidUntil) {
 					boostedRooms.push(this.roomNames[i]);
 				} else {
-					this.setStateAsync("Actions." + this.roomNames[i] + "." + actionName, false);
-					this.setState("Temperatures." + this.roomNames[i] + ".targetUntil", "00:00", true);
+					await this.setStateAsync("Actions." + this.roomNames[i] + "." + actionName, false);
+					void this.setState("Temperatures." + this.roomNames[i] + ".targetUntil", "00:00", true);
 				}
 			}
 		}
@@ -364,7 +364,7 @@ class Heizungssteuerung extends utils.Adapter {
 	initRoomStates(): void {
 		for (let i = 0; i < this.roomNames.length; i++) {
 			const roomName = this.roomNames[i];
-			this.setObjectNotExists("Actions." + roomName + ".boost", {
+			void this.setObjectNotExists("Actions." + roomName + ".boost", {
 				type: "state",
 				_id: "Actions." + roomName + ".boost",
 				native: {},
@@ -377,7 +377,7 @@ class Heizungssteuerung extends utils.Adapter {
 					def: false,
 				},
 			});
-			this.setObjectNotExists("Actions." + roomName + ".pause", {
+			void this.setObjectNotExists("Actions." + roomName + ".pause", {
 				type: "state",
 				_id: "Actions." + roomName + ".pause",
 				native: {},
@@ -394,7 +394,7 @@ class Heizungssteuerung extends utils.Adapter {
 	}
 
 	initGeneralStates(): void {
-		this.setObjectNotExists("Actions.pauseAll", {
+		void this.setObjectNotExists("Actions.pauseAll", {
 			type: "state",
 			_id: "Actions.pauseAll",
 			native: {},
@@ -407,7 +407,7 @@ class Heizungssteuerung extends utils.Adapter {
 				def: false,
 			},
 		});
-		this.setObjectNotExists("Actions.boostAll", {
+		void this.setObjectNotExists("Actions.boostAll", {
 			type: "state",
 			_id: "Actions.boostAll",
 			native: {},
@@ -420,7 +420,7 @@ class Heizungssteuerung extends utils.Adapter {
 				def: false,
 			},
 		});
-		this.setObjectNotExists("Actions.absenceUntil", {
+		void this.setObjectNotExists("Actions.absenceUntil", {
 			type: "state",
 			_id: "Actions.absenceUntil",
 			native: {},
@@ -447,35 +447,35 @@ class Heizungssteuerung extends utils.Adapter {
 		humidity: ioBroker.State,
 		targetTemperature: TempTarget,
 	): void {
-		this.setStateAsync("Temperatures." + room + ".current", Number(temp), true);
+		void this.setStateAsync("Temperatures." + room + ".current", Number(temp), true);
 		if (humidity != undefined && humidity.val != undefined) {
-			this.setStateAsync("Temperatures." + room + ".currentHumidity", Number(humidity.val), true);
+			void this.setStateAsync("Temperatures." + room + ".currentHumidity", Number(humidity.val), true);
 		}
-		this.setStateAsync("Temperatures." + room + ".target", targetTemperature.temp, true);
-		this.setStateAsync("Temperatures." + room + ".targetUntil", targetTemperature.until, true);
+		void this.setStateAsync("Temperatures." + room + ".target", targetTemperature.temp, true);
+		void this.setStateAsync("Temperatures." + room + ".targetUntil", targetTemperature.until, true);
 	}
 
 	writeInitialTemperaturesIntoState(): void {
 		this.roomNames.forEach((room) => {
-			this.setObjectNotExists("Temperatures." + room + ".current", {
+			void this.setObjectNotExists("Temperatures." + room + ".current", {
 				type: "state",
 				_id: "Temperatures." + room + ".current",
 				native: {},
 				common: { type: "number", name: "Current temperature", read: true, write: false, role: "state" },
 			});
-			this.setObjectNotExists("Temperatures." + room + ".currentHumidity", {
+			void this.setObjectNotExists("Temperatures." + room + ".currentHumidity", {
 				type: "state",
 				_id: "Temperatures." + room + ".currentHumidity",
 				native: {},
 				common: { type: "number", name: "Current humidity", read: true, write: false, role: "state" },
 			});
-			this.setObjectNotExists("Temperatures." + room + ".target", {
+			void this.setObjectNotExists("Temperatures." + room + ".target", {
 				type: "state",
 				_id: "Temperatures." + room + ".target",
 				native: {},
 				common: { type: "number", name: "Target temperature", read: true, write: true, role: "state" },
 			});
-			this.setObjectNotExists("Temperatures." + room + ".targetUntil", {
+			void this.setObjectNotExists("Temperatures." + room + ".targetUntil", {
 				type: "state",
 				_id: "Temperatures." + room + ".target",
 				native: {},
@@ -483,8 +483,8 @@ class Heizungssteuerung extends utils.Adapter {
 			});
 		});
 		this.roomNames.forEach((room) => {
-			this.setStateAsync("Temperatures." + room + ".target", this.config.defaultTemperature, true);
-			this.setStateAsync("Temperatures." + room + ".targetUntil", "24:00", true);
+			void this.setStateAsync("Temperatures." + room + ".target", this.config.defaultTemperature, true);
+			void this.setStateAsync("Temperatures." + room + ".targetUntil", "24:00", true);
 		});
 	}
 
@@ -569,7 +569,8 @@ class Heizungssteuerung extends utils.Adapter {
 			}
 			this.connected = false;
 			callback();
-		} catch (e) {
+		} catch {
+			// Fixed: removed unused variable 'e'
 			callback();
 		}
 	}
