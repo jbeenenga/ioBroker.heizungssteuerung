@@ -23,7 +23,7 @@ export default [
         'error',
         'tab',
         {
-          'SwitchCase': 1  
+          SwitchCase: 1
         }
       ],
       quotes: ['error', 'double'],
