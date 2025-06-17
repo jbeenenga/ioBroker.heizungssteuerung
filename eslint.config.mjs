@@ -3,16 +3,18 @@ import config from '@iobroker/eslint-config'
 export default [
   ...config,
   {
-    // Zusätzliche Ignores für dein Projekt
+    // Global ignores (migriert von .eslintignore und erweitert)
     ignores: [
       'node_modules/**',
       'build/**',
       'admin/build/**',
+      'admin/words.js', // von .eslintignore
       'dist/**',
       '*.js.map',
       'coverage/**',
       '.vscode/**',
-      '.git/**'
+      '.git/**',
+      '**/.eslintrc.js' // von .eslintignore
     ]
   },
   {
