@@ -21,20 +21,20 @@ export default [
     // Angepasste Regeln für eine sanftere Migration + deine spezifischen Regeln
     rules: {
       // Regeln aus deiner alten .eslintrc.js (angepasst)
-      'indent': 'off',
+      indent: 'off',
       '@typescript-eslint/indent': [
         'error',
         'tab',
         {
-          'SwitchCase': 1
+          SwitchCase: 1
         }
       ],
-      'quotes': [
+      quotes: [
         'error',
         'double',
         {
-          'avoidEscape': true,
-          'allowTemplateLiterals': true
+          avoidEscape: true,
+          allowTemplateLiterals: true
         }
       ],
       '@typescript-eslint/no-parameter-properties': 'off',
@@ -44,22 +44,22 @@ export default [
         {
           functions: false,
           typedefs: false,
-          classes: false,
-        },
+          classes: false
+        }
       ],
       '@typescript-eslint/no-unused-vars': [
         'warn', // warning statt error für Migration
         {
           ignoreRestSiblings: true,
-          argsIgnorePattern: '^_',
-        },
+          argsIgnorePattern: '^_'
+        }
       ],
       '@typescript-eslint/explicit-function-return-type': [
         'warn',
         {
           allowExpressions: true,
-          allowTypedFunctionExpressions: true,
-        },
+          allowTypedFunctionExpressions: true
+        }
       ],
       '@typescript-eslint/no-object-literal-type-assertion': 'off',
       '@typescript-eslint/interface-name-prefix': 'off',
@@ -77,7 +77,7 @@ export default [
     // Test-File-Overrides (aus .eslintrc.js)
     files: ['*.test.ts', '**/*.test.ts'],
     rules: {
-      '@typescript-eslint/explicit-function-return-type': 'off',
-    },
+      '@typescript-eslint/explicit-function-return-type': 'off'
+    }
   }
 ]
