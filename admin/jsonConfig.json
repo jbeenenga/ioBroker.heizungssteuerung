@@ -24,28 +24,28 @@
                     "newLine": true,
                     "type": "number",
                     "label": "StopCoolingIfHumIsHigherThan"
-                }, 
+                },
                 "updateIntervall": {
                     "type": "number",
                     "label": "UpdateIntervall"
-                }, 
+                },
                 "defaultTemperature": {
                     "type": "number",
                     "label": "DefaultTemperature"
-                }, 
+                },
                 "boostIntervall": {
                     "type": "number",
                     "label": "BoostIntervall"
-                }, 
+                },
                 "pauseIntervall": {
                     "type": "number",
                     "label": "PauseIntervall"
                 },
-                "startStopDifference":{
+                "startStopDifference": {
                     "type": "number",
                     "label": "StartStopDifference"
                 },
-                "resetTemperaturesOnStart":{
+                "resetTemperaturesOnStart": {
                     "type": "checkbox",
                     "label": "ResetTemperaturesOnStart"
                 }
