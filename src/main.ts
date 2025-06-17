@@ -422,7 +422,8 @@ class Heizungssteuerung extends utils.Adapter {
 			native: {},
 			common: {
 				type: "string",
-				name: 'Date and time until absence mode should be active (Format-Examlpe: "2024-01-01 14:00")',
+				// prettier-ignore
+				name: "Date and time until absence mode should be active (Format-Examlpe: \"2024-01-01 14:00\")",
 				read: true,
 				write: true,
 				role: "state",

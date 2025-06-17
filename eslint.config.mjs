@@ -14,7 +14,8 @@ export default [
       'coverage/**',
       '.vscode/**',
       '.git/**',
-      '**/.eslintrc.js' // von .eslintignore
+      '**/.eslintrc.js',
+      'src/lib/**'
     ]
   },
   {
