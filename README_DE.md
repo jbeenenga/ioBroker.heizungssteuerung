@@ -31,12 +31,14 @@ Dieser Adapter bietet eine umfassende Heizungssteuerung für ioBroker-Installati
 ## Installation
 
 ### Über die ioBroker Admin-Oberfläche
+
 1. Öffnen Sie die ioBroker Admin-Oberfläche
 2. Gehen Sie zum Tab "Adapter"
 3. Suchen Sie nach "heizungssteuerung"
 4. Klicken Sie auf "Installieren"
 
 ### Über npm
+
 ```bash
 npm install iobroker.heizungssteuerung
 ```
@@ -44,6 +46,7 @@ npm install iobroker.heizungssteuerung
 ## Schnellstart-Anleitung
 
 ### 1. Raumstruktur einrichten
+
 Bevor Sie den Adapter konfigurieren, müssen Sie Ihre Raumstruktur in ioBroker einrichten:
 
 1. Navigieren Sie zu **Objekte → Aufzählungen → Räume**
@@ -54,6 +57,7 @@ Bevor Sie den Adapter konfigurieren, müssen Sie Ihre Raumstruktur in ioBroker e
    - Feuchtigkeitssensoren (optional)
 
 ### 2. Funktionen konfigurieren
+
 Richten Sie die erforderlichen Funktionen unter **Objekte → Aufzählungen → Funktionen** ein:
 
 - **Temperatur**: Alle Temperatursensor-Zustände hinzufügen
@@ -63,13 +67,16 @@ Richten Sie die erforderlichen Funktionen unter **Objekte → Aufzählungen → 
 ### 3. Adapter-Konfiguration
 
 #### Grundeinstellungen
+
 - **Betriebsmodus**: Wählen zwischen "Heizen" und "Kühlen"
 - **Prüfintervall**: Wie oft der Adapter Temperaturen prüft (in Minuten)
 - **Standardtemperatur**: Fallback-Temperatur, wenn keine Periode passt
 - **Temperatur-Hysterese**: Temperaturdifferenz-Schwellenwert für Ein-/Ausschalten der Heizung/Kühlung
 
 #### Zeitbasierte Perioden
+
 Konfigurieren Sie Temperaturpläne für jeden Raum:
+
 1. Wählen Sie einen Raum aus der Dropdown-Liste
 2. Setzen Sie Start- und Endzeiten
 3. Definieren Sie die Zieltemperatur
@@ -77,6 +84,7 @@ Konfigurieren Sie Temperaturpläne für jeden Raum:
 5. Geben Sie an, ob diese Periode für Heiz- oder Kühlmodus ist
 
 #### Erweiterte Einstellungen
+
 - **Pause-Dauer**: Auto-Reset-Zeit für Pause-Modus (Minuten)
 - **Boost-Dauer**: Auto-Reset-Zeit für Boost-Modus (Minuten)
 - **Feuchtigkeitsschwellenwert**: Maximale Feuchtigkeit bevor Kühlung stoppt
@@ -85,9 +93,11 @@ Konfigurieren Sie Temperaturpläne für jeden Raum:
 ## Verwendung
 
 ### Manuelle Steuerungsaktionen
+
 Der Adapter erstellt Aktions-Objekte unter `heizungssteuerung.0.Actions`:
 
 #### Globale Aktionen (Alle Räume)
+
 - **absenceUntil**: Abwesenheitsmodus bis zu einem bestimmten Datum/Zeit setzen
   - Format: `dd.MM.yyyy HH:mm` (z.B. "01.01.2024 14:00")
   - Effekt: Ignoriert Perioden und verwendet Standardtemperatur
@@ -95,7 +105,9 @@ Der Adapter erstellt Aktions-Objekte unter `heizungssteuerung.0.Actions`:
 - **boost**: Boost-Modus für alle Räume aktivieren
 
 #### Raumspezifische Aktionen
+
 Für jeden Raum finden Sie:
+
 - **pause**: Heizung/Kühlung nur für diesen Raum pausieren
 - **boost**: Boost-Modus nur für diesen Raum aktivieren
 - **targetTemp**: Zieltemperatur temporär überschreiben
@@ -103,6 +115,7 @@ Für jeden Raum finden Sie:
 ### Beispielkonfigurationen
 
 #### Basis-Heizplan
+
 ```
 Raum: Wohnzimmer
 Zeit: 06:00 - 22:00
@@ -112,8 +125,9 @@ Modus: Heizen
 ```
 
 #### Wochenendplan
+
 ```
-Raum: Wohnzimmer  
+Raum: Wohnzimmer
 Zeit: 08:00 - 24:00
 Tage: Samstag, Sonntag
 Temperatur: 22°C
@@ -121,6 +135,7 @@ Modus: Heizen
 ```
 
 #### Nachttemperatur
+
 ```
 Raum: Schlafzimmer
 Zeit: 22:00 - 06:00
@@ -132,12 +147,14 @@ Modus: Heizen
 ## Konfigurationsbeispiele
 
 ### Typische Heimeinrichtung
+
 1. **Wohnbereiche**: 21°C tagsüber, 19°C nachts
-2. **Schlafzimmer**: 19°C tagsüber, 16°C nachts  
+2. **Schlafzimmer**: 19°C tagsüber, 16°C nachts
 3. **Badezimmer**: 22°C morgens/abends, 19°C sonst
 4. **Büro**: 21°C während Arbeitszeiten, 18°C sonst
 
 ### Energiespar-Tipps
+
 - Verwenden Sie niedrigere Nachttemperaturen (2-3°C Reduktion)
 - Setzen Sie Abwesenheitstemperaturen 3-5°C unter normal
 - Konfigurieren Sie Boost-Modus für schnelles Aufheizen statt konstant hoher Temperaturen
@@ -148,22 +165,27 @@ Modus: Heizen
 ### Häufige Probleme
 
 **Temperaturen ändern sich nicht**
+
 - Prüfen Sie, ob Raum-Aufzählungen korrekt konfiguriert sind
 - Verifizieren Sie, dass Temperatursensoren den korrekten Räumen zugeordnet sind
 - Stellen Sie sicher, dass Stellglieder in der "Antrieb"-Funktions-Aufzählung sind
 
 **Perioden funktionieren nicht**
+
 - Verifizieren Sie das Zeitformat (24-Stunden-Format)
 - Prüfen Sie, ob Betriebsmodus zur Periodenkonfiguration passt
 - Bestätigen Sie die Raumauswahl in den Periodeneinstellungen
 
 **Feuchtigkeitssteuerung funktioniert nicht**
+
 - Fügen Sie Feuchtigkeitssensoren sowohl zu Raum- als auch Funktions-Aufzählungen hinzu
 - Prüfen Sie die Feuchtigkeitsschwellenwert-Einstellungen
 - Verifizieren Sie, dass Sensoren aktuelle Daten liefern
 
 ### Debug-Informationen
+
 Aktivieren Sie Debug-Logging in den Adapter-Einstellungen, um detaillierte Informationen zu sehen über:
+
 - Temperaturberechnungen
 - Perioden-Matching
 - Stellglied-Steuerungsentscheidungen
