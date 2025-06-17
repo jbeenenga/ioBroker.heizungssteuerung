@@ -19,12 +19,11 @@ export default [
   },
   {
     rules: {
-      indent: 'off',
-      '@typescript-eslint/indent': [
+      indent: [
         'error',
         'tab',
         {
-          SwitchCase: 0 // ← Keine zusätzliche Einrückung für case-Labels
+          'SwitchCase': 1  
         }
       ],
       quotes: ['error', 'double'],
