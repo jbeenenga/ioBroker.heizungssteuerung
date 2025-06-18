@@ -108,7 +108,7 @@ class Heizungssteuerung extends utils.Adapter {
 		this.log.debug(`Temperatures will be set like: ${JSON.stringify(roomTempMap)}`);
 
 		for (let i = 0; i < this.roomNames.length; i++) {
-			await this.setTemperatureForRoom(this.roomNames[i], roomTempMap.get(this.roomNames[i])!);
+			await this.setTemperatureForRoom(this.roomNames[i], roomTempMap.get(this.roomNames[i]));
 		}
 	}
 
@@ -140,11 +140,15 @@ class Heizungssteuerung extends utils.Adapter {
 		const periodsForRoom = this.getPeriodsForRoom(currentRoom);
 		this.log.debug(`found following periods for room ${currentRoom}: ${JSON.stringify(periodsForRoom)}`);
 		periodsForRoom.forEach(period => {
-			if (period.from > now && period.from < roomTempMap.get(currentRoom)!.until) {
-				this.log.debug(`targetUntil for room ${currentRoom} will be set to ${period.from}`);
-				roomTempMap.get(currentRoom)!.until = period.from;
+			const roomTemp = roomTempMap.get(currentRoom);
+			if(!roomTemp){
+				return;
 			}
-			if (roomTempMap.get(currentRoom)!.until > now && roomTempMap.get(currentRoom)!.until != "24:00") {
+			if (period.from > now && period.from < roomTemp.until) {
+				this.log.debug(`targetUntil for room ${currentRoom} will be set to ${period.from}`);
+				roomTemp.until = period.from;
+			}
+			if (roomTemp.until > now && roomTemp.until != "24:00") {
 				return;
 			}
 			if ((this.config.isHeatingMode == 0) == period.heating && this.isCurrentPeriod(period, now)) {
@@ -292,9 +296,9 @@ class Heizungssteuerung extends utils.Adapter {
 	 * @param room current room name
 	 * @param targetTemperature target temperature configuration
 	 */
-	async setTemperatureForRoom(room: string, targetTemperature: TempTarget): Promise<void> {
+	async setTemperatureForRoom(room: string, targetTemperature: TempTarget | undefined): Promise<void> {
 		const engine = this.engineMap.get(room);
-		if(!engine){
+		if(!engine || !targetTemperature){
 			return;
 		}
 		if (this.tempSensorMap.get(room) == undefined) {
@@ -321,7 +325,7 @@ class Heizungssteuerung extends utils.Adapter {
 			return;
 		}
 		const humiditySensor = this.humSensorMap.get(room);
-		var humidity = humiditySensor ? await this.getForeignStateAsync(humiditySensor): undefined;
+		const humidity = humiditySensor ? await this.getForeignStateAsync(humiditySensor): undefined;
 
 		this.writeTemperaturesIntoState(room, temp, humidity, targetTemperature);
 
