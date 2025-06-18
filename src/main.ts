@@ -471,7 +471,7 @@ class Heizungssteuerung extends utils.Adapter {
 	writeTemperaturesIntoState(
 		room: string,
 		temp: number,
-		humidity: ioBroker.State | undefined,
+		humidity: ioBroker.State |null| undefined,
 		targetTemperature: TempTarget,
 	): void {
 		void this.setStateAsync(`Temperatures.${room}.current`, Number(temp), true);
