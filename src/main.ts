@@ -294,7 +294,7 @@ class Heizungssteuerung extends utils.Adapter {
 	 */
 	async setTemperatureForRoom(room: string, targetTemperature: TempTarget): Promise<void> {
 		const engine = this.engineMap.get(room);
-		if(!engine){
+		if (!engine) {
 			return;
 		}
 		if (this.tempSensorMap.get(room) == undefined) {
@@ -305,8 +305,8 @@ class Heizungssteuerung extends utils.Adapter {
 			this.log.info(`Engine for room ${room} not found`);
 			return;
 		}
-		const tempSensorName= this.tempSensorMap.get(room);
-		if(!tempSensorName){
+		const tempSensorName = this.tempSensorMap.get(room);
+		if (!tempSensorName) {
 			return;
 		}
 		const tempState = await this.getForeignStateAsync(tempSensorName);
@@ -321,7 +321,7 @@ class Heizungssteuerung extends utils.Adapter {
 			return;
 		}
 		const humiditySensor = this.humSensorMap.get(room);
-		var humidity = humiditySensor ? await this.getForeignStateAsync(humiditySensor): undefined;
+		var humidity = humiditySensor ? await this.getForeignStateAsync(humiditySensor) : undefined;
 
 		this.writeTemperaturesIntoState(room, temp, humidity, targetTemperature);
 
