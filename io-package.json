@@ -1,21 +1,8 @@
 {
 	"common": {
 		"name": "heizungssteuerung",
-		"version": "2.0.0",
+		"version": "1.7.0",
 		"news": {
-			"2.0.0": {
-				"en": "update dependencies\nadd absence mode\nfix pause and boost for cooling mode",
-				"de": "aktualisierung der abhängigkeiten\nlöschmodus hinzufügen\nhaltepause und schub für kühlbetrieb",
-				"ru": "обновление зависимостей\nдобавить режим отсутствия\nфиксация паузы и повышение режима охлаждения",
-				"pt": "dependências\nadicionar modo de ausência\ncorrigir pausa e impulso para o modo de resfriamento",
-				"nl": "afhankelijkheden bijwerken\nafwezigheidsmodus toevoegen\nfix pauze en boost voor koelmodus",
-				"fr": "mettre à jour les dépendances\najouter le mode absence\nfixer la pause et booster pour le mode refroidissement",
-				"it": "aggiornamento dipendenze\naggiungere la modalità di assenza\nfissare pausa e aumentare per la modalità di raffreddamento",
-				"es": "dependencias de actualización\nañadir modo de ausencia\nfijar la pausa y el impulso para el modo de enfriamiento",
-				"pl": "aktualizacji zależności\ndodaj tryb nieobecności\nnaprawić pauzę i pobudzenie dla trybu chłodzenia",
-				"uk": "оновлення залежності\nрежим відсутності\nвиправити пауза і підвищити режим охолодження",
-				"zh-cn": "更新依赖关系\n添加缺席模式\n固定暂停和加速度用于冷却模式"
-			},
 			"1.7.0": {
 				"en": "fix bug for end boost or pause mode\nprovide corrent humidity in temperatures",
 				"de": "fehler beheben für end-boost oder pause-modus\nliefern korrente luftfeuchtigkeit bei temperaturen",
@@ -41,19 +28,6 @@
 				"pl": "format zapisu",
 				"uk": "формат дати фіксації",
 				"zh-cn": "f 固定日期"
-			},
-			"1.6.6": {
-				"en": "add debug output",
-				"de": "debug ausgabe hinzufügen",
-				"ru": "добавить вывод debug",
-				"pt": "adicionar saída de depuração",
-				"nl": "vertaling:",
-				"fr": "ajouter la sortie debug",
-				"it": "aggiungere l'output debug",
-				"es": "añadir la salida de depuración",
-				"pl": "debugowanie",
-				"uk": "add debug вихід",
-				"zh-cn": "增加谷物"
 			},
 			"1.6.5": {
 				"en": "add possibility to reset temperatures on adapter start",

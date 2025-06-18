@@ -174,7 +174,7 @@ Enable debug logging in adapter settings to see detailed information about:
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
-### 2.0.0 (2024-09-17)
+### **WORK IN PROGRESS**
 * (jbeenenga) update dependencies
 * (jbeenenga) add absence mode
 * (jbeenenga) fix pause and boost for cooling mode
