@@ -381,7 +381,7 @@ class Heizungssteuerung extends utils.Adapter {
 	initRoomStates(): void {
 		for (let i = 0; i < this.roomNames.length; i++) {
 			const roomName = this.roomNames[i];
-			this.setObjectNotExists(`Actions.${roomName}.boost`, {
+			void this.setObjectNotExists(`Actions.${roomName}.boost`, {
 				type: "state",
 				_id: `Actions.${roomName}.boost`,
 				native: {},
@@ -411,7 +411,7 @@ class Heizungssteuerung extends utils.Adapter {
 	}
 
 	initGeneralStates(): void {
-		this.setObjectNotExists("Actions.pauseAll", {
+		void this.setObjectNotExists("Actions.pauseAll", {
 			type: "state",
 			_id: "Actions.pauseAll",
 			native: {},
@@ -424,7 +424,7 @@ class Heizungssteuerung extends utils.Adapter {
 				def: false,
 			},
 		});
-		this.setObjectNotExists("Actions.boostAll", {
+		void this.setObjectNotExists("Actions.boostAll", {
 			type: "state",
 			_id: "Actions.boostAll",
 			native: {},
@@ -437,7 +437,7 @@ class Heizungssteuerung extends utils.Adapter {
 				def: false,
 			},
 		});
-		this.setObjectNotExists("Actions.absenceUntil", {
+		void this.setObjectNotExists("Actions.absenceUntil", {
 			type: "state",
 			_id: "Actions.absenceUntil",
 			native: {},
@@ -467,17 +467,17 @@ class Heizungssteuerung extends utils.Adapter {
 		humidity: ioBroker.State | null | undefined,
 		targetTemperature: TempTarget,
 	): void {
-		this.setStateAsync(`Temperatures.${room}.current`, Number(temp), true);
+		void this.setStateAsync(`Temperatures.${room}.current`, Number(temp), true);
 		if (humidity != undefined && humidity.val != undefined) {
 			this.setStateAsync(`Temperatures.${room}.currentHumidity`, Number(humidity.val), true);
 		}
-		this.setStateAsync(`Temperatures.${room}.target`, targetTemperature.temp, true);
-		this.setStateAsync(`Temperatures.${room}.targetUntil`, targetTemperature.until, true);
+		void this.setStateAsync(`Temperatures.${room}.target`, targetTemperature.temp, true);
+		void this.setStateAsync(`Temperatures.${room}.targetUntil`, targetTemperature.until, true);
 	}
 
 	writeInitialTemperaturesIntoState(): void {
 		this.roomNames.forEach(room => {
-			this.setObjectNotExists(`Temperatures.${room}.current`, {
+			void this.setObjectNotExists(`Temperatures.${room}.current`, {
 				type: "state",
 				_id: `Temperatures.${room}.current`,
 				native: {},
