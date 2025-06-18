@@ -170,6 +170,8 @@ Enable debug logging in adapter settings to see detailed information about:
 - Error conditions
 
 ## Changelog
+### **WORK IN PROGRESS**
+ * (jbeenenga) update dependencies
 <!--
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
