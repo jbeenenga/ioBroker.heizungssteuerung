@@ -262,7 +262,7 @@ class Heizungssteuerung extends utils.Adapter {
 	 * @returns Map of room names to function member IDs
 	 */
 	private async buildFunctionToRoomMap(functionId: string, functionName: string): Promise<Map<string, string>> {
-		void this.setForeignObjectNotExists(functionId, {
+		this.setForeignObjectNotExists(functionId, {
 			type: "enum",
 			common: { name: functionName, members: [] },
 			native: {},
@@ -371,7 +371,7 @@ class Heizungssteuerung extends utils.Adapter {
 					boostedRooms.push(this.roomNames[i]);
 				} else {
 					await this.setStateAsync(`Actions.${this.roomNames[i]}.${actionName}`, false);
-					void this.setState(`Temperatures.${this.roomNames[i]}.targetUntil`, "00:00", true);
+					this.setState(`Temperatures.${this.roomNames[i]}.targetUntil`, "00:00", true);
 				}
 			}
 		}
@@ -381,7 +381,7 @@ class Heizungssteuerung extends utils.Adapter {
 	initRoomStates(): void {
 		for (let i = 0; i < this.roomNames.length; i++) {
 			const roomName = this.roomNames[i];
-			void this.setObjectNotExists(`Actions.${roomName}.boost`, {
+			this.setObjectNotExists(`Actions.${roomName}.boost`, {
 				type: "state",
 				_id: `Actions.${roomName}.boost`,
 				native: {},
@@ -394,7 +394,7 @@ class Heizungssteuerung extends utils.Adapter {
 					def: false,
 				},
 			});
-			void this.setObjectNotExists(`Actions.${roomName}.pause`, {
+			this.setObjectNotExists(`Actions.${roomName}.pause`, {
 				type: "state",
 				_id: `Actions.${roomName}.pause`,
 				native: {},
@@ -411,7 +411,7 @@ class Heizungssteuerung extends utils.Adapter {
 	}
 
 	initGeneralStates(): void {
-		void this.setObjectNotExists("Actions.pauseAll", {
+		this.setObjectNotExists("Actions.pauseAll", {
 			type: "state",
 			_id: "Actions.pauseAll",
 			native: {},
@@ -424,7 +424,7 @@ class Heizungssteuerung extends utils.Adapter {
 				def: false,
 			},
 		});
-		void this.setObjectNotExists("Actions.boostAll", {
+		this.setObjectNotExists("Actions.boostAll", {
 			type: "state",
 			_id: "Actions.boostAll",
 			native: {},
@@ -437,7 +437,7 @@ class Heizungssteuerung extends utils.Adapter {
 				def: false,
 			},
 		});
-		void this.setObjectNotExists("Actions.absenceUntil", {
+		this.setObjectNotExists("Actions.absenceUntil", {
 			type: "state",
 			_id: "Actions.absenceUntil",
 			native: {},
@@ -467,12 +467,12 @@ class Heizungssteuerung extends utils.Adapter {
 		humidity: ioBroker.State | null | undefined,
 		targetTemperature: TempTarget,
 	): void {
-		void this.setStateAsync(`Temperatures.${room}.current`, Number(temp), true);
+		this.setStateAsync(`Temperatures.${room}.current`, Number(temp), true);
 		if (humidity != undefined && humidity.val != undefined) {
-			void this.setStateAsync(`Temperatures.${room}.currentHumidity`, Number(humidity.val), true);
+			this.setStateAsync(`Temperatures.${room}.currentHumidity`, Number(humidity.val), true);
 		}
-		void this.setStateAsync(`Temperatures.${room}.target`, targetTemperature.temp, true);
-		void this.setStateAsync(`Temperatures.${room}.targetUntil`, targetTemperature.until, true);
+		this.setStateAsync(`Temperatures.${room}.target`, targetTemperature.temp, true);
+		this.setStateAsync(`Temperatures.${room}.targetUntil`, targetTemperature.until, true);
 	}
 
 	writeInitialTemperaturesIntoState(): void {
@@ -503,8 +503,8 @@ class Heizungssteuerung extends utils.Adapter {
 			});
 		});
 		this.roomNames.forEach(room => {
-			void this.setStateAsync(`Temperatures.${room}.target`, this.config.defaultTemperature, true);
-			void this.setStateAsync(`Temperatures.${room}.targetUntil`, "24:00", true);
+			this.setStateAsync(`Temperatures.${room}.target`, this.config.defaultTemperature, true);
+			this.setStateAsync(`Temperatures.${room}.targetUntil`, "24:00", true);
 		});
 	}
 
