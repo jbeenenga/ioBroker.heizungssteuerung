@@ -371,7 +371,7 @@ class Heizungssteuerung extends utils.Adapter {
 					boostedRooms.push(this.roomNames[i]);
 				} else {
 					await this.setStateAsync(`Actions.${this.roomNames[i]}.${actionName}`, false);
-					this.setState(`Temperatures.${this.roomNames[i]}.targetUntil`, "00:00", true);
+					void this.setState(`Temperatures.${this.roomNames[i]}.targetUntil`, "00:00", true);
 				}
 			}
 		}
