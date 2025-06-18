@@ -141,7 +141,7 @@ class Heizungssteuerung extends utils.Adapter {
 		this.log.debug(`found following periods for room ${currentRoom}: ${JSON.stringify(periodsForRoom)}`);
 		periodsForRoom.forEach(period => {
 			const roomTemp = roomTempMap.get(currentRoom);
-			if(!roomTemp){
+			if (!roomTemp) {
 				return;
 			}
 			if (period.from > now && period.from < roomTemp.until) {
@@ -298,7 +298,7 @@ class Heizungssteuerung extends utils.Adapter {
 	 */
 	async setTemperatureForRoom(room: string, targetTemperature: TempTarget | undefined): Promise<void> {
 		const engine = this.engineMap.get(room);
-		if(!engine || !targetTemperature){
+		if (!engine || !targetTemperature) {
 			return;
 		}
 		if (this.tempSensorMap.get(room) == undefined) {
@@ -325,7 +325,7 @@ class Heizungssteuerung extends utils.Adapter {
 			return;
 		}
 		const humiditySensor = this.humSensorMap.get(room);
-		const humidity = humiditySensor ? await this.getForeignStateAsync(humiditySensor): undefined;
+		const humidity = humiditySensor ? await this.getForeignStateAsync(humiditySensor) : undefined;
 
 		this.writeTemperaturesIntoState(room, temp, humidity, targetTemperature);
 
@@ -471,7 +471,7 @@ class Heizungssteuerung extends utils.Adapter {
 	writeTemperaturesIntoState(
 		room: string,
 		temp: number,
-		humidity: ioBroker.State |null| undefined,
+		humidity: ioBroker.State | null | undefined,
 		targetTemperature: TempTarget,
 	): void {
 		void this.setStateAsync(`Temperatures.${room}.current`, Number(temp), true);
