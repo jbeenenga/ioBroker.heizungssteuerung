@@ -170,12 +170,13 @@ Enable debug logging in adapter settings to see detailed information about:
 - Error conditions
 
 ## Changelog
-### **WORK IN PROGRESS**
+### 2.0.0 (2025-06-18)
  * (jbeenenga) update dependencies
 <!--
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
+
 ### 2.0.0 (2024-09-17)
 * (jbeenenga) update dependencies
 * (jbeenenga) add absence mode
