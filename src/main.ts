@@ -309,8 +309,8 @@ class Heizungssteuerung extends utils.Adapter {
 			this.log.info(`Engine for room ${room} not found`);
 			return;
 		}
-		const tempSensorName= this.tempSensorMap.get(room);
-		if(!tempSensorName){
+		const tempSensorName = this.tempSensorMap.get(room);
+		if (!tempSensorName) {
 			return;
 		}
 		const tempState = await this.getForeignStateAsync(tempSensorName);
