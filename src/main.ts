@@ -7,10 +7,11 @@
 import * as utils from "@iobroker/adapter-core";
 import type { Period } from "./models/periods";
 import type { TempTarget } from "./models/tempTarget";
+import type { RoomsEnumResult } from "./models/roomEnum";
 
 class Heizungssteuerung extends utils.Adapter {
 	roomNames: string[];
-	rooms: Record<string, any>;
+	rooms: RoomsEnumResult;
 	tempSensorMap!: Map<string, string>;
 	humSensorMap!: Map<string, string>;
 	engineMap!: Map<string, string>;
@@ -24,14 +25,14 @@ class Heizungssteuerung extends utils.Adapter {
 		this.on("ready", this.onReady.bind(this));
 		this.on("unload", this.onUnload.bind(this));
 		this.roomNames = [];
-		this.rooms = {};
+		this.rooms = { result: {} };
 	}
 
 	/**
 	 * Is called when databases are connected and adapter received configuration.
 	 */
 	async onReady(): Promise<void> {
-		this.rooms = await this.getEnumAsync("rooms");
+		this.rooms = await this.getEnumAsync("rooms") as RoomsEnumResult;
 		this.roomNames = this.buildRoomNames();
 		this.tempSensorMap = await this.buildFunctionToRoomMap("enum.functions.temperature", "Temperature");
 		this.humSensorMap = await this.buildFunctionToRoomMap("enum.functions.humidity", "Humidity");
@@ -200,7 +201,6 @@ class Heizungssteuerung extends utils.Adapter {
 
 	/**
 	 * Get all periods configured for a specific room
-	 *
 	 * @param roomName name of the room
 	 * @returns Array of periods for the specified room
 	 */
@@ -216,7 +216,6 @@ class Heizungssteuerung extends utils.Adapter {
 
 	/**
 	 * Build a map of target temperatures for all rooms based on current state
-	 *
 	 * @param now current time as string formatted as "HH:MM"
 	 * @returns Map of room names to target temperature configurations
 	 */
@@ -251,7 +250,6 @@ class Heizungssteuerung extends utils.Adapter {
 
 	/**
 	 * Build a map of function members to room names
-	 *
 	 * @param functionId id of the function
 	 * @param functionName name of the function
 	 * @returns Map of room names to function member IDs
@@ -287,7 +285,6 @@ class Heizungssteuerung extends utils.Adapter {
 
 	/**
 	 * Set the target temperature for a specific room and control the engine accordingly
-	 *
 	 * @param room current room name
 	 * @param targetTemperature target temperature configuration
 	 */
@@ -348,7 +345,6 @@ class Heizungssteuerung extends utils.Adapter {
 
 	/**
 	 * Build a list of rooms with special state (boost or pause)
-	 *
 	 * @param actionName name of the current action
 	 * @param validIntervall time until action is not valid in minutes
 	 * @returns Array of room names with the specified action active
@@ -448,7 +444,6 @@ class Heizungssteuerung extends utils.Adapter {
 
 	/**
 	 * Write temperature and humidity values to the state
-	 *
 	 * @param room name of the room
 	 * @param temp temperature to set
 	 * @param humidity State including current humidity
@@ -503,7 +498,6 @@ class Heizungssteuerung extends utils.Adapter {
 
 	/**
 	 * Convert long room name to short room name
-	 *
 	 * @param room name of the room
 	 * @returns short room name
 	 */
@@ -524,7 +518,6 @@ class Heizungssteuerung extends utils.Adapter {
 
 	/**
 	 * Check if a period is currently active
-	 *
 	 * @param period period definition to check
 	 * @param now current time as string formatted as "HH:MM"
 	 * @returns true if the period is currently active
@@ -575,7 +568,6 @@ class Heizungssteuerung extends utils.Adapter {
 
 	/**
 	 * Is called when adapter shuts down - callback has to be called under any circumstances!
-	 *
 	 * @param callback callback function to be called when cleanup is done
 	 */
 	onUnload(callback: () => void): void {
