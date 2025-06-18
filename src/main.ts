@@ -293,15 +293,23 @@ class Heizungssteuerung extends utils.Adapter {
 	 * @param targetTemperature target temperature configuration
 	 */
 	async setTemperatureForRoom(room: string, targetTemperature: TempTarget): Promise<void> {
+		const engine = this.engineMap.get(room);
+		if(!engine){
+			return;
+		}
 		if (this.tempSensorMap.get(room) == undefined) {
 			this.log.info(`Temperature sensor for room ${room} not found`);
 			return;
 		}
-		if (this.engineMap.get(room) == undefined) {
+		if (engine == undefined) {
 			this.log.info(`Engine for room ${room} not found`);
 			return;
 		}
-		const tempState = await this.getForeignStateAsync(this.tempSensorMap.get(room)!);
+		const tempSensorName= this.tempSensorMap.get(room);
+		if(!tempSensorName){
+			return;
+		}
+		const tempState = await this.getForeignStateAsync(tempSensorName);
 		if (tempState == undefined) {
 			return;
 		}
@@ -312,18 +320,19 @@ class Heizungssteuerung extends utils.Adapter {
 			this.log.warn(`Temperature for room ${room} is not defined`);
 			return;
 		}
-		const humidity = await this.getForeignStateAsync(this.humSensorMap.get(room)!);
+		const humiditySensor = this.humSensorMap.get(room);
+		var humidity = humiditySensor ? await this.getForeignStateAsync(humiditySensor): undefined;
 
-		this.writeTemperaturesIntoState(room, temp, humidity!, targetTemperature);
+		this.writeTemperaturesIntoState(room, temp, humidity, targetTemperature);
 
 		if (this.config.isHeatingMode == 0) {
 			if (temp < targetTemperature.temp - this.config.startStopDifference) {
-				this.log.debug(`set ${this.engineMap.get(room)} to true`);
-				await this.setForeignStateAsync(this.engineMap.get(room)!, true);
+				this.log.debug(`set ${engine} to true`);
+				await this.setForeignStateAsync(engine, true);
 			}
 			if (temp > targetTemperature.temp + this.config.startStopDifference) {
-				this.log.debug(`set ${this.engineMap.get(room)} to false`);
-				await this.setForeignStateAsync(this.engineMap.get(room)!, false);
+				this.log.debug(`set ${engine} to false`);
+				await this.setForeignStateAsync(engine, false);
 			}
 		} else {
 			if (
@@ -332,17 +341,17 @@ class Heizungssteuerung extends utils.Adapter {
 				this.config.stopCoolingIfHumIsHigherThan < Number(humidity.val)
 			) {
 				this.log.info(`Deactivate engine for ${room} because humidity maximum reached`);
-				await this.setForeignStateAsync(this.engineMap.get(room)!, false);
+				await this.setForeignStateAsync(engine, false);
 				return;
 			}
 
 			if (temp < targetTemperature.temp - this.config.startStopDifference) {
-				this.log.debug(`set ${this.engineMap.get(room)} to false`);
-				await this.setForeignStateAsync(this.engineMap.get(room)!, false);
+				this.log.debug(`set ${engine} to false`);
+				await this.setForeignStateAsync(engine, false);
 			}
 			if (temp > targetTemperature.temp + this.config.startStopDifference) {
-				this.log.debug(`set ${this.engineMap.get(room)} to true`);
-				await this.setForeignStateAsync(this.engineMap.get(room)!, true);
+				this.log.debug(`set ${engine} to true`);
+				await this.setForeignStateAsync(engine, true);
 			}
 		}
 	}
@@ -458,7 +467,7 @@ class Heizungssteuerung extends utils.Adapter {
 	writeTemperaturesIntoState(
 		room: string,
 		temp: number,
-		humidity: ioBroker.State,
+		humidity: ioBroker.State | undefined,
 		targetTemperature: TempTarget,
 	): void {
 		void this.setStateAsync(`Temperatures.${room}.current`, Number(temp), true);
