@@ -148,7 +148,7 @@ class Heizungssteuerung extends utils.Adapter {
 				this.log.debug(`targetUntil for room ${currentRoom} will be set to ${period.from}`);
 				roomTemp.until = period.from;
 			}
-			if (roomTemp.until > now && roomTemp.until != "24:00") {
+			if (roomTemp.until > now && roomTemp.until !== "24:00") {
 				return;
 			}
 			if ((this.config.isHeatingMode == 0) == period.heating && this.isCurrentPeriod(period, now)) {
@@ -275,14 +275,11 @@ class Heizungssteuerung extends utils.Adapter {
 			return functionToRoomMap;
 		}
 
-		for (let i = 0; i < funcTemp.common.members.length; i++) {
-			for (let j = 0; j < this.roomNames.length; j++) {
-				for (let k = 0; k < this.rooms.result[`enum.rooms.${this.roomNames[j]}`].common.members.length; k++) {
-					if (
-						this.rooms.result[`enum.rooms.${this.roomNames[j]}`].common.members[k] ==
-						funcTemp.common.members[i]
-					) {
-						functionToRoomMap.set(this.roomNames[j], funcTemp.common.members[i]);
+		for (const tempMember of funcTemp.common.members) {
+			for (const roomName of this.roomNames) {
+				for (const roomMember of this.rooms.result[`enum.rooms.${roomName}`].common.members) {
+					if (roomMember === tempMember) {
+						functionToRoomMap.set(roomName, tempMember);
 					}
 				}
 			}
@@ -303,10 +300,6 @@ class Heizungssteuerung extends utils.Adapter {
 		}
 		if (this.tempSensorMap.get(room) == undefined) {
 			this.log.info(`Temperature sensor for room ${room} not found`);
-			return;
-		}
-		if (engine == undefined) {
-			this.log.info(`Engine for room ${room} not found`);
 			return;
 		}
 		const tempSensorName = this.tempSensorMap.get(room);
@@ -484,25 +477,25 @@ class Heizungssteuerung extends utils.Adapter {
 
 	writeInitialTemperaturesIntoState(): void {
 		this.roomNames.forEach(room => {
-			void this.setObjectNotExists(`Temperatures.${room}.current`, {
+			this.setObjectNotExists(`Temperatures.${room}.current`, {
 				type: "state",
 				_id: `Temperatures.${room}.current`,
 				native: {},
 				common: { type: "number", name: "Current temperature", read: true, write: false, role: "state" },
 			});
-			void this.setObjectNotExists(`Temperatures.${room}.currentHumidity`, {
+			this.setObjectNotExists(`Temperatures.${room}.currentHumidity`, {
 				type: "state",
 				_id: `Temperatures.${room}.currentHumidity`,
 				native: {},
 				common: { type: "number", name: "Current humidity", read: true, write: false, role: "state" },
 			});
-			void this.setObjectNotExists(`Temperatures.${room}.target`, {
+			this.setObjectNotExists(`Temperatures.${room}.target`, {
 				type: "state",
 				_id: `Temperatures.${room}.target`,
 				native: {},
 				common: { type: "number", name: "Target temperature", read: true, write: true, role: "state" },
 			});
-			void this.setObjectNotExists(`Temperatures.${room}.targetUntil`, {
+			this.setObjectNotExists(`Temperatures.${room}.targetUntil`, {
 				type: "state",
 				_id: `Temperatures.${room}.target`,
 				native: {},
