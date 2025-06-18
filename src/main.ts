@@ -394,7 +394,7 @@ class Heizungssteuerung extends utils.Adapter {
 					def: false,
 				},
 			});
-			this.setObjectNotExists(`Actions.${roomName}.pause`, {
+			void this.setObjectNotExists(`Actions.${roomName}.pause`, {
 				type: "state",
 				_id: `Actions.${roomName}.pause`,
 				native: {},
@@ -469,7 +469,7 @@ class Heizungssteuerung extends utils.Adapter {
 	): void {
 		void this.setStateAsync(`Temperatures.${room}.current`, Number(temp), true);
 		if (humidity != undefined && humidity.val != undefined) {
-			this.setStateAsync(`Temperatures.${room}.currentHumidity`, Number(humidity.val), true);
+			void this.setStateAsync(`Temperatures.${room}.currentHumidity`, Number(humidity.val), true);
 		}
 		void this.setStateAsync(`Temperatures.${room}.target`, targetTemperature.temp, true);
 		void this.setStateAsync(`Temperatures.${room}.targetUntil`, targetTemperature.until, true);
@@ -483,19 +483,19 @@ class Heizungssteuerung extends utils.Adapter {
 				native: {},
 				common: { type: "number", name: "Current temperature", read: true, write: false, role: "state" },
 			});
-			this.setObjectNotExists(`Temperatures.${room}.currentHumidity`, {
+			void this.setObjectNotExists(`Temperatures.${room}.currentHumidity`, {
 				type: "state",
 				_id: `Temperatures.${room}.currentHumidity`,
 				native: {},
 				common: { type: "number", name: "Current humidity", read: true, write: false, role: "state" },
 			});
-			this.setObjectNotExists(`Temperatures.${room}.target`, {
+			void this.setObjectNotExists(`Temperatures.${room}.target`, {
 				type: "state",
 				_id: `Temperatures.${room}.target`,
 				native: {},
 				common: { type: "number", name: "Target temperature", read: true, write: true, role: "state" },
 			});
-			this.setObjectNotExists(`Temperatures.${room}.targetUntil`, {
+			void this.setObjectNotExists(`Temperatures.${room}.targetUntil`, {
 				type: "state",
 				_id: `Temperatures.${room}.target`,
 				native: {},
@@ -503,8 +503,8 @@ class Heizungssteuerung extends utils.Adapter {
 			});
 		});
 		this.roomNames.forEach(room => {
-			this.setStateAsync(`Temperatures.${room}.target`, this.config.defaultTemperature, true);
-			this.setStateAsync(`Temperatures.${room}.targetUntil`, "24:00", true);
+			void this.setStateAsync(`Temperatures.${room}.target`, this.config.defaultTemperature, true);
+			void this.setStateAsync(`Temperatures.${room}.targetUntil`, "24:00", true);
 		});
 	}
 
