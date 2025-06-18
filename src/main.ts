@@ -32,7 +32,7 @@ class Heizungssteuerung extends utils.Adapter {
 	 * Is called when databases are connected and adapter received configuration.
 	 */
 	async onReady(): Promise<void> {
-		this.rooms = await this.getEnumAsync("rooms") as RoomsEnumResult;
+		this.rooms = (await this.getEnumAsync("rooms")) as RoomsEnumResult;
 		this.roomNames = this.buildRoomNames();
 		this.tempSensorMap = await this.buildFunctionToRoomMap("enum.functions.temperature", "Temperature");
 		this.humSensorMap = await this.buildFunctionToRoomMap("enum.functions.humidity", "Humidity");
