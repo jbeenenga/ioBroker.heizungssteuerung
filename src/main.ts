@@ -10,7 +10,7 @@ import type { TempTarget } from "./models/tempTarget";
 
 class Heizungssteuerung extends utils.Adapter {
 	roomNames: string[];
-	rooms: Record<string, any>;
+	rooms: Record<string, unknown>;
 	tempSensorMap!: Map<string, string>;
 	humSensorMap!: Map<string, string>;
 	engineMap!: Map<string, string>;
@@ -199,7 +199,9 @@ class Heizungssteuerung extends utils.Adapter {
 	}
 
 	/**
+	 * Get all periods configured for a specific room
 	 * @param roomName name of the room
+	 * @returns Array of periods for the specified room
 	 */
 	private getPeriodsForRoom(roomName: string): Array<Period> {
 		const periods = new Array<Period>();
@@ -212,7 +214,9 @@ class Heizungssteuerung extends utils.Adapter {
 	}
 
 	/**
+	 * Build a map of target temperatures for all rooms based on current state
 	 * @param now current time as string formatted as "HH:MM"
+	 * @returns Map of room names to target temperature configurations
 	 */
 	async buildDefaultRoomTempMap(now: string): Promise<Map<string, TempTarget>> {
 		const roomTempMap = new Map<string, TempTarget>();
@@ -244,8 +248,10 @@ class Heizungssteuerung extends utils.Adapter {
 	}
 
 	/**
+	 * Build a map of function members to room names
 	 * @param functionId id of the function
 	 * @param functionName name of the function
+	 * @returns Map of room names to function member IDs
 	 */
 	private async buildFunctionToRoomMap(functionId: string, functionName: string): Promise<Map<string, string>> {
 		void this.setForeignObjectNotExists(functionId, {
@@ -277,8 +283,9 @@ class Heizungssteuerung extends utils.Adapter {
 	}
 
 	/**
+	 * Set the target temperature for a specific room and control the engine accordingly
 	 * @param room current room name
-	 * @param targetTemperature map including target temperatures
+	 * @param targetTemperature target temperature configuration
 	 */
 	async setTemperatureForRoom(room: string, targetTemperature: TempTarget): Promise<void> {
 		if (this.tempSensorMap.get(room) == undefined) {
@@ -336,8 +343,10 @@ class Heizungssteuerung extends utils.Adapter {
 	}
 
 	/**
+	 * Build a list of rooms with special state (boost or pause)
 	 * @param actionName name of the current action
-	 * @param validIntervall time until action is not valid
+	 * @param validIntervall time until action is not valid in minutes
+	 * @returns Array of room names with the specified action active
 	 */
 	private async buildSpecialRoomsList(actionName: string, validIntervall: number): Promise<Array<string>> {
 		const boostedRooms = new Array<string>();
@@ -433,10 +442,11 @@ class Heizungssteuerung extends utils.Adapter {
 	}
 
 	/**
+	 * Write temperature and humidity values to the state
 	 * @param room name of the room
 	 * @param temp temperature to set
 	 * @param humidity State including current humidity
-	 * @param targetTemperature target temperature map
+	 * @param targetTemperature target temperature configuration
 	 */
 	writeTemperaturesIntoState(
 		room: string,
@@ -486,7 +496,9 @@ class Heizungssteuerung extends utils.Adapter {
 	}
 
 	/**
+	 * Convert long room name to short room name
 	 * @param room name of the room
+	 * @returns short room name
 	 */
 	convertToShortRoomName(room: string): string {
 		const shortRoomNameParts = room.split(".");
@@ -504,8 +516,10 @@ class Heizungssteuerung extends utils.Adapter {
 	}
 
 	/**
-	 * @param period array of period definitions
-	 * @param now
+	 * Check if a period is currently active
+	 * @param period period definition to check
+	 * @param now current time as string formatted as "HH:MM"
+	 * @returns true if the period is currently active
 	 */
 	isCurrentPeriod(period: Period, now: string): boolean {
 		let day = new Date().getDay() - 1;
@@ -553,8 +567,7 @@ class Heizungssteuerung extends utils.Adapter {
 
 	/**
 	 * Is called when adapter shuts down - callback has to be called under any circumstances!
-	 *
-	 * @param callback
+	 * @param callback callback function to be called when cleanup is done
 	 */
 	onUnload(callback: () => void): void {
 		try {
