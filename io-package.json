@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "heizungssteuerung",
-    "version": "2.0.0",
+    "version": "2.0.1",
     "news": {
+      "2.0.1": {
+        "en": "fix technical issues",
+        "de": "technische probleme beheben",
+        "ru": "устранение технических проблем",
+        "pt": "corrigir problemas técnicos",
+        "nl": "technische problemen op te lossen",
+        "fr": "résoudre les problèmes techniques",
+        "it": "risolvere problemi tecnici",
+        "es": "solucionar cuestiones técnicas",
+        "pl": "rozwiązać problemy techniczne",
+        "uk": "усунення технічних питань",
+        "zh-cn": "解决技术问题"
+      },
       "2.0.0": {
         "en": "update dependencies\nadd absence mode\nfix pause and boost for cooling mode",
         "de": "aktualisierung der abhängigkeiten\nlöschmodus hinzufügen\nhaltepause und schub für kühlbetrieb",
