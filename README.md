@@ -197,6 +197,9 @@ Enable debug logging in adapter settings to see detailed information about:
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
+### **WORK IN PROGRESS**
+ - (jbeenenga) fix build bug
+ 
 ### 2.0.1 (2025-06-24)
  - (jbeenenga) fix technical issues
 
