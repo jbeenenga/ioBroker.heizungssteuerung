@@ -41,12 +41,12 @@ class Heizungssteuerung extends utils.Adapter {
 			SentryUtils.init(
 				"https://39a9163479a6c2799e454f8ecbfcf8b1@o4509558033547264.ingest.de.sentry.io/4509558051438672",
 				this.version || "unknown",
-				this.namespace
+				this.namespace,
 			);
 
 			SentryUtils.captureMessage("Heizungssteuerung adapter started", "info", {
 				namespace: this.namespace,
-				version: this.version
+				version: this.version,
 			});
 
 			this.log.debug("Sentry initialized successfully");
@@ -86,13 +86,15 @@ class Heizungssteuerung extends utils.Adapter {
 			SentryUtils.setContext("adapter_config", {
 				updateInterval: this.config.updateIntervall,
 				roomCount: this.roomNames.length,
-				isHeatingMode: this.config.isHeatingMode
+				isHeatingMode: this.config.isHeatingMode,
 			});
 		} catch (error) {
-			this.log.error(`Error during adapter initialization: ${error instanceof Error ? error.message : String(error)}`);
+			this.log.error(
+				`Error during adapter initialization: ${error instanceof Error ? error.message : String(error)}`,
+			);
 			SentryUtils.captureException(error instanceof Error ? error : new Error(String(error)), {
 				phase: "initialization",
-				config: this.config
+				config: this.config,
 			});
 			throw error;
 		}
@@ -160,7 +162,7 @@ class Heizungssteuerung extends utils.Adapter {
 			this.log.error(`Error during check cycle: ${error instanceof Error ? error.message : String(error)}`);
 			SentryUtils.captureException(error instanceof Error ? error : new Error(String(error)), {
 				phase: "check_cycle",
-				roomCount: this.roomNames?.length
+				roomCount: this.roomNames?.length,
 			});
 		}
 	}
@@ -340,10 +342,12 @@ class Heizungssteuerung extends utils.Adapter {
 			}
 			return functionToRoomMap;
 		} catch (error) {
-			this.log.error(`Error building function to room map for ${functionId}: ${error instanceof Error ? error.message : String(error)}`);
+			this.log.error(
+				`Error building function to room map for ${functionId}: ${error instanceof Error ? error.message : String(error)}`,
+			);
 			SentryUtils.captureException(error instanceof Error ? error : new Error(String(error)), {
 				functionId,
-				functionName
+				functionName,
 			});
 			return new Map<string, string>();
 		}
@@ -415,10 +419,12 @@ class Heizungssteuerung extends utils.Adapter {
 				}
 			}
 		} catch (error) {
-			this.log.error(`Error setting temperature for room ${room}: ${error instanceof Error ? error.message : String(error)}`);
+			this.log.error(
+				`Error setting temperature for room ${room}: ${error instanceof Error ? error.message : String(error)}`,
+			);
 			SentryUtils.captureException(error instanceof Error ? error : new Error(String(error)), {
 				room,
-				targetTemperature
+				targetTemperature,
 			});
 		}
 	}
@@ -448,10 +454,12 @@ class Heizungssteuerung extends utils.Adapter {
 			}
 			return boostedRooms;
 		} catch (error) {
-			this.log.error(`Error building special rooms list for ${actionName}: ${error instanceof Error ? error.message : String(error)}`);
+			this.log.error(
+				`Error building special rooms list for ${actionName}: ${error instanceof Error ? error.message : String(error)}`,
+			);
 			SentryUtils.captureException(error instanceof Error ? error : new Error(String(error)), {
 				actionName,
-				validIntervall
+				validIntervall,
 			});
 			return [];
 		}
@@ -491,7 +499,7 @@ class Heizungssteuerung extends utils.Adapter {
 		} catch (error) {
 			this.log.error(`Error initializing room states: ${error instanceof Error ? error.message : String(error)}`);
 			SentryUtils.captureException(error instanceof Error ? error : new Error(String(error)), {
-				phase: "room_states_init"
+				phase: "room_states_init",
 			});
 		}
 	}
@@ -539,9 +547,11 @@ class Heizungssteuerung extends utils.Adapter {
 				},
 			});
 		} catch (error) {
-			this.log.error(`Error initializing general states: ${error instanceof Error ? error.message : String(error)}`);
+			this.log.error(
+				`Error initializing general states: ${error instanceof Error ? error.message : String(error)}`,
+			);
 			SentryUtils.captureException(error instanceof Error ? error : new Error(String(error)), {
-				phase: "general_states_init"
+				phase: "general_states_init",
 			});
 		}
 	}
@@ -593,7 +603,13 @@ class Heizungssteuerung extends utils.Adapter {
 					type: "state",
 					_id: `Temperatures.${room}.targetUntil`,
 					native: {},
-					common: { type: "string", name: "Target temperature until", read: true, write: true, role: "state" },
+					common: {
+						type: "string",
+						name: "Target temperature until",
+						read: true,
+						write: true,
+						role: "state",
+					},
 				});
 			});
 			this.roomNames.forEach(room => {
@@ -601,9 +617,11 @@ class Heizungssteuerung extends utils.Adapter {
 				void this.setStateAsync(`Temperatures.${room}.targetUntil`, "24:00", true);
 			});
 		} catch (error) {
-			this.log.error(`Error initializing temperature states: ${error instanceof Error ? error.message : String(error)}`);
+			this.log.error(
+				`Error initializing temperature states: ${error instanceof Error ? error.message : String(error)}`,
+			);
 			SentryUtils.captureException(error instanceof Error ? error : new Error(String(error)), {
-				phase: "temperature_states_init"
+				phase: "temperature_states_init",
 			});
 		}
 	}
@@ -688,19 +706,19 @@ class Heizungssteuerung extends utils.Adapter {
 	async onUnload(callback: () => void): Promise<void> {
 		try {
 			SentryUtils.addBreadcrumb("Adapter shutdown started", "lifecycle");
-			
+
 			// Here you must clear all timeouts or intervals that may still be active
 			if (this.interval != undefined) {
 				this.clearInterval(this.interval);
 			}
-			
+
 			this.connected = false;
-			
+
 			// Close Sentry and wait for pending events to be sent
 			await SentryUtils.close(2000);
-			
+
 			SentryUtils.captureMessage("Heizungssteuerung adapter stopped", "info");
-			
+
 			callback();
 		} catch (error) {
 			// Even if Sentry fails, we must call the callback
