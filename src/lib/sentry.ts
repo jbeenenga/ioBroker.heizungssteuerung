@@ -24,16 +24,16 @@ export class SentryUtils {
 				dsn: "https://39a9163479a6c2799e454f8ecbfcf8b1@o4509558033547264.ingest.de.sentry.io/4509558051438672",
 				environment: isProduction ? "production" : "development",
 				release: `iobroker.heizungssteuerung@${adapterVersion}`,
-				
+
 				// Basic settings
 				sendDefaultPii: false, // Don't send PII for privacy
-				
+
 				// Sampling rates for production vs development
 				sampleRate: isProduction ? 0.1 : 1.0, // 10% in production, 100% in development
-				
+
 				// Tracing configuration
 				tracesSampleRate: isProduction ? 0.1 : 1.0, // 10% tracing in production
-				
+
 				// Basic integrations (no profiling for compatibility)
 				integrations: [
 					// Http integration for automatic HTTP request tracing
@@ -41,7 +41,7 @@ export class SentryUtils {
 					// Console integration for console.log capture
 					Sentry.consoleIntegration(),
 				],
-				
+
 				beforeSend(event) {
 					// Filter out sensitive data
 					if (event.exception) {
@@ -53,7 +53,10 @@ export class SentryUtils {
 								exception.value = exception.value.replace(/token[=:]\s*\w+/gi, "token=***");
 								exception.value = exception.value.replace(/secret[=:]\s*\w+/gi, "secret=***");
 								// Remove IP addresses
-								exception.value = exception.value.replace(/\b\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\b/g, "xxx.xxx.xxx.xxx");
+								exception.value = exception.value.replace(
+									/\b\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\b/g,
+									"xxx.xxx.xxx.xxx",
+								);
 							}
 						});
 					}
@@ -63,8 +66,14 @@ export class SentryUtils {
 						event.breadcrumbs = event.breadcrumbs.map(breadcrumb => {
 							if (breadcrumb.message) {
 								breadcrumb.message = breadcrumb.message.replace(/password[=:]\s*\w+/gi, "password=***");
-								breadcrumb.message = breadcrumb.message.replace(/api[_-]?key[=:]\s*\w+/gi, "apiKey=***");
-								breadcrumb.message = breadcrumb.message.replace(/\b\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\b/g, "xxx.xxx.xxx.xxx");
+								breadcrumb.message = breadcrumb.message.replace(
+									/api[_-]?key[=:]\s*\w+/gi,
+									"apiKey=***",
+								);
+								breadcrumb.message = breadcrumb.message.replace(
+									/\b\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\b/g,
+									"xxx.xxx.xxx.xxx",
+								);
 							}
 							return breadcrumb;
 						});
@@ -72,7 +81,7 @@ export class SentryUtils {
 
 					return event;
 				},
-				
+
 				beforeSendTransaction(event) {
 					// Filter transaction data
 					if (event.transaction) {
@@ -81,7 +90,7 @@ export class SentryUtils {
 						event.transaction = event.transaction.replace(/api[_-]?key[=:]\s*\w+/gi, "apiKey=***");
 					}
 					return event;
-				}
+				},
 			});
 
 			// Set user context
@@ -111,12 +120,7 @@ export class SentryUtils {
 	 * @param callback Function to execute within the span
 	 * @param description Optional description
 	 */
-	public static startSpan<T>(
-		name: string, 
-		op: string, 
-		callback: (span?: Sentry.Span) => T,
-		description?: string
-	): T {
+	public static startSpan<T>(name: string, op: string, callback: (span?: Sentry.Span) => T, description?: string): T {
 		if (!this.initialized) {
 			return callback();
 		}
@@ -126,9 +130,9 @@ export class SentryUtils {
 				{
 					name,
 					op,
-					description
+					description,
 				},
-				(span) => {
+				span => {
 					try {
 						return callback(span);
 					} catch (error) {
@@ -136,7 +140,7 @@ export class SentryUtils {
 						span?.setTag("error", true);
 						throw error;
 					}
-				}
+				},
 			);
 		} catch (error) {
 			// Fallback if span creation fails
@@ -152,10 +156,10 @@ export class SentryUtils {
 	 * @param description Optional description
 	 */
 	public static async startSpanAsync<T>(
-		name: string, 
-		op: string, 
+		name: string,
+		op: string,
 		callback: (span?: Sentry.Span) => Promise<T>,
-		description?: string
+		description?: string,
 	): Promise<T> {
 		if (!this.initialized) {
 			return await callback();
@@ -166,9 +170,9 @@ export class SentryUtils {
 				{
 					name,
 					op,
-					description
+					description,
 				},
-				async (span) => {
+				async span => {
 					try {
 						const result = await callback(span);
 						span?.setStatus("ok");
@@ -178,7 +182,7 @@ export class SentryUtils {
 						span?.setTag("error", true);
 						throw error;
 					}
-				}
+				},
 			);
 		} catch (error) {
 			// Fallback if span creation fails
@@ -215,9 +219,9 @@ export class SentryUtils {
 	 * @param level Error level
 	 */
 	public static captureException(
-		error: Error, 
+		error: Error,
 		context?: Record<string, any>,
-		level: Sentry.SeverityLevel = "error"
+		level: Sentry.SeverityLevel = "error",
 	): void {
 		if (!this.initialized) {
 			return;
@@ -289,7 +293,7 @@ export class SentryUtils {
 		message: string,
 		category = "adapter",
 		level: Sentry.SeverityLevel = "info",
-		data?: Record<string, any>
+		data?: Record<string, any>,
 	): void {
 		if (!this.initialized) {
 			return;
@@ -301,7 +305,7 @@ export class SentryUtils {
 				category,
 				level,
 				timestamp: Date.now() / 1000,
-				data: data || {}
+				data: data || {},
 			});
 		} catch (error) {
 			// Silently ignore breadcrumb errors
