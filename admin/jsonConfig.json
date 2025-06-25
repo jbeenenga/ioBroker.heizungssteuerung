@@ -1,6 +1,9 @@
 {
     "i18n": true,
     "type": "tabs",
+    "tabsStyle": {
+        "width": "calc(100% - 100px)"
+    },
     "items": {
         "main": {
             "type": "panel",
@@ -23,31 +26,38 @@
                 "stopCoolingIfHumIsHigherThan": {
                     "newLine": true,
                     "type": "number",
-                    "label": "StopCoolingIfHumIsHigherThan"
+                    "label": "StopCoolingIfHumIsHigherThan",
+                    "size": "sm"
                 }, 
                 "updateIntervall": {
                     "type": "number",
-                    "label": "UpdateIntervall"
+                    "label": "UpdateIntervall",
+                    "size": "sm"
                 }, 
                 "defaultTemperature": {
                     "type": "number",
-                    "label": "DefaultTemperature"
+                    "label": "DefaultTemperature",
+                    "size": "sm"
                 }, 
                 "boostIntervall": {
                     "type": "number",
-                    "label": "BoostIntervall"
+                    "label": "BoostIntervall",
+                    "size": "sm"
                 }, 
                 "pauseIntervall": {
                     "type": "number",
-                    "label": "PauseIntervall"
+                    "label": "PauseIntervall",
+                    "size": "sm"
                 },
                 "startStopDifference":{
                     "type": "number",
-                    "label": "StartStopDifference"
+                    "label": "StartStopDifference",
+                    "size": "sm"
                 },
                 "resetTemperaturesOnStart":{
                     "type": "checkbox",
-                    "label": "ResetTemperaturesOnStart"
+                    "label": "ResetTemperaturesOnStart",
+                    "size": "sm"
                 }
             }
         },
