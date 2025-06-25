@@ -11,7 +11,7 @@ export class SentryUtils {
 	 * @param adapterVersion Version of the adapter
 	 * @param adapterNamespace Namespace of the adapter instance
 	 */
-	public static init( adapterVersion: string, adapterNamespace?: string): void {
+	public static init(adapterVersion: string, adapterNamespace?: string): void {
 		if (this.initialized) {
 			return;
 		}
