@@ -8,6 +8,7 @@ import * as utils from "@iobroker/adapter-core";
 import type { Period } from "./models/periods";
 import type { TempTarget } from "./models/tempTarget";
 import type { RoomsEnumResult } from "./models/roomEnum";
+import { SentryUtils } from "./lib/sentry";
 
 class Heizungssteuerung extends utils.Adapter {
 	roomNames: string[];
@@ -26,89 +27,141 @@ class Heizungssteuerung extends utils.Adapter {
 		this.on("unload", this.onUnload.bind(this));
 		this.roomNames = [];
 		this.rooms = { result: {} };
+
+		// Initialize Sentry
+		this.initializeSentry();
+	}
+
+	/**
+	 * Initialize Sentry for error monitoring
+	 */
+	private initializeSentry(): void {
+		try {
+			// Initialize Sentry with the provided DSN
+			SentryUtils.init(
+				"https://39a9163479a6c2799e454f8ecbfcf8b1@o4509558033547264.ingest.de.sentry.io/4509558051438672",
+				this.version || "unknown",
+				this.namespace
+			);
+
+			SentryUtils.captureMessage("Heizungssteuerung adapter started", "info", {
+				namespace: this.namespace,
+				version: this.version
+			});
+
+			this.log.debug("Sentry initialized successfully");
+		} catch (error) {
+			this.log.warn(`Failed to initialize Sentry: ${error instanceof Error ? error.message : String(error)}`);
+		}
 	}
 
 	/**
 	 * Is called when databases are connected and adapter received configuration.
 	 */
 	async onReady(): Promise<void> {
-		this.rooms = (await this.getEnumAsync("rooms")) as RoomsEnumResult;
-		this.roomNames = this.buildRoomNames();
-		this.tempSensorMap = await this.buildFunctionToRoomMap("enum.functions.temperature", "Temperature");
-		this.humSensorMap = await this.buildFunctionToRoomMap("enum.functions.humidity", "Humidity");
-		this.engineMap = await this.buildFunctionToRoomMap("enum.functions.engine", "Engine");
-		this.log.debug(`tempSensorMap created: ${JSON.stringify(this.tempSensorMap)}`);
-		this.log.debug(`humSensorMap created: ${JSON.stringify(this.humSensorMap)}`);
-		this.log.debug(`engineMap created: ${JSON.stringify(this.engineMap)}`);
+		try {
+			SentryUtils.addBreadcrumb("Adapter onReady started", "lifecycle");
 
-		this.initGeneralStates();
-		this.initRoomStates();
-		if (this.config.resetTemperaturesOnStart) {
-			this.writeInitialTemperaturesIntoState();
-		}
+			this.rooms = (await this.getEnumAsync("rooms")) as RoomsEnumResult;
+			this.roomNames = this.buildRoomNames();
+			this.tempSensorMap = await this.buildFunctionToRoomMap("enum.functions.temperature", "Temperature");
+			this.humSensorMap = await this.buildFunctionToRoomMap("enum.functions.humidity", "Humidity");
+			this.engineMap = await this.buildFunctionToRoomMap("enum.functions.engine", "Engine");
+			this.log.debug(`tempSensorMap created: ${JSON.stringify(this.tempSensorMap)}`);
+			this.log.debug(`humSensorMap created: ${JSON.stringify(this.humSensorMap)}`);
+			this.log.debug(`engineMap created: ${JSON.stringify(this.engineMap)}`);
 
-		if (this.interval != undefined) {
-			this.clearInterval(this.interval);
+			this.initGeneralStates();
+			this.initRoomStates();
+			if (this.config.resetTemperaturesOnStart) {
+				this.writeInitialTemperaturesIntoState();
+			}
+
+			if (this.interval != undefined) {
+				this.clearInterval(this.interval);
+			}
+			this.interval = this.setInterval(this.check.bind(this), this.config.updateIntervall * 1000);
+
+			SentryUtils.addBreadcrumb("Adapter initialization completed", "lifecycle");
+			SentryUtils.setContext("adapter_config", {
+				updateInterval: this.config.updateIntervall,
+				roomCount: this.roomNames.length,
+				isHeatingMode: this.config.isHeatingMode
+			});
+		} catch (error) {
+			this.log.error(`Error during adapter initialization: ${error instanceof Error ? error.message : String(error)}`);
+			SentryUtils.captureException(error instanceof Error ? error : new Error(String(error)), {
+				phase: "initialization",
+				config: this.config
+			});
+			throw error;
 		}
-		this.interval = this.setInterval(this.check.bind(this), this.config.updateIntervall * 1000);
 	}
 
 	private async check(): Promise<void> {
-		const now = new Date().toLocaleTimeString([], { hourCycle: "h23", hour: "2-digit", minute: "2-digit" });
-		const nowAsDate = new Date().toLocaleString("de-DE", {
-			day: "2-digit",
-			month: "2-digit",
-			year: "numeric",
-			hour: "2-digit",
-			minute: "2-digit",
-		});
-		this.log.debug(`current time is ${now}`);
-		const boostedRooms = await this.buildSpecialRoomsList("boost", this.config.boostIntervall);
-		const pausedRooms = await this.buildSpecialRoomsList("pause", this.config.pauseIntervall);
-		const roomTempMap = await this.buildDefaultRoomTempMap(now);
+		try {
+			const now = new Date().toLocaleTimeString([], { hourCycle: "h23", hour: "2-digit", minute: "2-digit" });
+			const nowAsDate = new Date().toLocaleString("de-DE", {
+				day: "2-digit",
+				month: "2-digit",
+				year: "numeric",
+				hour: "2-digit",
+				minute: "2-digit",
+			});
+			this.log.debug(`current time is ${now}`);
+			const boostedRooms = await this.buildSpecialRoomsList("boost", this.config.boostIntervall);
+			const pausedRooms = await this.buildSpecialRoomsList("pause", this.config.pauseIntervall);
+			const roomTempMap = await this.buildDefaultRoomTempMap(now);
 
-		//-------------------------------------------------
-		// check pause all
-		//-------------------------------------------------
-		const pauseAll = await this.getStateAsync("Actions.pauseAll");
-		const absenceUntil = await this.getStateAsync("Actions.absenceUntil");
-		if (pauseAll != undefined && pauseAll.val == true) {
-			if (pauseAll.ts > new Date().getTime() - this.config.pauseIntervall * 60000) {
-				this.log.info("State pauseAll is active so all engines will be deactivated");
-				this.roomNames.forEach(value => pausedRooms.push(value));
-			} else {
-				await this.setStateAsync("Actions.pauseAll", false);
-				this.log.info("State pauseAll was deactivated");
+			//-------------------------------------------------
+			// check pause all
+			//-------------------------------------------------
+			const pauseAll = await this.getStateAsync("Actions.pauseAll");
+			const absenceUntil = await this.getStateAsync("Actions.absenceUntil");
+			if (pauseAll != undefined && pauseAll.val == true) {
+				if (pauseAll.ts > new Date().getTime() - this.config.pauseIntervall * 60000) {
+					this.log.info("State pauseAll is active so all engines will be deactivated");
+					this.roomNames.forEach(value => pausedRooms.push(value));
+				} else {
+					await this.setStateAsync("Actions.pauseAll", false);
+					this.log.info("State pauseAll was deactivated");
+				}
 			}
-		}
 
-		//-------------------------------------------------
-		// check absence
-		//-------------------------------------------------
-		const absenceActive = absenceUntil == null || absenceUntil.val == null || absenceUntil.val > nowAsDate;
+			//-------------------------------------------------
+			// check absence
+			//-------------------------------------------------
+			const absenceActive = absenceUntil == null || absenceUntil.val == null || absenceUntil.val > nowAsDate;
 
-		//-------------------------------------------------
-		// check boost all
-		//-------------------------------------------------
-		const boostAll = await this.getStateAsync("Actions.boostAll");
-		if (boostAll != undefined && boostAll.val == true) {
-			if (boostAll.ts > new Date().getTime() - this.config.boostIntervall * 60000) {
-				this.log.info("State boostAll is active so all engines will be deactivated");
-				this.roomNames.forEach(value => boostedRooms.push(value));
-			} else {
-				await this.setStateAsync("Actions.boostAll", false);
-				this.log.info("State boostAll was deactivated");
+			//-------------------------------------------------
+			// check boost all
+			//-------------------------------------------------
+			const boostAll = await this.getStateAsync("Actions.boostAll");
+			if (boostAll != undefined && boostAll.val == true) {
+				if (boostAll.ts > new Date().getTime() - this.config.boostIntervall * 60000) {
+					this.log.info("State boostAll is active so all engines will be activated");
+					this.roomNames.forEach(value => boostedRooms.push(value));
+				} else {
+					await this.setStateAsync("Actions.boostAll", false);
+					this.log.info("State boostAll was deactivated");
+				}
 			}
-		}
 
-		this.roomNames.forEach(currentRoom =>
-			this.fillRommTemperatures(currentRoom, pausedRooms, boostedRooms, roomTempMap, absenceActive, now),
-		);
+			this.roomNames.forEach(currentRoom =>
+				this.fillRommTemperatures(currentRoom, pausedRooms, boostedRooms, roomTempMap, absenceActive, now),
+			);
 
-		this.log.debug(`Temperatures will be set like: ${JSON.stringify(roomTempMap)}`);
+			this.log.debug(`Temperatures will be set like: ${JSON.stringify(roomTempMap)}`);
 
-		for (let i = 0; i < this.roomNames.length; i++) {
-			await this.setTemperatureForRoom(this.roomNames[i], roomTempMap.get(this.roomNames[i]));
+			for (let i = 0; i < this.roomNames.length; i++) {
+				await this.setTemperatureForRoom(this.roomNames[i], roomTempMap.get(this.roomNames[i]));
+			}
+		} catch (error) {
+			this.log.error(`Error during check cycle: ${error instanceof Error ? error.message : String(error)}`);
+			SentryUtils.captureException(error instanceof Error ? error : new Error(String(error)), {
+				phase: "check_cycle",
+				roomCount: this.roomNames?.length
+			});
 		}
 	}
 
@@ -128,7 +181,7 @@ class Heizungssteuerung extends utils.Adapter {
 			return;
 		}
 		if (boostedRooms.includes(currentRoom)) {
-			this.log.debug(`${currentRoom} is boosed`);
+			this.log.debug(`${currentRoom} is boosted`);
 			roomTempMap.set(currentRoom, { temp: this.getBoostTemperature(), until: "boost" });
 			return;
 		}
@@ -163,12 +216,12 @@ class Heizungssteuerung extends utils.Adapter {
 	private isPeriodValid(period: Period, autoCorrect: boolean): boolean {
 		if (
 			!period.from.match("^(?:0?[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$") ||
-			!period.from.match("^(?:0?[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$")
+			!period.until.match("^(?:0?[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$")
 		) {
 			if (autoCorrect) {
 				this.tryToCorrectPeriod(period);
 			}
-			if (this.isPeriodValid(period, false)) {
+			if (!this.isPeriodValid(period, false)) {
 				this.log.warn(`The given period is not valid and will be ignored: ${JSON.stringify(period)}`);
 				return false;
 			}
@@ -262,29 +315,38 @@ class Heizungssteuerung extends utils.Adapter {
 	 * @returns Map of room names to function member IDs
 	 */
 	private async buildFunctionToRoomMap(functionId: string, functionName: string): Promise<Map<string, string>> {
-		this.setForeignObjectNotExists(functionId, {
-			type: "enum",
-			common: { name: functionName, members: [] },
-			native: {},
-			_id: functionId,
-		});
-		const functionToRoomMap = new Map<string, string>();
-		const funcTemp = await this.getForeignObjectAsync(functionId);
+		try {
+			this.setForeignObjectNotExists(functionId, {
+				type: "enum",
+				common: { name: functionName, members: [] },
+				native: {},
+				_id: functionId,
+			});
+			const functionToRoomMap = new Map<string, string>();
+			const funcTemp = await this.getForeignObjectAsync(functionId);
 
-		if (funcTemp == undefined) {
-			return functionToRoomMap;
-		}
+			if (funcTemp == undefined) {
+				return functionToRoomMap;
+			}
 
-		for (const tempMember of funcTemp.common.members) {
-			for (const roomName of this.roomNames) {
-				for (const roomMember of this.rooms.result[`enum.rooms.${roomName}`].common.members) {
-					if (roomMember === tempMember) {
-						functionToRoomMap.set(roomName, tempMember);
+			for (const tempMember of funcTemp.common.members) {
+				for (const roomName of this.roomNames) {
+					for (const roomMember of this.rooms.result[`enum.rooms.${roomName}`].common.members) {
+						if (roomMember === tempMember) {
+							functionToRoomMap.set(roomName, tempMember);
+						}
 					}
 				}
 			}
+			return functionToRoomMap;
+		} catch (error) {
+			this.log.error(`Error building function to room map for ${functionId}: ${error instanceof Error ? error.message : String(error)}`);
+			SentryUtils.captureException(error instanceof Error ? error : new Error(String(error)), {
+				functionId,
+				functionName
+			});
+			return new Map<string, string>();
 		}
-		return functionToRoomMap;
 	}
 
 	/**
@@ -294,62 +356,70 @@ class Heizungssteuerung extends utils.Adapter {
 	 * @param targetTemperature target temperature configuration
 	 */
 	async setTemperatureForRoom(room: string, targetTemperature: TempTarget | undefined): Promise<void> {
-		const engine = this.engineMap.get(room);
-		if (!engine || !targetTemperature) {
-			return;
-		}
-		if (this.tempSensorMap.get(room) == undefined) {
-			this.log.info(`Temperature sensor for room ${room} not found`);
-			return;
-		}
-		const tempSensorName = this.tempSensorMap.get(room);
-		if (!tempSensorName) {
-			return;
-		}
-		const tempState = await this.getForeignStateAsync(tempSensorName);
-		if (tempState == undefined) {
-			return;
-		}
-		const temp = Number(tempState.val);
-		this.log.debug(`In ${room} it is ${temp} and should be ${targetTemperature.temp}`);
-
-		if (temp == null) {
-			this.log.warn(`Temperature for room ${room} is not defined`);
-			return;
-		}
-		const humiditySensor = this.humSensorMap.get(room);
-		const humidity = humiditySensor ? await this.getForeignStateAsync(humiditySensor) : undefined;
-
-		this.writeTemperaturesIntoState(room, temp, humidity, targetTemperature);
-
-		if (this.config.isHeatingMode == 0) {
-			if (temp < targetTemperature.temp - this.config.startStopDifference) {
-				this.log.debug(`set ${engine} to true`);
-				await this.setForeignStateAsync(engine, true);
-			}
-			if (temp > targetTemperature.temp + this.config.startStopDifference) {
-				this.log.debug(`set ${engine} to false`);
-				await this.setForeignStateAsync(engine, false);
-			}
-		} else {
-			if (
-				humidity != undefined &&
-				humidity.val != undefined &&
-				this.config.stopCoolingIfHumIsHigherThan < Number(humidity.val)
-			) {
-				this.log.info(`Deactivate engine for ${room} because humidity maximum reached`);
-				await this.setForeignStateAsync(engine, false);
+		try {
+			const engine = this.engineMap.get(room);
+			if (!engine || !targetTemperature) {
 				return;
 			}
+			if (this.tempSensorMap.get(room) == undefined) {
+				this.log.info(`Temperature sensor for room ${room} not found`);
+				return;
+			}
+			const tempSensorName = this.tempSensorMap.get(room);
+			if (!tempSensorName) {
+				return;
+			}
+			const tempState = await this.getForeignStateAsync(tempSensorName);
+			if (tempState == undefined) {
+				return;
+			}
+			const temp = Number(tempState.val);
+			this.log.debug(`In ${room} it is ${temp} and should be ${targetTemperature.temp}`);
 
-			if (temp < targetTemperature.temp - this.config.startStopDifference) {
-				this.log.debug(`set ${engine} to false`);
-				await this.setForeignStateAsync(engine, false);
+			if (temp == null) {
+				this.log.warn(`Temperature for room ${room} is not defined`);
+				return;
 			}
-			if (temp > targetTemperature.temp + this.config.startStopDifference) {
-				this.log.debug(`set ${engine} to true`);
-				await this.setForeignStateAsync(engine, true);
+			const humiditySensor = this.humSensorMap.get(room);
+			const humidity = humiditySensor ? await this.getForeignStateAsync(humiditySensor) : undefined;
+
+			this.writeTemperaturesIntoState(room, temp, humidity, targetTemperature);
+
+			if (this.config.isHeatingMode == 0) {
+				if (temp < targetTemperature.temp - this.config.startStopDifference) {
+					this.log.debug(`set ${engine} to true`);
+					await this.setForeignStateAsync(engine, true);
+				}
+				if (temp > targetTemperature.temp + this.config.startStopDifference) {
+					this.log.debug(`set ${engine} to false`);
+					await this.setForeignStateAsync(engine, false);
+				}
+			} else {
+				if (
+					humidity != undefined &&
+					humidity.val != undefined &&
+					this.config.stopCoolingIfHumIsHigherThan < Number(humidity.val)
+				) {
+					this.log.info(`Deactivate engine for ${room} because humidity maximum reached`);
+					await this.setForeignStateAsync(engine, false);
+					return;
+				}
+
+				if (temp < targetTemperature.temp - this.config.startStopDifference) {
+					this.log.debug(`set ${engine} to false`);
+					await this.setForeignStateAsync(engine, false);
+				}
+				if (temp > targetTemperature.temp + this.config.startStopDifference) {
+					this.log.debug(`set ${engine} to true`);
+					await this.setForeignStateAsync(engine, true);
+				}
 			}
+		} catch (error) {
+			this.log.error(`Error setting temperature for room ${room}: ${error instanceof Error ? error.message : String(error)}`);
+			SentryUtils.captureException(error instanceof Error ? error : new Error(String(error)), {
+				room,
+				targetTemperature
+			});
 		}
 	}
 
@@ -361,96 +431,119 @@ class Heizungssteuerung extends utils.Adapter {
 	 * @returns Array of room names with the specified action active
 	 */
 	private async buildSpecialRoomsList(actionName: string, validIntervall: number): Promise<Array<string>> {
-		const boostedRooms = new Array<string>();
-		const boostValidUntil = new Date().getTime() - validIntervall * 60000;
-		this.log.debug(`validIntervall: ${validIntervall}`);
-		for (let i = 0; i < this.roomNames.length; i++) {
-			const boost = await this.getStateAsync(`Actions.${this.roomNames[i]}.${actionName}`);
-			if (boost != undefined && boost.val == true) {
-				if (boost.ts > boostValidUntil) {
-					boostedRooms.push(this.roomNames[i]);
-				} else {
-					await this.setStateAsync(`Actions.${this.roomNames[i]}.${actionName}`, false);
-					void this.setState(`Temperatures.${this.roomNames[i]}.targetUntil`, "00:00", true);
+		try {
+			const boostedRooms = new Array<string>();
+			const boostValidUntil = new Date().getTime() - validIntervall * 60000;
+			this.log.debug(`validIntervall: ${validIntervall}`);
+			for (let i = 0; i < this.roomNames.length; i++) {
+				const boost = await this.getStateAsync(`Actions.${this.roomNames[i]}.${actionName}`);
+				if (boost != undefined && boost.val == true) {
+					if (boost.ts > boostValidUntil) {
+						boostedRooms.push(this.roomNames[i]);
+					} else {
+						await this.setStateAsync(`Actions.${this.roomNames[i]}.${actionName}`, false);
+						void this.setState(`Temperatures.${this.roomNames[i]}.targetUntil`, "00:00", true);
+					}
 				}
 			}
+			return boostedRooms;
+		} catch (error) {
+			this.log.error(`Error building special rooms list for ${actionName}: ${error instanceof Error ? error.message : String(error)}`);
+			SentryUtils.captureException(error instanceof Error ? error : new Error(String(error)), {
+				actionName,
+				validIntervall
+			});
+			return [];
 		}
-		return boostedRooms;
 	}
 
 	initRoomStates(): void {
-		for (let i = 0; i < this.roomNames.length; i++) {
-			const roomName = this.roomNames[i];
-			void this.setObjectNotExists(`Actions.${roomName}.boost`, {
-				type: "state",
-				_id: `Actions.${roomName}.boost`,
-				native: {},
-				common: {
-					type: "boolean",
-					name: "Activate boost for this room",
-					read: true,
-					write: true,
-					role: "state",
-					def: false,
-				},
-			});
-			void this.setObjectNotExists(`Actions.${roomName}.pause`, {
-				type: "state",
-				_id: `Actions.${roomName}.pause`,
-				native: {},
-				common: {
-					type: "boolean",
-					name: "Activate pause for this room",
-					read: true,
-					write: true,
-					role: "state",
-					def: false,
-				},
+		try {
+			for (let i = 0; i < this.roomNames.length; i++) {
+				const roomName = this.roomNames[i];
+				void this.setObjectNotExists(`Actions.${roomName}.boost`, {
+					type: "state",
+					_id: `Actions.${roomName}.boost`,
+					native: {},
+					common: {
+						type: "boolean",
+						name: "Activate boost for this room",
+						read: true,
+						write: true,
+						role: "state",
+						def: false,
+					},
+				});
+				void this.setObjectNotExists(`Actions.${roomName}.pause`, {
+					type: "state",
+					_id: `Actions.${roomName}.pause`,
+					native: {},
+					common: {
+						type: "boolean",
+						name: "Activate pause for this room",
+						read: true,
+						write: true,
+						role: "state",
+						def: false,
+					},
+				});
+			}
+		} catch (error) {
+			this.log.error(`Error initializing room states: ${error instanceof Error ? error.message : String(error)}`);
+			SentryUtils.captureException(error instanceof Error ? error : new Error(String(error)), {
+				phase: "room_states_init"
 			});
 		}
 	}
 
 	initGeneralStates(): void {
-		void this.setObjectNotExists("Actions.pauseAll", {
-			type: "state",
-			_id: "Actions.pauseAll",
-			native: {},
-			common: {
-				type: "boolean",
-				name: "Activate boost for any room",
-				read: true,
-				write: true,
-				role: "state",
-				def: false,
-			},
-		});
-		void this.setObjectNotExists("Actions.boostAll", {
-			type: "state",
-			_id: "Actions.boostAll",
-			native: {},
-			common: {
-				type: "boolean",
-				name: "Activate boost for any room",
-				read: true,
-				write: true,
-				role: "state",
-				def: false,
-			},
-		});
-		void this.setObjectNotExists("Actions.absenceUntil", {
-			type: "state",
-			_id: "Actions.absenceUntil",
-			native: {},
-			common: {
-				type: "string",
-				// prettier-ignore
-				name: "Date and time until absence mode should be active (Format-Examlpe: \"2024-01-01 14:00\")",
-				read: true,
-				write: true,
-				role: "state",
-				def: "2024-01-01 14:00",
-			},
-		});
+		try {
+			void this.setObjectNotExists("Actions.pauseAll", {
+				type: "state",
+				_id: "Actions.pauseAll",
+				native: {},
+				common: {
+					type: "boolean",
+					name: "Activate pause for any room",
+					read: true,
+					write: true,
+					role: "state",
+					def: false,
+				},
+			});
+			void this.setObjectNotExists("Actions.boostAll", {
+				type: "state",
+				_id: "Actions.boostAll",
+				native: {},
+				common: {
+					type: "boolean",
+					name: "Activate boost for any room",
+					read: true,
+					write: true,
+					role: "state",
+					def: false,
+				},
+			});
+			void this.setObjectNotExists("Actions.absenceUntil", {
+				type: "state",
+				_id: "Actions.absenceUntil",
+				native: {},
+				common: {
+					type: "string",
+					// prettier-ignore
+					name: "Date and time until absence mode should be active (Format-Examlpe: \"2024-01-01 14:00\")",
+					read: true,
+					write: true,
+					role: "state",
+					def: "2024-01-01 14:00",
+				},
+			});
+		} catch (error) {
+			this.log.error(`Error initializing general states: ${error instanceof Error ? error.message : String(error)}`);
+			SentryUtils.captureException(error instanceof Error ? error : new Error(String(error)), {
+				phase: "general_states_init"
+			});
+		}
 	}
 
 	/**
@@ -476,36 +569,43 @@ class Heizungssteuerung extends utils.Adapter {
 	}
 
 	writeInitialTemperaturesIntoState(): void {
-		this.roomNames.forEach(room => {
-			void this.setObjectNotExists(`Temperatures.${room}.current`, {
-				type: "state",
-				_id: `Temperatures.${room}.current`,
-				native: {},
-				common: { type: "number", name: "Current temperature", read: true, write: false, role: "state" },
+		try {
+			this.roomNames.forEach(room => {
+				void this.setObjectNotExists(`Temperatures.${room}.current`, {
+					type: "state",
+					_id: `Temperatures.${room}.current`,
+					native: {},
+					common: { type: "number", name: "Current temperature", read: true, write: false, role: "state" },
+				});
+				void this.setObjectNotExists(`Temperatures.${room}.currentHumidity`, {
+					type: "state",
+					_id: `Temperatures.${room}.currentHumidity`,
+					native: {},
+					common: { type: "number", name: "Current humidity", read: true, write: false, role: "state" },
+				});
+				void this.setObjectNotExists(`Temperatures.${room}.target`, {
+					type: "state",
+					_id: `Temperatures.${room}.target`,
+					native: {},
+					common: { type: "number", name: "Target temperature", read: true, write: true, role: "state" },
+				});
+				void this.setObjectNotExists(`Temperatures.${room}.targetUntil`, {
+					type: "state",
+					_id: `Temperatures.${room}.targetUntil`,
+					native: {},
+					common: { type: "string", name: "Target temperature until", read: true, write: true, role: "state" },
+				});
 			});
-			void this.setObjectNotExists(`Temperatures.${room}.currentHumidity`, {
-				type: "state",
-				_id: `Temperatures.${room}.currentHumidity`,
-				native: {},
-				common: { type: "number", name: "Current humidity", read: true, write: false, role: "state" },
+			this.roomNames.forEach(room => {
+				void this.setStateAsync(`Temperatures.${room}.target`, this.config.defaultTemperature, true);
+				void this.setStateAsync(`Temperatures.${room}.targetUntil`, "24:00", true);
 			});
-			void this.setObjectNotExists(`Temperatures.${room}.target`, {
-				type: "state",
-				_id: `Temperatures.${room}.target`,
-				native: {},
-				common: { type: "number", name: "Target temperature", read: true, write: true, role: "state" },
+		} catch (error) {
+			this.log.error(`Error initializing temperature states: ${error instanceof Error ? error.message : String(error)}`);
+			SentryUtils.captureException(error instanceof Error ? error : new Error(String(error)), {
+				phase: "temperature_states_init"
 			});
-			void this.setObjectNotExists(`Temperatures.${room}.targetUntil`, {
-				type: "state",
-				_id: `Temperatures.${room}.target`,
-				native: {},
-				common: { type: "string", name: "Target temperature until", read: true, write: true, role: "state" },
-			});
-		});
-		this.roomNames.forEach(room => {
-			void this.setStateAsync(`Temperatures.${room}.target`, this.config.defaultTemperature, true);
-			void this.setStateAsync(`Temperatures.${room}.targetUntil`, "24:00", true);
-		});
+		}
 	}
 
 	/**
@@ -585,19 +685,26 @@ class Heizungssteuerung extends utils.Adapter {
 	 *
 	 * @param callback callback function to be called when cleanup is done
 	 */
-	onUnload(callback: () => void): void {
+	async onUnload(callback: () => void): Promise<void> {
 		try {
+			SentryUtils.addBreadcrumb("Adapter shutdown started", "lifecycle");
+			
 			// Here you must clear all timeouts or intervals that may still be active
-			// clearTimeout(timeout1);
-			// clearTimeout(timeout2);
-			// ...
 			if (this.interval != undefined) {
 				this.clearInterval(this.interval);
 			}
+			
 			this.connected = false;
+			
+			// Close Sentry and wait for pending events to be sent
+			await SentryUtils.close(2000);
+			
+			SentryUtils.captureMessage("Heizungssteuerung adapter stopped", "info");
+			
 			callback();
-		} catch {
-			// Fixed: removed unused variable 'e'
+		} catch (error) {
+			// Even if Sentry fails, we must call the callback
+			this.log.error(`Error during shutdown: ${error instanceof Error ? error.message : String(error)}`);
 			callback();
 		}
 	}
