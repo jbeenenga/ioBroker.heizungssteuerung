@@ -38,11 +38,7 @@ class Heizungssteuerung extends utils.Adapter {
 	private initializeSentry(): void {
 		try {
 			// Initialize Sentry with the provided DSN
-			SentryUtils.init(
-				"https://39a9163479a6c2799e454f8ecbfcf8b1@o4509558033547264.ingest.de.sentry.io/4509558051438672",
-				this.version || "unknown",
-				this.namespace,
-			);
+			SentryUtils.init(this.version || "unknown", this.namespace);
 
 			SentryUtils.captureMessage("Heizungssteuerung adapter started", "info", {
 				namespace: this.namespace,
@@ -343,7 +339,9 @@ class Heizungssteuerung extends utils.Adapter {
 			return functionToRoomMap;
 		} catch (error) {
 			this.log.error(
-				`Error building function to room map for ${functionId}: ${error instanceof Error ? error.message : String(error)}`,
+				`Error building function to room map for ${functionId}: ${
+					error instanceof Error ? error.message : String(error)
+				}`,
 			);
 			SentryUtils.captureException(error instanceof Error ? error : new Error(String(error)), {
 				functionId,
@@ -455,7 +453,9 @@ class Heizungssteuerung extends utils.Adapter {
 			return boostedRooms;
 		} catch (error) {
 			this.log.error(
-				`Error building special rooms list for ${actionName}: ${error instanceof Error ? error.message : String(error)}`,
+				`Error building special rooms list for ${actionName}: ${
+					error instanceof Error ? error.message : String(error)
+				}`,
 			);
 			SentryUtils.captureException(error instanceof Error ? error : new Error(String(error)), {
 				actionName,

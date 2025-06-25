@@ -8,17 +8,16 @@ export class SentryUtils {
 
 	/**
 	 * Initialize Sentry with the given configuration
-	 * @param dsn Sentry DSN
 	 * @param adapterVersion Version of the adapter
 	 * @param adapterNamespace Namespace of the adapter instance
 	 */
-	public static init(dsn: string, adapterVersion: string, adapterNamespace?: string): void {
+	public static init( adapterVersion: string, adapterNamespace?: string): void {
 		if (this.initialized) {
 			return;
 		}
 
 		Sentry.init({
-			dsn: dsn,
+			dsn: "https://39a9163479a6c2799e454f8ecbfcf8b1@o4509558033547264.ingest.de.sentry.io/4509558051438672",
 			environment: process.env.NODE_ENV === "development" ? "development" : "production",
 			release: `iobroker.heizungssteuerung@${adapterVersion}`,
 			sampleRate: 0.1, // Only send 10% of events to save quota
