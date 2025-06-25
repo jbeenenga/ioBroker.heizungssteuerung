@@ -9,11 +9,13 @@ Sentry ist ein Error-Monitoring Service, der automatisch Fehler erfasst und deta
 ## Funktionalitäten
 
 ### Automatische Fehlererkennung
+
 - Alle unbehandelten Exceptions werden automatisch an Sentry gesendet
 - Stack Traces und Kontext-Informationen werden mitgeliefert
 - Fehler werden gruppiert und dedupliziert
 
 ### Datenschutz und Sicherheit
+
 Die Sentry-Integration wurde mit besonderem Fokus auf Datenschutz entwickelt:
 
 - **Sensitive Daten werden gefiltert**: Passwörter, API-Keys, Tokens und andere sensible Informationen werden automatisch aus Fehlermeldungen entfernt
@@ -21,13 +23,17 @@ Die Sentry-Integration wurde mit besonderem Fokus auf Datenschutz entwickelt:
 - **Lokale Filterung**: Sensible Daten werden bereits vor dem Senden an Sentry entfernt
 
 ### Breadcrumbs
+
 Das System erstellt automatisch Breadcrumbs für wichtige Adapter-Ereignisse:
+
 - Adapter-Start und -Stop
 - Initialisierungsschritte
 - Wichtige Lifecycle-Events
 
 ### Kontext-Informationen
+
 Zusätzliche Informationen werden mit Fehlern gesendet:
+
 - Adapter-Version
 - Namespace der Instanz
 - Konfigurationsdetails (anonymisiert)
@@ -39,32 +45,35 @@ Zusätzliche Informationen werden mit Fehlern gesendet:
 Die Sentry-Integration ist standardmäßig aktiviert. Die DSN (Data Source Name) ist fest im Code hinterlegt.
 
 ### Umgebungen
+
 - **Production**: Normale Sentry-Erfassung
 - **Development**: Entwicklungsumgebung wird entsprechend markiert
 
 ## Implementierungsdetails
 
 ### SentryUtils Klasse
+
 Die `SentryUtils` Klasse in `src/lib/sentry.ts` bietet folgende Methoden:
 
 ```typescript
 // Initialisierung
-SentryUtils.init(dsn, version, namespace)
+SentryUtils.init(dsn, version, namespace);
 
 // Fehler erfassen
-SentryUtils.captureException(error, context)
+SentryUtils.captureException(error, context);
 
 // Nachrichten senden
-SentryUtils.captureMessage(message, level, context)
+SentryUtils.captureMessage(message, level, context);
 
 // Breadcrumbs hinzufügen
-SentryUtils.addBreadcrumb(message, category, level)
+SentryUtils.addBreadcrumb(message, category, level);
 
 // Kontext setzen
-SentryUtils.setContext(key, value)
+SentryUtils.setContext(key, value);
 ```
 
 ### Integration in den Adapter
+
 Sentry ist in die folgenden Adapter-Bereiche integriert:
 
 1. **Initialisierung**: Sentry wird beim Adapter-Start initialisiert
@@ -73,7 +82,9 @@ Sentry ist in die folgenden Adapter-Bereiche integriert:
 4. **Shutdown**: Sauberes Schließen von Sentry beim Adapter-Stop
 
 ### Datenschutz-Filter
+
 Folgende sensible Daten werden automatisch gefiltert:
+
 - `password=***`
 - `apiKey=***`
 - `token=***`
