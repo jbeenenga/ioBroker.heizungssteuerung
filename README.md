@@ -27,6 +27,15 @@ This adapter provides comprehensive heating system management for ioBroker insta
 - **Humidity Control**: Stop cooling when humidity thresholds are reached
 - **Absence Mode**: Set reduced temperatures during holidays or extended absences
 - **Temperature Override**: Manually override target temperatures when needed
+- **Error Monitoring**: Integrated Sentry error monitoring for improved stability and debugging
+
+## Error Monitoring & Support
+
+This adapter includes integrated error monitoring via [Sentry](https://sentry.io) to help improve stability and provide better support. Error information is automatically collected and sent to help identify and fix issues quickly.
+
+**Privacy & Security**: All sensitive data (passwords, API keys, personal information) is automatically filtered out before sending any error reports. Only technical error information is transmitted to help improve the adapter.
+
+For detailed information about the error monitoring implementation, see [docs/SENTRY.md](docs/SENTRY.md).
 
 ## Installation
 
@@ -197,6 +206,10 @@ Enable debug logging in adapter settings to see detailed information about:
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
+
+### **WORK IN PROGRESS**
+
+- (jbeenenga) Add Sentry error monitoring for improved stability and debugging
 
 ### 2.0.2 (2025-06-24)
 
