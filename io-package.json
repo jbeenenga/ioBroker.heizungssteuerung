@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "heizungssteuerung",
-    "version": "2.0.2",
+    "version": "2.0.3",
     "news": {
+      "2.0.3": {
+        "en": "fix absence format issue\nfix period matching issue",
+        "de": "problem mit dem fehlenden format\nfixzeitanpassung problem",
+        "ru": "устранить проблему отсутствия формата\nвопрос соответствия периода фиксации",
+        "pt": "corrigir o problema do formato de ausência\ncorrigir o problema correspondente ao período",
+        "nl": "probleem met afwezigheidsformaat oplossen\nfix period matching issue",
+        "fr": "correction du problème de format d'absence\nproblème d'appariement des périodes de correction",
+        "it": "risolvere problema del formato di assenza\nperiodo di correzione corrispondente problema",
+        "es": "solucionar el problema del formato de ausencia\nperíodo de solución de problemas",
+        "pl": "naprawić problem formatu nieobecności\nokres rozliczeniowy",
+        "uk": "виправлено проблему формата відсутності\nвиправлений термін подання питання",
+        "zh-cn": "校正缺失格式问题\n固定周期匹配问题"
+      },
       "2.0.2": {
         "en": "fix build bug",
         "de": "fehler erstellen",
@@ -80,19 +93,6 @@
         "pl": "dostosowywanie temperatury do resetu",
         "uk": "додати можливість скидання температур при запуску адаптера",
         "zh-cn": "增加在适应人员开端重新塑温的可能性"
-      },
-      "1.6.4": {
-        "en": "add more debug outputs\nfixed incorrect period to room mapping",
-        "de": "mehr debug-ausgänge hinzufügen\nunrichtige zeit für die raumkartierung",
-        "ru": "добавить больше выводов debug\nфиксированный неправильный период к картепингу комнаты",
-        "pt": "adicionar mais saídas de depuração\nperíodo incorreto fixo para mapeamento de quarto",
-        "nl": "voeg meer debug outputs toe\nincorrecte periode naar kamermappen",
-        "fr": "ajouter plus de sorties de débogage\npériode incorrecte fixe pour la cartographie de la pièce",
-        "it": "aggiungere più uscite di debug\nperiodo fisso non corretto per la mappatura della camera",
-        "es": "añadir más productos de depuración\nperíodo incorrecto fijo a la asignación de la habitación",
-        "pl": "dodać\nnieprawidłowy okres mapowania pokoju",
-        "uk": "додати більше вихідних\nфіксований невірний період до оформлення номера",
-        "zh-cn": "产出增加\n固定不正确的时间"
       }
     },
     "titleLang": {
