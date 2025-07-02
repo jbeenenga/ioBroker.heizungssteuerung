@@ -199,8 +199,9 @@ Enable debug logging in adapter settings to see detailed information about:
 -->
 
 ### **WORK IN PROGRESS**
- - (jbeenenga) fix absence format issue
- - (jbeenenga) fix period matching issue
+
+- (jbeenenga) fix absence format issue
+- (jbeenenga) fix period matching issue
 
 ### 2.0.2 (2025-06-24)
 
