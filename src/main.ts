@@ -85,7 +85,7 @@ class Heizungssteuerung extends utils.Adapter {
 		//-------------------------------------------------
 		// check absence
 		//-------------------------------------------------
-		const absenceActive = absenceUntil == null || absenceUntil.val == null || absenceUntil.val > nowAsDate;
+		const absenceActive = !(absenceUntil == null || absenceUntil.val == null) && absenceUntil.val > nowAsDate;
 
 		//-------------------------------------------------
 		// check boost all
@@ -140,6 +140,12 @@ class Heizungssteuerung extends utils.Adapter {
 		const periodsForRoom = this.getPeriodsForRoom(currentRoom);
 		this.log.debug(`found following periods for room ${currentRoom}: ${JSON.stringify(periodsForRoom)}`);
 		periodsForRoom.forEach(period => {
+			if ((this.config.isHeatingMode == 0) !== period.heating) {
+				this.log.debug(
+					`The period is not matching, because heating mode does not match: ${JSON.stringify(period)}`,
+				);
+				return;
+			}
 			const roomTemp = roomTempMap.get(currentRoom);
 			if (!roomTemp) {
 				return;
@@ -151,7 +157,7 @@ class Heizungssteuerung extends utils.Adapter {
 			if (roomTemp.until > now && roomTemp.until !== "24:00") {
 				return;
 			}
-			if ((this.config.isHeatingMode == 0) == period.heating && this.isCurrentPeriod(period, now)) {
+			if (this.isCurrentPeriod(period, now)) {
 				this.log.debug(`The period is matching ${JSON.stringify(period)}`);
 				roomTempMap.set(currentRoom, { temp: period.temp, until: period.until });
 			} else {
@@ -444,11 +450,11 @@ class Heizungssteuerung extends utils.Adapter {
 			common: {
 				type: "string",
 				// prettier-ignore
-				name: "Date and time until absence mode should be active (Format-Examlpe: \"2024-01-01 14:00\")",
+				name: "Date and time until absence mode should be active (Format-Examlpe: \"01.01.2025, 15:30\")",
 				read: true,
 				write: true,
 				role: "state",
-				def: "2024-01-01 14:00",
+				def: "01.01.2025, 15:30",
 			},
 		});
 	}
