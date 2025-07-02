@@ -197,9 +197,11 @@ Enable debug logging in adapter settings to see detailed information about:
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
+
 ### 2.0.3 (2025-07-02)
- - (jbeenenga) fix absence format issue
- - (jbeenenga) fix period matching issue
+
+- (jbeenenga) fix absence format issue
+- (jbeenenga) fix period matching issue
 
 ### 2.0.2 (2025-06-24)
 
