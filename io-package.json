@@ -3,19 +3,6 @@
     "name": "heizungssteuerung",
     "version": "2.0.3",
     "news": {
-      "2.1.0": {
-        "en": "add weather-based heating/cooling control\nrefactor business logic into service classes\nadd comprehensive unit tests (91 tests)\nupdate dependencies to latest versions",
-        "de": "wetterbasierte Heiz-/Kühlsteuerung hinzugefügt\nGeschäftslogik in Service-Klassen refactored\numfassende Unit-Tests hinzugefügt (91 Tests)\nAbhängigkeiten auf neueste Versionen aktualisiert",
-        "ru": "добавить управление отоплением/охлаждением на основе погоды\nрефакторинг бизнес-логики в сервисные классы\nдобавить всесторонние модульные тесты (91 тест)\nобновить зависимости до последних версий",
-        "pt": "adicionar controle de aquecimento/resfriamento baseado no clima\nrefatorar lógica de negócios em classes de serviço\nadicionar testes unitários abrangentes (91 testes)\natualizar dependências para as versões mais recentes",
-        "nl": "weerbased verwarmings-/koelingscontrole toevoegen\nbedrijfslogica refactoren in serviceklassen\nomvattende unit tests toevoegen (91 tests)\nafhankelijkheden bijwerken naar nieuwste versies",
-        "fr": "ajouter le contrôle de chauffage/refroidissement basé sur la météo\nrefactoriser la logique métier dans les classes de service\najouter des tests unitaires complets (91 tests)\nmettre à jour les dépendances vers les dernières versions",
-        "it": "aggiungere controllo riscaldamento/raffreddamento basato sul tempo\nrefactoring logica aziendale in classi di servizio\naggiungere test unitari completi (91 test)\naggiornare dipendenze alle versioni più recenti",
-        "es": "agregar control de calefacción/refrigeración basado en el clima\nrefactorizar lógica de negocio en clases de servicio\nagregar pruebas unitarias integrales (91 pruebas)\nactualizar dependencias a las versiones más recientes",
-        "pl": "dodać kontrolę ogrzewania/chłodzenia opartą na pogodzie\nrefaktoryzacja logiki biznesowej w klasach usług\ndodać kompleksowe testy jednostkowe (91 testów)\nzaktualizować zależności do najnowszych wersji",
-        "uk": "додати управління опаленням/охолодженням на основі погоди\nрефакторинг бізнес-логіки в сервісні класи\nдодати всебічні модульні тести (91 тест)\nоновити залежності до останніх версій",
-        "zh-cn": "添加基于天气的供暖/制冷控制\n将业务逻辑重构为服务类\n添加全面的单元测试（91个测试）\n将依赖项更新到最新版本"
-      },
       "2.0.3": {
         "en": "fix absence format issue\nfix period matching issue",
         "de": "problem mit dem fehlenden format\nfixzeitanpassung problem",
