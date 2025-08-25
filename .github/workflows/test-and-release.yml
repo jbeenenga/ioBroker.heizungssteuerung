@@ -51,6 +51,8 @@ jobs:
           # Uncomment the following line if your adapter cannot be installed using 'npm ci'
           install-command: "npm install"
           build: true
+          # Run unit tests
+          extra-tests: "npm run test:ts"
   # Deploys the final package to NPM
   deploy:
     needs: [check-and-lint, adapter-tests]
