@@ -91,6 +91,49 @@
 					"md": 6,
 					"lg": 4,
 					"xl": 4
+				},
+				"enableWeatherControl": {
+					"type": "checkbox",
+					"label": "EnableWeatherControl",
+					"xs": 12,
+					"sm": 12,
+					"md": 6,
+					"lg": 4,
+					"xl": 4,
+					"default": false
+				},
+				"weatherStatePath": {
+					"type": "selectSendTo",
+					"label": "WeatherStatePath",
+					"command": "listStates",
+					"xs": 12,
+					"sm": 12,
+					"md": 8,
+					"lg": 8,
+					"xl": 8,
+					"hidden": "!data.enableWeatherControl"
+				},
+				"heatingOutsideTemperatureThreshold": {
+					"type": "number",
+					"label": "HeatingOutsideTemperatureThreshold",
+					"xs": 12,
+					"sm": 12,
+					"md": 6,
+					"lg": 4,
+					"xl": 4,
+					"default": 15,
+					"hidden": "!data.enableWeatherControl"
+				},
+				"coolingOutsideTemperatureThreshold": {
+					"type": "number",
+					"label": "CoolingOutsideTemperatureThreshold",
+					"xs": 12,
+					"sm": 12,
+					"md": 6,
+					"lg": 4,
+					"xl": 4,
+					"default": 24,
+					"hidden": "!data.enableWeatherControl"
 				}
 			}
 		},
