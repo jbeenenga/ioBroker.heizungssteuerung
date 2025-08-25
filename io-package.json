@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "heizungssteuerung",
-    "version": "2.0.3",
+    "version": "2.1.0",
     "news": {
+      "2.1.0": {
+        "en": "add weather-based heating/cooling control\nrefactor business logic into service classes\nadd comprehensive unit tests\nupdate dependencies to latest versions",
+        "de": "klimabasierte heizung/kühlsteuerung hinzufügen\nrefactor business logik in serviceklassen\numfassende gerätetests hinzufügen\ndie abhängigkeiten der neuesten versionen aktualisieren",
+        "ru": "добавить управление отоплением / охлаждением на основе погоды\nреорганизация бизнес-логики в сервисные классы\nдобавить комплексные единичные испытания\nзависимость обновлений от последних версий",
+        "pt": "adicionar controle de aquecimento/resfriamento baseado no tempo\nrefator lógica de negócios em classes de serviço\nadicionar testes unitários abrangentes\natualizar dependências para versões mais recentes",
+        "nl": "op het weer gebaseerde verwarming/koelingsregeling toevoegen\nrefactor bedrijfslogica in service classes\nuitgebreide eenheidstests toevoegen\nafhankelijkheden van de nieuwste versies bijwerken",
+        "fr": "ajouter une commande de chauffage/refroidissement par temps\nrefactorer la logique commerciale en classes de service\najouter des tests unitaires complets\nmettre à jour les dépendances vers les dernières versions",
+        "it": "aggiungere il controllo di riscaldamento/raffrescamento basato sul tempo\nrefactor business logica in corsi di servizio\naggiungere test unitari completi\naggiornare le dipendenze alle ultime versioni",
+        "es": "añadir control de calefacción y refrigeración basado en el clima\nrefactor lógica empresarial en clases de servicio\nañadir pruebas de unidad integral\nactualizar las dependencias a las versiones más recientes",
+        "pl": "dodaj regulację ogrzewania / chłodzenia na bazie warunków atmosferycznych\nprzełożyć logikę biznesową na klasy usług\ndodać kompleksowe testy jednostkowe\naktualizacja zależności do najnowszych wersji",
+        "uk": "додавати безпечне опалення / охолодження\nрефактор бізнес-логіка в класах сервісу\nдодати комплексні тести\nоновлення залежності до останніх версій",
+        "zh-cn": "增加基于天气的加热/冷却控制\n将业务逻辑重新纳入服务类别\n增加全面的单位测试\n更新对最新版本的依赖性"
+      },
       "2.0.3": {
         "en": "fix absence format issue\nfix period matching issue",
         "de": "problem mit dem fehlenden format\nfixzeitanpassung problem",
@@ -80,19 +93,6 @@
         "pl": "format zapisu",
         "uk": "формат дати фіксації",
         "zh-cn": "f 固定日期"
-      },
-      "1.6.5": {
-        "en": "add possibility to reset temperatures on adapter start",
-        "de": "möglichkeit zur rückstellung von temperaturen am adapterstart",
-        "ru": "добавить возможность сброса температур на запуске адаптера",
-        "pt": "adicionar possibilidade para redefinir temperaturas no início do adaptador",
-        "nl": "voeg de mogelijkheid om de temperatuur te resetten op adapter start",
-        "fr": "ajouter la possibilité de réinitialiser les températures sur le démarrage de l'adaptateur",
-        "it": "aggiungere la possibilità di reset delle temperature sull'avvio dell'adattatore",
-        "es": "añadir posibilidad de restablecer temperaturas en el arranque del adaptador",
-        "pl": "dostosowywanie temperatury do resetu",
-        "uk": "додати можливість скидання температур при запуску адаптера",
-        "zh-cn": "增加在适应人员开端重新塑温的可能性"
       }
     },
     "titleLang": {
