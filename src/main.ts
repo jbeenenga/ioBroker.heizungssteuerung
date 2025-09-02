@@ -347,7 +347,7 @@ class Heizungssteuerung extends utils.Adapter {
 					name: "Activate boost for this room",
 					read: true,
 					write: true,
-					role: "state",
+					role: "switch",
 					def: false,
 				},
 			});
@@ -360,7 +360,7 @@ class Heizungssteuerung extends utils.Adapter {
 					name: "Activate pause for this room",
 					read: true,
 					write: true,
-					role: "state",
+					role: "switch",
 					def: false,
 				},
 			});
@@ -374,10 +374,10 @@ class Heizungssteuerung extends utils.Adapter {
 			native: {},
 			common: {
 				type: "boolean",
-				name: "Activate boost for any room",
+				name: "Activate pause for any room",
 				read: true,
 				write: true,
-				role: "state",
+				role: "switch",
 				def: false,
 			},
 		});
@@ -390,7 +390,7 @@ class Heizungssteuerung extends utils.Adapter {
 				name: "Activate boost for any room",
 				read: true,
 				write: true,
-				role: "state",
+				role: "switch",
 				def: false,
 			},
 		});
@@ -404,7 +404,7 @@ class Heizungssteuerung extends utils.Adapter {
 				name: "Date and time until absence mode should be active (Format-Examlpe: \"01.01.2025, 15:30\")",
 				read: true,
 				write: true,
-				role: "state",
+				role: "date",
 				def: "01.01.2025, 15:30",
 			},
 		});
@@ -438,25 +438,37 @@ class Heizungssteuerung extends utils.Adapter {
 				type: "state",
 				_id: `Temperatures.${room}.current`,
 				native: {},
-				common: { type: "number", name: "Current temperature", read: true, write: false, role: "state" },
+				common: {
+					type: "number",
+					name: "Current temperature",
+					read: true,
+					write: false,
+					role: "value.temperature",
+				},
 			});
 			void this.setObjectNotExists(`Temperatures.${room}.currentHumidity`, {
 				type: "state",
 				_id: `Temperatures.${room}.currentHumidity`,
 				native: {},
-				common: { type: "number", name: "Current humidity", read: true, write: false, role: "state" },
+				common: { type: "number", name: "Current humidity", read: true, write: false, role: "value.humidity" },
 			});
 			void this.setObjectNotExists(`Temperatures.${room}.target`, {
 				type: "state",
 				_id: `Temperatures.${room}.target`,
 				native: {},
-				common: { type: "number", name: "Target temperature", read: true, write: true, role: "state" },
+				common: {
+					type: "number",
+					name: "Target temperature",
+					read: true,
+					write: true,
+					role: "level.temperature",
+				},
 			});
 			void this.setObjectNotExists(`Temperatures.${room}.targetUntil`, {
 				type: "state",
 				_id: `Temperatures.${room}.target`,
 				native: {},
-				common: { type: "string", name: "Target temperature until", read: true, write: true, role: "state" },
+				common: { type: "string", name: "Target temperature until", read: true, write: true, role: "date" },
 			});
 		});
 		this.roomNames.forEach(room => {
