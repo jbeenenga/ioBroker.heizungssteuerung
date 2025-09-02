@@ -215,6 +215,7 @@ Enable debug logging in adapter settings to see detailed information about:
 -->
 ### **WORK IN PROGRESS**
 - (jbeenenga) fix invalid state roles according to ioBroker documentation
+- (jbeenenga) fix repository checker issues
 
 ### 2.1.1 (2025-09-02)
  - (jbeenenga) correct outsite temperature path setting
