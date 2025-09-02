@@ -223,13 +223,6 @@ Enable debug logging in adapter settings to see detailed information about:
 - (jbeenenga) add comprehensive unit tests
 - (jbeenenga) update dependencies to latest versions
 
-### **WORK IN PROGRESS**
-
-- (jbeenenga) add weather-based heating/cooling control
-- (jbeenenga) refactor business logic into service classes
-- (jbeenenga) add comprehensive unit tests
-- (jbeenenga) update dependencies to latest versions
-
 ### 2.0.3 (2025-07-02)
 
 - (jbeenenga) fix absence format issue
