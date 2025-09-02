@@ -20,7 +20,6 @@ This adapter provides comprehensive heating system management for ioBroker insta
 ## Features
 
 - **Dual Mode Support**: Switch between heating and cooling modes
-- **Weather-based Control**: Automatically activate/deactivate based on outside temperature
 - **Boost Mode**: Temporarily increase heating/cooling for individual rooms
 - **Pause Mode**: Temporarily disable heating/cooling for specific rooms
 - **Time-based Scheduling**: Define temperature periods for different times and days
@@ -90,21 +89,6 @@ Configure temperature schedules for each room:
 - **Boost Duration**: Auto-reset time for boost mode (minutes)
 - **Humidity Threshold**: Maximum humidity before cooling stops
 - **Reset on Startup**: Overwrite all temperatures with default values on adapter start
-
-#### Weather-based Control (Optional)
-
-Enable intelligent operation based on outside temperature:
-
-- **Enable Weather Control**: Activate weather-based heating/cooling control
-- **Weather Data Source**: Select the state containing outside temperature data
-- **Heating Threshold**: Only activate heating if outside temperature is below this value (default: 15°C)
-- **Cooling Threshold**: Only activate cooling if outside temperature is above this value (default: 24°C)
-
-**How it works:**
-- In heating mode: System only operates when outside temperature < threshold
-- In cooling mode: System only operates when outside temperature > threshold
-- Takes priority over all other settings (periods, boost, absence)
-- If weather data is unavailable, system operates normally as fallback
 
 ## Usage
 
@@ -213,12 +197,6 @@ Enable debug logging in adapter settings to see detailed information about:
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
-### 2.1.0 (2025-08-25)
-
-- (jbeenenga) add weather-based heating/cooling control
-- (jbeenenga) refactor business logic into service classes
-- (jbeenenga) add comprehensive unit tests
-- (jbeenenga) update dependencies to latest versions
 
 ### 2.0.3 (2025-07-02)
 

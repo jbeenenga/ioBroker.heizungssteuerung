@@ -23,9 +23,5 @@
     "PauseIntervall": "Time until pause will be end in minutes",
     "BoostIntervall": "Time until boost will be end in minutes",
     "StartStopDifference": "Diffenernce from target temperature until start or stop heating",
-    "ResetTemperaturesOnStart": "Reset temperatures to default on adapter starts",
-    "EnableWeatherControl": "Enable weather-based control",
-    "WeatherStatePath": "Weather state path (outside temperature)",
-    "HeatingOutsideTemperatureThreshold": "Heating: activate only if outside temperature below (°C)",
-    "CoolingOutsideTemperatureThreshold": "Cooling: activate only if outside temperature above (°C)"
+    "ResetTemperaturesOnStart": "Reset temperatures to default on adapter starts"
 }

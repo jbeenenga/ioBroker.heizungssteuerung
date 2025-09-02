@@ -26,9 +26,5 @@
     "BoostIntervall": "Zeit bis zum Ende des Boosts in Minuten",
     "StartStopDifference": "Differenz zur Solltemperatur bis zum Beginn oder Ende des Aufheizens",
     "ResetTemperaturesOnAdapterStart": "Zurücksetzen der Temperaturen auf die Standardwerte beim Start des Adapters",
-    "ResetTemperaturesOnStart": "Zurücksetzen der Temperaturen auf die Standardwerte beim Start des Adapters",
-    "EnableWeatherControl": "Wetterbasierte Steuerung aktivieren",
-    "WeatherStatePath": "Wetter-Datenpunkt (Außentemperatur)",
-    "HeatingOutsideTemperatureThreshold": "Heizung: nur aktivieren wenn Außentemperatur unter (°C)",
-    "CoolingOutsideTemperatureThreshold": "Kühlung: nur aktivieren wenn Außentemperatur über (°C)"
+    "ResetTemperaturesOnStart": "Zurücksetzen der Temperaturen auf die Standardwerte beim Start des Adapters"
 }

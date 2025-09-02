@@ -168,11 +168,7 @@
     "periods": [],
     "pauseIntervall": 30,
     "boostIntervall": 30,
-    "startStopDifference": 0.5,
-    "enableWeatherControl": false,
-    "weatherStatePath": "",
-    "heatingOutsideTemperatureThreshold": 15,
-    "coolingOutsideTemperatureThreshold": 24
+    "startStopDifference": 0.5
   },
   "objects": [],
   "instanceObjects": []

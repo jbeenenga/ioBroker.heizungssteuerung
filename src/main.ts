@@ -12,8 +12,6 @@ import { TimeUtils } from "./services/TimeUtils";
 import { TemperatureController, type TemperatureControllerConfig } from "./services/TemperatureController";
 import { PeriodService } from "./services/PeriodService";
 import { RoomManager } from "./services/RoomManager";
-import { WeatherService } from "./services/WeatherService";
-import { WeatherBasedController, type WeatherBasedControllerConfig } from "./services/WeatherBasedController";
 
 class Heizungssteuerung extends utils.Adapter {
 	roomNames: string[];
@@ -25,8 +23,6 @@ class Heizungssteuerung extends utils.Adapter {
 	roomManager!: RoomManager;
 	temperatureController!: TemperatureController;
 	periodService!: PeriodService;
-	weatherService!: WeatherService;
-	weatherBasedController!: WeatherBasedController;
 
 	public constructor(options: Partial<utils.AdapterOptions> = {}) {
 		super({
@@ -60,16 +56,6 @@ class Heizungssteuerung extends utils.Adapter {
 			this.config.isHeatingMode,
 		);
 
-		this.weatherService = new WeatherService(this);
-		const weatherControllerConfig: WeatherBasedControllerConfig = {
-			enableWeatherControl: this.config.enableWeatherControl || false,
-			weatherStatePath: this.config.weatherStatePath || "",
-			isHeatingMode: this.config.isHeatingMode,
-			heatingOutsideTemperatureThreshold: this.config.heatingOutsideTemperatureThreshold || 15,
-			coolingOutsideTemperatureThreshold: this.config.coolingOutsideTemperatureThreshold || 24,
-		};
-		this.weatherBasedController = new WeatherBasedController(weatherControllerConfig);
-
 		this.tempSensorMap = await this.buildFunctionToRoomMap("enum.functions.temperature", "Temperature");
 		this.humSensorMap = await this.buildFunctionToRoomMap("enum.functions.humidity", "Humidity");
 		this.engineMap = await this.buildFunctionToRoomMap("enum.functions.engine", "Engine");
@@ -93,36 +79,6 @@ class Heizungssteuerung extends utils.Adapter {
 		const now = TimeUtils.getCurrentTimeString();
 		const nowAsDate = TimeUtils.getCurrentDateTimeString();
 		this.log.debug(`current time is ${now}`);
-
-		//-------------------------------------------------
-		// check weather conditions
-		//-------------------------------------------------
-		let outsideTemperature: number | null = null;
-		if (this.weatherBasedController && this.config.enableWeatherControl) {
-			outsideTemperature = await this.weatherService.getOutsideTemperature(this.config.weatherStatePath);
-			const weatherAllowed = this.weatherBasedController.shouldAllowOperation(outsideTemperature);
-
-			if (weatherAllowed === false) {
-				this.log.info(
-					`Weather control: Operation blocked. Outside temp: ${outsideTemperature}°C, ` +
-						`${this.weatherBasedController.getControlDescription()}`,
-				);
-				// Deactivate all engines due to weather conditions
-				for (const roomName of this.roomNames) {
-					const engineId = this.engineMap.get(roomName);
-					if (engineId) {
-						await this.setForeignStateAsync(engineId, false);
-					}
-				}
-				return; // Skip all other heating/cooling logic
-			} else if (weatherAllowed === true) {
-				this.log.debug(
-					`Weather control: Operation allowed. Outside temp: ${outsideTemperature}°C, ` +
-						`${this.weatherBasedController.getControlDescription()}`,
-				);
-			}
-		}
-
 		const boostedRooms = await this.buildSpecialRoomsList("boost", this.config.boostIntervall);
 		const pausedRooms = await this.buildSpecialRoomsList("pause", this.config.pauseIntervall);
 		const roomTempMap = await this.buildDefaultRoomTempMap(now);
