@@ -2,6 +2,7 @@
   "common": {
     "name": "heizungssteuerung",
     "version": "2.1.1",
+    "noGit": true,
     "news": {
       "2.1.1": {
         "en": "correct outsite temperature path setting",
@@ -154,7 +155,7 @@
     ],
     "globalDependencies": [
       {
-        "admin": ">=7.4.10"
+        "admin": ">=7.6.17"
       }
     ]
   },
