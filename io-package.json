@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "heizungssteuerung",
-    "version": "2.1.0",
+    "version": "2.1.1",
     "news": {
+      "2.1.1": {
+        "en": "correct outsite temperature path setting",
+        "de": "korrekte temperaturpfadeinstellung vor ort",
+        "ru": "правильное определение температурного пути",
+        "pt": "ajuste correto da temperatura externa",
+        "nl": "correcte buitentemperatuurpadinstelling",
+        "fr": "réglage correct du chemin de température hors site",
+        "it": "corretta impostazione del percorso di temperatura esterna",
+        "es": "correcto ajuste de la ruta de temperatura fuera del sitio",
+        "pl": "prawidłowe ustawienie ścieżki temperatury na zewnątrz",
+        "uk": "правильне налаштування температурного шляху",
+        "zh-cn": "校正场外温度路径设置"
+      },
       "2.1.0": {
         "en": "add weather-based heating/cooling control\nrefactor business logic into service classes\nadd comprehensive unit tests\nupdate dependencies to latest versions",
         "de": "klimabasierte heizung/kühlsteuerung hinzufügen\nrefactor business logik in serviceklassen\numfassende gerätetests hinzufügen\ndie abhängigkeiten der neuesten versionen aktualisieren",
@@ -80,19 +93,6 @@
         "pl": "naprawić trąb\nwilgotność korowa",
         "uk": "виправити помилки для кінцевого підсилювача або паузи режим\nзабезпечує високу вологість при температурі",
         "zh-cn": "fix 结 论\n提供温度的湿度"
-      },
-      "1.6.7": {
-        "en": "fix date format",
-        "de": "datumsformat",
-        "ru": "исправить формат даты",
-        "pt": "corrigir o formato da data",
-        "nl": "vertaling:",
-        "fr": "format de date",
-        "it": "formato della data di correzione",
-        "es": "formato de fecha fija",
-        "pl": "format zapisu",
-        "uk": "формат дати фіксації",
-        "zh-cn": "f 固定日期"
       }
     },
     "titleLang": {
