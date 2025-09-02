@@ -103,14 +103,13 @@
 					"default": false
 				},
 				"weatherStatePath": {
-					"type": "selectSendTo",
+					"type": "text",
 					"label": "WeatherStatePath",
-					"command": "listStates",
 					"xs": 12,
 					"sm": 12,
-					"md": 8,
-					"lg": 8,
-					"xl": 8,
+					"md": 12,
+					"lg": 12,
+					"xl": 12,
 					"hidden": "!data.enableWeatherControl"
 				},
 				"heatingOutsideTemperatureThreshold": {
