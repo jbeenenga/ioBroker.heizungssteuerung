@@ -20,6 +20,7 @@ Dieser Adapter bietet eine umfassende Heizungssteuerung für ioBroker-Installati
 ## Funktionen
 
 - **Dual-Modus-Unterstützung**: Wechseln zwischen Heiz- und Kühlmodus
+- **Wetterbasierte Steuerung**: Automatische Aktivierung/Deaktivierung basierend auf Außentemperatur
 - **Boost-Modus**: Temporäre Erhöhung der Heizung/Kühlung für einzelne Räume
 - **Pause-Modus**: Temporäre Deaktivierung der Heizung/Kühlung für bestimmte Räume
 - **Zeitbasierte Planung**: Definition von Temperaturperioden für verschiedene Zeiten und Tage
@@ -81,6 +82,21 @@ Konfigurieren Sie Temperaturpläne für jeden Raum:
 - **Boost-Dauer**: Auto-Reset-Zeit für Boost-Modus (Minuten)
 - **Feuchtigkeitsschwellenwert**: Maximale Feuchtigkeit bevor Kühlung stoppt
 - **Reset beim Start**: Überschreibt alle Temperaturen mit Standardwerten beim Adapter-Start
+
+#### Wetterbasierte Steuerung (Optional)
+
+Intelligenter Betrieb basierend auf der Außentemperatur:
+
+- **Wettersteuerung aktivieren**: Wetterbasierte Heiz-/Kühlsteuerung aktivieren
+- **Wetterdatenquelle**: State mit Außentemperaturdaten auswählen
+- **Heizschwellenwert**: Heizung nur aktivieren wenn Außentemperatur unter diesem Wert liegt (Standard: 15°C)
+- **Kühlschwellenwert**: Kühlung nur aktivieren wenn Außentemperatur über diesem Wert liegt (Standard: 24°C)
+
+**So funktioniert es:**
+- Im Heizmodus: System arbeitet nur wenn Außentemperatur < Schwellenwert
+- Im Kühlmodus: System arbeitet nur wenn Außentemperatur > Schwellenwert  
+- Hat Vorrang vor allen anderen Einstellungen (Perioden, Boost, Abwesenheit)
+- Bei fehlenden Wetterdaten arbeitet das System normal als Fallback
 
 ## Verwendung
 
