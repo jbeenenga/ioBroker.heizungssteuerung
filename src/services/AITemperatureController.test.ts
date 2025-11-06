@@ -5,11 +5,10 @@ import type { HeatingHistoryData } from "../models/heatingHistory";
 describe("AITemperatureController", () => {
 	let controller: AITemperatureController;
 	let logMessages: Array<{ level: string; message: string }> = [];
-	let savedHistory: HeatingHistoryData | null = null;
 
 	const createController = (enableAI: boolean = false): AITemperatureController => {
 		logMessages = [];
-		savedHistory = null;
+		// savedHistory would be captured by async callback but never read in tests
 
 		const config: AITemperatureControllerConfig = {
 			isHeatingMode: 0,
@@ -31,9 +30,9 @@ describe("AITemperatureController", () => {
 			(level, message) => {
 				logMessages.push({ level, message });
 			},
-			async (data) => {
+			async data => {
 				savedHistory = data;
-			}
+			},
 		);
 	};
 
@@ -50,9 +49,7 @@ describe("AITemperatureController", () => {
 
 		it("should log initialization message when AI enabled", () => {
 			controller = createController(true);
-			const initLog = logMessages.find(log =>
-				log.message.includes("Initializing AI components")
-			);
+			const initLog = logMessages.find(log => log.message.includes("Initializing AI components"));
 			expect(initLog).to.not.be.undefined;
 		});
 	});
@@ -68,9 +65,7 @@ describe("AITemperatureController", () => {
 			controller.setAIEnabled(true);
 
 			expect(controller.isAIEnabled()).to.be.true;
-			const enableLog = logMessages.find(log =>
-				log.message.includes("Enabling AI control")
-			);
+			const enableLog = logMessages.find(log => log.message.includes("Enabling AI control"));
 			expect(enableLog).to.not.be.undefined;
 		});
 
@@ -82,9 +77,7 @@ describe("AITemperatureController", () => {
 			controller.setAIEnabled(false);
 
 			expect(controller.isAIEnabled()).to.be.false;
-			const disableLog = logMessages.find(log =>
-				log.message.includes("Disabling AI control")
-			);
+			const disableLog = logMessages.find(log => log.message.includes("Disabling AI control"));
 			expect(disableLog).to.not.be.undefined;
 		});
 	});
@@ -204,8 +197,8 @@ describe("AITemperatureController", () => {
 			expect(result).to.be.true;
 
 			// Should have logged fallback message
-			const fallbackLog = logMessages.find(log =>
-				log.message.includes("Insufficient data") || log.message.includes("using classic control")
+			const fallbackLog = logMessages.find(
+				log => log.message.includes("Insufficient data") || log.message.includes("using classic control"),
 			);
 			expect(fallbackLog).to.not.be.undefined;
 		});
@@ -321,7 +314,7 @@ describe("AITemperatureController", () => {
 			controller = new AITemperatureController(
 				config,
 				() => {},
-				async () => {}
+				async () => {},
 			);
 		});
 

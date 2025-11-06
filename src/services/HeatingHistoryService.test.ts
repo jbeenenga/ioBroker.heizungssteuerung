@@ -1,23 +1,21 @@
 import { expect } from "chai";
 import { HeatingHistoryService } from "./HeatingHistoryService";
-import type { HeatingHistoryData, TemperatureMeasurement } from "../models/heatingHistory";
+import type { HeatingHistoryData } from "../models/heatingHistory";
 
 describe("HeatingHistoryService", () => {
 	let service: HeatingHistoryService;
-	let savedData: HeatingHistoryData | null = null;
 	let logMessages: Array<{ level: string; message: string }> = [];
 
 	beforeEach(() => {
-		savedData = null;
 		logMessages = [];
 
 		service = new HeatingHistoryService(
-			async (data) => {
+			async data => {
 				savedData = data;
 			},
 			(level, message) => {
 				logMessages.push({ level, message });
-			}
+			},
 		);
 	});
 
@@ -56,11 +54,11 @@ describe("HeatingHistoryService", () => {
 			service.recordMeasurement("livingroom", 20.0, 21.0, true);
 			service.recordMeasurement("bedroom", 18.0, 20.0, true);
 
-			const livingroomLog = logMessages.find(log =>
-				log.message.includes("livingroom") && log.message.includes("started")
+			const livingroomLog = logMessages.find(
+				log => log.message.includes("livingroom") && log.message.includes("started"),
 			);
-			const bedroomLog = logMessages.find(log =>
-				log.message.includes("bedroom") && log.message.includes("started")
+			const bedroomLog = logMessages.find(
+				log => log.message.includes("bedroom") && log.message.includes("started"),
 			);
 
 			expect(livingroomLog).to.not.be.undefined;
@@ -162,7 +160,7 @@ describe("HeatingHistoryService", () => {
 			// Create new service and load data
 			const newService = new HeatingHistoryService(
 				async () => {},
-				() => {}
+				() => {},
 			);
 
 			newService.loadHistory(exported);
@@ -360,14 +358,9 @@ describe("HeatingHistoryService", () => {
 		it("should limit number of stored cycles", function (done) {
 			this.timeout(10000);
 
-			const room = "limitroom";
-			const maxCycles = 100; // From service implementation
-
-			// Simulate many cycles (simplified)
-			// Note: In real test, this would take too long
-			// This is more of a documentation of expected behavior
-
-			// Service should keep only last 100 cycles
+			// Note: This test documents expected behavior
+			// Service should keep only last 100 cycles per room (maxCyclesPerRoom = 100)
+			// In real test, simulating 100+ cycles would take too long
 			done();
 		});
 	});

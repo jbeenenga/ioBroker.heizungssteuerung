@@ -9,7 +9,6 @@ import type { Period } from "./models/periods";
 import type { TempTarget } from "./models/tempTarget";
 import type { RoomsEnumResult } from "./models/roomEnum";
 import { TimeUtils } from "./services/TimeUtils";
-import { TemperatureController, type TemperatureControllerConfig } from "./services/TemperatureController";
 import { AITemperatureController, type AITemperatureControllerConfig } from "./services/AITemperatureController";
 import { PeriodService } from "./services/PeriodService";
 import { RoomManager } from "./services/RoomManager";
@@ -67,15 +66,23 @@ class Heizungssteuerung extends utils.Adapter {
 			tempControllerConfig,
 			(level, message) => {
 				switch (level) {
-					case 'debug': this.log.debug(message); break;
-					case 'info': this.log.info(message); break;
-					case 'warn': this.log.warn(message); break;
-					case 'error': this.log.error(message); break;
+					case "debug":
+						this.log.debug(message);
+						break;
+					case "info":
+						this.log.info(message);
+						break;
+					case "warn":
+						this.log.warn(message);
+						break;
+					case "error":
+						this.log.error(message);
+						break;
 				}
 			},
 			async (data: HeatingHistoryData) => {
-				await this.setStateAsync('AI.history', JSON.stringify(data), true);
-			}
+				await this.setStateAsync("AI.history", JSON.stringify(data), true);
+			},
 		);
 		this.periodService = new PeriodService(
 			this.config.periods as Period[],
@@ -207,7 +214,11 @@ class Heizungssteuerung extends utils.Adapter {
 		this.log.debug(`Temperatures will be set like: ${JSON.stringify(roomTempMap)}`);
 
 		for (let i = 0; i < this.roomNames.length; i++) {
-			await this.setTemperatureForRoom(this.roomNames[i], roomTempMap.get(this.roomNames[i]), outsideTemperature || undefined);
+			await this.setTemperatureForRoom(
+				this.roomNames[i],
+				roomTempMap.get(this.roomNames[i]),
+				outsideTemperature || undefined,
+			);
 		}
 
 		// Check if AI models need retraining
@@ -295,8 +306,13 @@ class Heizungssteuerung extends utils.Adapter {
 	 *
 	 * @param room current room name
 	 * @param targetTemperature target temperature configuration
+	 * @param outsideTemp outside temperature for AI context
 	 */
-	async setTemperatureForRoom(room: string, targetTemperature: TempTarget | undefined, outsideTemp?: number): Promise<void> {
+	async setTemperatureForRoom(
+		room: string,
+		targetTemperature: TempTarget | undefined,
+		outsideTemp?: number,
+	): Promise<void> {
 		const engine = this.engineMap.get(room);
 		if (!engine || !targetTemperature) {
 			return;
@@ -339,7 +355,7 @@ class Heizungssteuerung extends utils.Adapter {
 			temp,
 			targetTemperature.temp,
 			humidityValue,
-			aiContext
+			aiContext,
 		);
 
 		if (shouldActivate === true) {
@@ -566,7 +582,7 @@ class Heizungssteuerung extends utils.Adapter {
 		this.subscribeStates("AI.enabled");
 		this.on("stateChange", async (id, state) => {
 			if (id === `${this.namespace}.AI.enabled` && state && !state.ack) {
-				this.log.info(`AI control ${state.val ? 'enabled' : 'disabled'} by user`);
+				this.log.info(`AI control ${state.val ? "enabled" : "disabled"} by user`);
 				this.temperatureController.setAIEnabled(state.val === true);
 				await this.setStateAsync("AI.enabled", state.val, true);
 			}
@@ -593,7 +609,7 @@ class Heizungssteuerung extends utils.Adapter {
 				this.log.info("[AI] No previous history found, starting fresh");
 			}
 		} catch (error) {
-			this.log.error(`[AI] Failed to load history: ${error}`);
+			this.log.error(`[AI] Failed to load history: ${String(error)}`);
 		}
 	}
 
