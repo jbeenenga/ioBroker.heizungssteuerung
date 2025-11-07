@@ -31,7 +31,7 @@ describe("AITemperatureController", () => {
 				logMessages.push({ level, message });
 			},
 			async data => {
-				savedHistory = data;
+				await Promise.resolve(data); // Satisfy async requirement
 			},
 		);
 	};

@@ -7,26 +7,16 @@ import * as tf from "@tensorflow/tfjs-node";
 import type { HeatingPrediction, TrainingDataPoint, RoomThermalProfile } from "../models/heatingHistory";
 
 export interface AIPredictorConfig {
-	/**
-	 *
-	 */
-	modelSavePath: string; // Path to save/load models
-	/**
-	 *
-	 */
-	minTrainingData: number; // Minimum training samples before using AI
-	/**
-	 *
-	 */
-	trainingEpochs: number; // Number of training epochs
-	/**
-	 *
-	 */
-	learningRate: number; // Learning rate for optimizer
-	/**
-	 *
-	 */
-	confidenceThreshold: number; // Minimum confidence to trust predictions
+	/** Path to save/load models */
+	modelSavePath: string;
+	/** Minimum training samples before using AI */
+	minTrainingData: number;
+	/** Number of training epochs */
+	trainingEpochs: number;
+	/** Learning rate for optimizer */
+	learningRate: number;
+	/** Minimum confidence to trust predictions */
+	confidenceThreshold: number;
 }
 
 export class AITemperaturePredictor {
@@ -36,7 +26,10 @@ export class AITemperaturePredictor {
 	private readonly minRetrainingInterval = 60 * 60 * 1000; // 1 hour
 
 	/**
+	 * Create AI temperature predictor
 	 *
+	 * @param config - Predictor configuration
+	 * @param logCallback - Logging callback function
 	 */
 	constructor(
 		private readonly config: AIPredictorConfig,
@@ -210,7 +203,7 @@ export class AITemperaturePredictor {
 				shuffle: true,
 				verbose: 0,
 				callbacks: {
-					onEpochEnd: async (epoch, logs) => {
+					onEpochEnd: (epoch, logs) => {
 						if (epoch % 10 === 0) {
 							this.logCallback(
 								"debug",
@@ -240,7 +233,7 @@ export class AITemperaturePredictor {
 
 			return true;
 		} catch (error) {
-			this.logCallback("error", `[AIPredictor] Training failed for ${room}: ${error}`);
+			this.logCallback("error", `[AIPredictor] Training failed for ${room}: ${String(error)}`);
 			return false;
 		} finally {
 			this.isTraining.set(room, false);
@@ -332,7 +325,7 @@ export class AITemperaturePredictor {
 				confidence,
 			};
 		} catch (error) {
-			this.logCallback("error", `[AIPredictor] Prediction failed for ${room}: ${error}`);
+			this.logCallback("error", `[AIPredictor] Prediction failed for ${room}: ${String(error)}`);
 			return null;
 		}
 	}
@@ -366,7 +359,7 @@ export class AITemperaturePredictor {
 
 			this.logCallback("debug", `[AIPredictor] Model saved for ${room}`);
 		} catch (error) {
-			this.logCallback("error", `[AIPredictor] Failed to save model for ${room}: ${error}`);
+			this.logCallback("error", `[AIPredictor] Failed to save model for ${room}: ${String(error)}`);
 		}
 	}
 
@@ -383,7 +376,7 @@ export class AITemperaturePredictor {
 
 			this.logCallback("info", `[AIPredictor] Model loaded for ${room}`);
 			return true;
-		} catch (error) {
+		} catch {
 			this.logCallback("debug", `[AIPredictor] No saved model found for ${room}, will train new model`);
 			return false;
 		}

@@ -12,23 +12,17 @@ import type {
 } from "../models/heatingHistory";
 
 /**
- *
+ * Service for collecting and managing heating history data
  */
 export class HeatingHistoryService {
 	private currentCycles: Map<
 		string,
 		{
-			/**
-			 *
-			 */
+			/** Temperature measurements in this cycle */
 			measurements: TemperatureMeasurement[];
-			/**
-			 *
-			 */
+			/** Current engine state */
 			engineState: boolean;
-			/**
-			 *
-			 */
+			/** Cycle start timestamp */
 			startTime: number;
 		}
 	> = new Map();
@@ -415,24 +409,17 @@ export class HeatingHistoryService {
 	/**
 	 * Get statistics for a room
 	 *
-	 * @param room
+	 * @param room - Room identifier
+	 * @returns Room statistics or null if no data
 	 */
 	public getRoomStatistics(room: string): {
-		/**
-		 *
-		 */
+		/** Number of recorded cycles */
 		cycleCount: number;
-		/**
-		 *
-		 */
+		/** Average temperature overshoot in °C */
 		avgOvershoot: number;
-		/**
-		 *
-		 */
+		/** Average heating rate in °C per hour */
 		avgHeatingRate: number;
-		/**
-		 *
-		 */
+		/** Confidence level (0-1) */
 		confidence: number;
 	} | null {
 		const cycles = this.completedCycles.get(room);

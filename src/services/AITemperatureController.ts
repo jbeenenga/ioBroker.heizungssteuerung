@@ -32,26 +32,16 @@ export interface AITemperatureControllerConfig extends TemperatureControllerConf
  * Context for AI decision making
  */
 export interface AIContext {
-	/**
-	 *
-	 */
+	/** Room identifier */
 	room: string;
-	/**
-	 *
-	 */
-	heatingDuration: number; // How long has heating been active (minutes)
-	/**
-	 *
-	 */
-	recentHeatingRate: number; // Recent temperature change rate (°C/hour)
-	/**
-	 *
-	 */
+	/** How long has heating been active (minutes) */
+	heatingDuration: number;
+	/** Recent temperature change rate (°C/hour) */
+	recentHeatingRate: number;
+	/** Outside temperature */
 	outsideTemp?: number;
-	/**
-	 *
-	 */
-	lastEngineState: boolean; // Previous engine state
+	/** Previous engine state */
+	lastEngineState: boolean;
 }
 
 export class AITemperatureController extends TemperatureController {
@@ -77,7 +67,11 @@ export class AITemperatureController extends TemperatureController {
 	private readonly predictionCacheMaxAge = 5000; // 5 seconds cache
 
 	/**
+	 * Create AI temperature controller
 	 *
+	 * @param aiConfig - AI controller configuration
+	 * @param logCallback - Logging callback function
+	 * @param saveHistoryCallback - History data persistence callback
 	 */
 	constructor(
 		private aiConfig: AITemperatureControllerConfig,
@@ -533,7 +527,7 @@ export class AITemperatureController extends TemperatureController {
 		enabled: boolean;
 		modelsReady: { [room: string]: boolean };
 		statistics: { [room: string]: any };
-		} {
+	} {
 		const status = {
 			enabled: this.aiConfig.enableAI,
 			modelsReady: {} as { [room: string]: boolean },

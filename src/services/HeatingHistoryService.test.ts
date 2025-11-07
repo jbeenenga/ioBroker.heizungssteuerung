@@ -11,7 +11,7 @@ describe("HeatingHistoryService", () => {
 
 		service = new HeatingHistoryService(
 			async data => {
-				savedData = data;
+				await Promise.resolve(data); // Satisfy async requirement
 			},
 			(level, message) => {
 				logMessages.push({ level, message });
