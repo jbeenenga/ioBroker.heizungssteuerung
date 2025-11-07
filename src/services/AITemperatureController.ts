@@ -44,6 +44,18 @@ export interface AIContext {
 	lastEngineState: boolean;
 }
 
+/**
+ * AI status information
+ */
+export interface AIStatus {
+	/** Whether AI is enabled */
+	enabled: boolean;
+	/** Model readiness per room */
+	modelsReady: { [room: string]: boolean };
+	/** Statistics per room */
+	statistics: { [room: string]: any };
+}
+
 export class AITemperatureController extends TemperatureController {
 	private aiPredictor?: AITemperaturePredictor;
 	private historyService?: HeatingHistoryService;
@@ -523,12 +535,8 @@ export class AITemperatureController extends TemperatureController {
 	/**
 	 * Get AI status
 	 */
-	public getAIStatus(): {
-		enabled: boolean;
-		modelsReady: { [room: string]: boolean };
-		statistics: { [room: string]: any };
-	} {
-		const status = {
+	public getAIStatus(): AIStatus {
+		const status: AIStatus = {
 			enabled: this.aiConfig.enableAI,
 			modelsReady: {} as { [room: string]: boolean },
 			statistics: {} as { [room: string]: any },
