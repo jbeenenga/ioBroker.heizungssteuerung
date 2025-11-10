@@ -188,17 +188,17 @@ export class AITemperaturePredictor {
 			let model = this.models.get(room);
 			if (!model) {
 				model = this.createModel();
-				this.models.set(room, model as any);
+				this.models.set(room, model);
 			}
-			
+
 			// TypeScript safety check
 			if (!model) {
 				throw new Error(`Failed to create model for room ${room}`);
 			}
 
 			// Convert to tensors
-			const xs = tf.tensor2d(inputs);
-			const ys = tf.tensor2d(outputs);
+			const xs = (tf as any).tensor2d(inputs);
+			const ys = (tf as any).tensor2d(outputs);
 
 			// Train model
 			const history = await model!.fit(xs, ys, {
@@ -208,11 +208,12 @@ export class AITemperaturePredictor {
 				shuffle: true,
 				verbose: 0,
 				callbacks: {
-					onEpochEnd: (epoch: number, logs?: any) => {
+					onEpochEnd: (epoch: number, logs?: tf.Logs) => {
 						if (epoch % 10 === 0) {
 							this.logCallback(
 								"debug",
-								`[AIPredictor] ${room} - Epoch ${epoch}: loss=${logs?.loss.toFixed(4)}, mae=${logs?.mae.toFixed(4)}`,
+								`[AIPredictor] ${room} - Epoch ${epoch}: ` +
+									`loss=${logs?.loss.toFixed(4)}, mae=${logs?.mae.toFixed(4)}`,
 							);
 						}
 					},
@@ -228,7 +229,8 @@ export class AITemperaturePredictor {
 
 			this.logCallback(
 				"info",
-				`[AIPredictor] Training completed for ${room}: loss=${finalLoss.toFixed(4)}, mae=${finalMae.toFixed(4)}`,
+				`[AIPredictor] Training completed for ${room}: ` +
+					`loss=${finalLoss.toFixed(4)}, mae=${finalMae.toFixed(4)}`,
 			);
 
 			// Save model
@@ -292,7 +294,7 @@ export class AITemperaturePredictor {
 			const inputTensor = tf.tensor2d([input]);
 
 			// Make prediction
-			const prediction = model.predict(inputTensor) as tf.Tensor;
+			const prediction = model.predict(inputTensor) as any;
 			const predictionData = await prediction.data();
 
 			// Cleanup
@@ -346,7 +348,7 @@ export class AITemperaturePredictor {
 	 */
 	private async saveModel(
 		room: string,
-		model: tf.LayersModel,
+		model: any,
 		stats: {
 			mean: number[];
 			std: number[];
@@ -376,7 +378,7 @@ export class AITemperaturePredictor {
 	public async loadModel(room: string): Promise<boolean> {
 		try {
 			const modelPath = `file://${this.config.modelSavePath}/${room}/model.json`;
-			const model = await tf.loadLayersModel(modelPath);
+			const model = await (tf as any).loadLayersModel(modelPath);
 			this.models.set(room, model);
 
 			this.logCallback("info", `[AIPredictor] Model loaded for ${room}`);
@@ -417,7 +419,7 @@ export class AITemperaturePredictor {
 	 * Dispose all models and free memory
 	 */
 	public dispose(): void {
-		for (const [room, model] of this.models.entries()) {
+		for (const [room, model] of Array.from(this.models.entries())) {
 			model.dispose();
 			this.logCallback("debug", `[AIPredictor] Model disposed for ${room}`);
 		}
