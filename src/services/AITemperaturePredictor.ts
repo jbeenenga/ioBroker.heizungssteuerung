@@ -188,7 +188,7 @@ export class AITemperaturePredictor {
 			let model = this.models.get(room);
 			if (!model) {
 				model = this.createModel();
-				this.models.set(room, model);
+				this.models.set(room, model as any);
 			}
 
 			// TypeScript safety check
@@ -234,7 +234,7 @@ export class AITemperaturePredictor {
 			);
 
 			// Save model
-			await this.saveModel(room, model!, stats);
+			await this.saveModel(room, model, stats);
 
 			this.lastTrainingTime.set(room, Date.now());
 
@@ -379,7 +379,7 @@ export class AITemperaturePredictor {
 		try {
 			const modelPath = `file://${this.config.modelSavePath}/${room}/model.json`;
 			const model = await (tf as any).loadLayersModel(modelPath);
-			this.models.set(room, model);
+			this.models.set(room, model as any);
 
 			this.logCallback("info", `[AIPredictor] Model loaded for ${room}`);
 			return true;
