@@ -291,7 +291,7 @@ export class AITemperaturePredictor {
 
 			// TODO: Load normalization stats and apply them
 			// For now, we'll use the raw input
-			const inputTensor = tf.tensor2d([input]);
+			const inputTensor = (tf as any).tensor2d([input]);
 
 			// Make prediction
 			const prediction = model.predict(inputTensor) as any;
