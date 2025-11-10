@@ -6,6 +6,9 @@
 import * as tf from "@tensorflow/tfjs-node";
 import type { HeatingPrediction, TrainingDataPoint, RoomThermalProfile } from "../models/heatingHistory";
 
+/**
+ * Configuration for AI temperature predictor
+ */
 export interface AIPredictorConfig {
 	/** Path to save/load models */
 	modelSavePath: string;
@@ -19,6 +22,9 @@ export interface AIPredictorConfig {
 	confidenceThreshold: number;
 }
 
+/**
+ * AI-based temperature prediction service
+ */
 export class AITemperaturePredictor {
 	private models: Map<string, tf.LayersModel> = new Map();
 	private isTraining: Map<string, boolean> = new Map();
@@ -98,10 +104,25 @@ export class AITemperaturePredictor {
 	 * @param dataPoints
 	 */
 	private normalizeInputs(dataPoints: TrainingDataPoint[]): {
+		/**
+		 *
+		 */
 		inputs: number[][];
+		/**
+		 *
+		 */
 		outputs: number[][];
+		/**
+		 *
+		 */
 		stats: {
+			/**
+			 *
+			 */
 			mean: number[];
+			/**
+			 *
+			 */
 			std: number[];
 		};
 	} {
@@ -201,7 +222,7 @@ export class AITemperaturePredictor {
 			const ys = (tf as any).tensor2d(outputs);
 
 			// Train model
-			const history = await model!.fit(xs, ys, {
+			const history = await model.fit(xs, ys, {
 				epochs: this.config.trainingEpochs,
 				batchSize: 32,
 				validationSplit: 0.2,
@@ -350,7 +371,13 @@ export class AITemperaturePredictor {
 		room: string,
 		model: any,
 		stats: {
+			/**
+			 *
+			 */
 			mean: number[];
+			/**
+			 *
+			 */
 			std: number[];
 		},
 	): Promise<void> {
@@ -379,7 +406,7 @@ export class AITemperaturePredictor {
 		try {
 			const modelPath = `file://${this.config.modelSavePath}/${room}/model.json`;
 			const model = await (tf as any).loadLayersModel(modelPath);
-			this.models.set(room, model as any);
+			this.models.set(room, model);
 
 			this.logCallback("info", `[AIPredictor] Model loaded for ${room}`);
 			return true;
@@ -404,8 +431,11 @@ export class AITemperaturePredictor {
 	 * @param room
 	 */
 	public getModelInfo(room: string): {
+		/** Whether model is ready for use */
 		ready: boolean;
+		/** Whether model is currently training */
 		training: boolean;
+		/** Timestamp of last training */
 		lastTrained?: number;
 	} {
 		return {
