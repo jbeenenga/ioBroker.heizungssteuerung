@@ -114,9 +114,11 @@ class Heizungssteuerung extends utils.Adapter {
 			this.writeInitialTemperaturesIntoState();
 		}
 
-		// Load AI history and models
+		// Load AI history and models (async initialization)
 		await this.loadAIHistory();
-		await this.temperatureController.loadModels(this.roomNames);
+		if (this.temperatureController.isAIEnabled()) {
+			await this.temperatureController.loadModels(this.roomNames);
+		}
 
 		if (this.interval != undefined) {
 			this.clearInterval(this.interval);

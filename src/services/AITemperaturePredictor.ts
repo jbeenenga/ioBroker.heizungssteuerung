@@ -39,7 +39,7 @@ export class AITemperaturePredictor {
 	/**
 	 * Create a neural network model for a room
 	 */
-	private createModel(): tf.LayersModel {
+	private createModel(): any {
 		const model = tf.sequential();
 
 		// Input layer: 8 features
@@ -188,7 +188,12 @@ export class AITemperaturePredictor {
 			let model = this.models.get(room);
 			if (!model) {
 				model = this.createModel();
-				this.models.set(room, model);
+				this.models.set(room, model as any);
+			}
+			
+			// TypeScript safety check
+			if (!model) {
+				throw new Error(`Failed to create model for room ${room}`);
 			}
 
 			// Convert to tensors
@@ -196,14 +201,14 @@ export class AITemperaturePredictor {
 			const ys = tf.tensor2d(outputs);
 
 			// Train model
-			const history = await model.fit(xs, ys, {
+			const history = await model!.fit(xs, ys, {
 				epochs: this.config.trainingEpochs,
 				batchSize: 32,
 				validationSplit: 0.2,
 				shuffle: true,
 				verbose: 0,
 				callbacks: {
-					onEpochEnd: (epoch, logs) => {
+					onEpochEnd: (epoch: number, logs?: any) => {
 						if (epoch % 10 === 0) {
 							this.logCallback(
 								"debug",
@@ -227,7 +232,7 @@ export class AITemperaturePredictor {
 			);
 
 			// Save model
-			await this.saveModel(room, model, stats);
+			await this.saveModel(room, model!, stats);
 
 			this.lastTrainingTime.set(room, Date.now());
 
