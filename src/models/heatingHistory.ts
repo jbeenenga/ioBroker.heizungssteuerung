@@ -6,93 +6,136 @@
  * Single temperature measurement point
  */
 export interface TemperatureMeasurement {
-	timestamp: number; // Unix timestamp in ms
-	temperature: number; // Current temperature in °C
-	targetTemperature: number; // Target temperature in °C
-	humidity?: number; // Humidity in %
-	outsideTemperature?: number; // Outside temperature in °C
-	engineState: boolean; // true = heating/cooling active
+	/** Unix timestamp in ms */
+	timestamp: number;
+	/** Current temperature in °C */
+	temperature: number;
+	/** Target temperature in °C */
+	targetTemperature: number;
+	/** Humidity in % */
+	humidity?: number;
+	/** Outside temperature in °C */
+	outsideTemperature?: number;
+	/** true = heating/cooling active */
+	engineState: boolean;
 }
 
 /**
  * Complete heating/cooling cycle data
  */
 export interface HeatingCycle {
+	/** Room identifier */
 	room: string;
-	startTime: number; // Cycle start timestamp
-	endTime: number; // Cycle end timestamp
+	/** Cycle start timestamp */
+	startTime: number;
+	/** Cycle end timestamp */
+	endTime: number;
+	/** Array of temperature measurements during cycle */
 	measurements: TemperatureMeasurement[];
 
-	// Computed metrics
-	duration: number; // Duration in minutes
-	startTemp: number; // Temperature at start
-	endTemp: number; // Temperature at engine stop
-	targetTemp: number; // Target temperature
-	maxTemp: number; // Maximum reached temperature (overshoot)
-	overshoot: number; // maxTemp - targetTemp
-	heatingRate: number; // °C per hour while heating
-	cooldownRate: number; // °C per hour after heating stops
-	avgOutsideTemp?: number; // Average outside temperature during cycle
+	/** Duration in minutes */
+	duration: number;
+	/** Temperature at start */
+	startTemp: number;
+	/** Temperature at engine stop */
+	endTemp: number;
+	/** Target temperature */
+	targetTemp: number;
+	/** Maximum reached temperature (overshoot) */
+	maxTemp: number;
+	/** maxTemp - targetTemp */
+	overshoot: number;
+	/** °C per hour while heating */
+	heatingRate: number;
+	/** °C per hour after heating stops */
+	cooldownRate: number;
+	/** Average outside temperature during cycle */
+	avgOutsideTemp?: number;
 }
 
 /**
  * Room thermal characteristics learned from history
  */
 export interface RoomThermalProfile {
+	/** Room identifier */
 	room: string;
+	/** Last update timestamp */
 	lastUpdated: number;
 
-	// Learned characteristics
-	avgHeatingRate: number; // Average °C per hour
-	avgCooldownRate: number; // Average °C per hour after heating stops
-	thermalInertia: number; // Time constant (how long to reach 63% of target)
-	typicalOvershoot: number; // Typical overshoot in °C
+	/** Average °C per hour */
+	avgHeatingRate: number;
+	/** Average °C per hour after heating stops */
+	avgCooldownRate: number;
+	/** Time constant (how long to reach 63% of target) */
+	thermalInertia: number;
+	/** Typical overshoot in °C */
+	typicalOvershoot: number;
 
-	// Statistics
-	cycleCount: number; // Number of cycles used for learning
-	confidence: number; // 0-1, based on data quality and quantity
+	/** Number of cycles used for learning */
+	cycleCount: number;
+	/** 0-1, based on data quality and quantity */
+	confidence: number;
 }
 
 /**
  * ML model training data point
  */
 export interface TrainingDataPoint {
-	// Input features
+	/** Current temperature */
 	currentTemp: number;
+	/** Target temperature */
 	targetTemp: number;
-	tempDifference: number; // target - current
-	heatingDuration: number; // How long has heating been active (minutes)
-	recentHeatingRate: number; // °C per hour in last 15 minutes
+	/** target - current */
+	tempDifference: number;
+	/** How long has heating been active (minutes) */
+	heatingDuration: number;
+	/** °C per hour in last 15 minutes */
+	recentHeatingRate: number;
+	/** Outside temperature */
 	outsideTemp?: number;
-	timeOfDay: number; // 0-23
-	dayOfWeek: number; // 0-6
+	/** Hour of day 0-23 */
+	timeOfDay: number;
+	/** Day of week 0-6 */
+	dayOfWeek: number;
 
-	// Output labels
-	futureTempChange: number; // Temperature change in next 30 minutes
-	willOvershoot: boolean; // Will temperature overshoot target?
-	optimalStopOffset: number; // Optimal °C before target to stop heating
+	/** Temperature change in next 30 minutes */
+	futureTempChange: number;
+	/** Will temperature overshoot target? */
+	willOvershoot: boolean;
+	/** Optimal °C before target to stop heating */
+	optimalStopOffset: number;
 }
 
 /**
  * ML model prediction result
  */
 export interface HeatingPrediction {
-	predictedTempIn30Min: number; // Predicted temperature in 30 minutes
-	predictedTempIn60Min: number; // Predicted temperature in 60 minutes
-	shouldStopHeating: boolean; // Recommendation to stop heating
-	stopOffset: number; // Recommended offset (°C before target to stop)
-	confidence: number; // Prediction confidence 0-1
+	/** Predicted temperature in 30 minutes */
+	predictedTempIn30Min: number;
+	/** Predicted temperature in 60 minutes */
+	predictedTempIn60Min: number;
+	/** Recommendation to stop heating */
+	shouldStopHeating: boolean;
+	/** Recommended offset (°C before target to stop) */
+	stopOffset: number;
+	/** Prediction confidence 0-1 */
+	confidence: number;
 }
 
 /**
  * Persistent history storage structure
  */
 export interface HeatingHistoryData {
+	/** Data format version */
 	version: string;
+	/** Room-specific data */
 	rooms: {
 		[roomName: string]: {
+			/** Completed heating cycles */
 			cycles: HeatingCycle[];
+			/** Learned thermal profile */
 			profile: RoomThermalProfile;
+			/** Timestamp of last model training */
 			modelLastTrained?: number;
 		};
 	};

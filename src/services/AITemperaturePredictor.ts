@@ -101,7 +101,7 @@ export class AITemperaturePredictor {
 	/**
 	 * Normalize input features
 	 *
-	 * @param dataPoints
+	 * @param dataPoints - Training data points
 	 */
 	private normalizeInputs(dataPoints: TrainingDataPoint[]): {
 		/**
@@ -172,8 +172,8 @@ export class AITemperaturePredictor {
 	/**
 	 * Train model for a specific room
 	 *
-	 * @param room
-	 * @param trainingData
+	 * @param room - Room identifier
+	 * @param trainingData - Array of training data points
 	 */
 	public async trainModel(room: string, trainingData: TrainingDataPoint[]): Promise<boolean> {
 		if (trainingData.length < this.config.minTrainingData) {
@@ -271,13 +271,13 @@ export class AITemperaturePredictor {
 	/**
 	 * Predict heating behavior
 	 *
-	 * @param room
-	 * @param currentTemp
-	 * @param targetTemp
-	 * @param heatingDuration
-	 * @param recentHeatingRate
-	 * @param profile
-	 * @param outsideTemp
+	 * @param room - Room identifier
+	 * @param currentTemp - Current temperature in °C
+	 * @param targetTemp - Target temperature in °C
+	 * @param heatingDuration - Heating duration in minutes
+	 * @param recentHeatingRate - Recent heating rate in °C/hour
+	 * @param profile - Room thermal profile
+	 * @param outsideTemp - Outside temperature in °C
 	 */
 	public async predict(
 		room: string,
@@ -361,11 +361,11 @@ export class AITemperaturePredictor {
 	/**
 	 * Save model to disk
 	 *
-	 * @param room
-	 * @param model
-	 * @param stats
-	 * @param stats.mean
-	 * @param stats.std
+	 * @param room - Room identifier
+	 * @param model - TensorFlow model to save
+	 * @param stats - Normalization statistics
+	 * @param stats.mean - Mean values for normalization
+	 * @param stats.std - Standard deviation for normalization
 	 */
 	private async saveModel(
 		room: string,
@@ -400,7 +400,7 @@ export class AITemperaturePredictor {
 	/**
 	 * Load model from disk
 	 *
-	 * @param room
+	 * @param room - Room identifier
 	 */
 	public async loadModel(room: string): Promise<boolean> {
 		try {
@@ -419,7 +419,7 @@ export class AITemperaturePredictor {
 	/**
 	 * Check if model is ready for a room
 	 *
-	 * @param room
+	 * @param room - Room identifier
 	 */
 	public isModelReady(room: string): boolean {
 		return this.models.has(room) && !this.isTraining.get(room);
@@ -428,7 +428,7 @@ export class AITemperaturePredictor {
 	/**
 	 * Get model info
 	 *
-	 * @param room
+	 * @param room - Room identifier
 	 */
 	public getModelInfo(room: string): {
 		/** Whether model is ready for use */

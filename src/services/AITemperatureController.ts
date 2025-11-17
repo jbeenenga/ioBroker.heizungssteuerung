@@ -126,7 +126,7 @@ export class AITemperatureController extends TemperatureController {
 	/**
 	 * Enable or disable AI control at runtime
 	 *
-	 * @param enabled
+	 * @param enabled - Whether to enable AI control
 	 */
 	public setAIEnabled(enabled: boolean): void {
 		if (enabled && !this.aiPredictor) {
@@ -152,10 +152,10 @@ export class AITemperatureController extends TemperatureController {
 	 * Determine if engine should be activated (AI-enhanced version)
 	 * Overrides parent method with AI logic when enabled
 	 *
-	 * @param currentTemp
-	 * @param targetTemp
-	 * @param humidity
-	 * @param context
+	 * @param currentTemp - Current temperature in °C
+	 * @param targetTemp - Target temperature in °C
+	 * @param humidity - Optional humidity percentage
+	 * @param context - AI context for the room
 	 */
 	public shouldActivateEngine(
 		currentTemp: number,
@@ -217,13 +217,13 @@ export class AITemperatureController extends TemperatureController {
 	/**
 	 * Update prediction cache in background
 	 *
-	 * @param room
-	 * @param currentTemp
-	 * @param targetTemp
-	 * @param heatingDuration
-	 * @param recentHeatingRate
-	 * @param profile
-	 * @param outsideTemp
+	 * @param room - Room identifier
+	 * @param currentTemp - Current temperature in °C
+	 * @param targetTemp - Target temperature in °C
+	 * @param heatingDuration - Heating duration in minutes
+	 * @param recentHeatingRate - Recent heating rate in °C/hour
+	 * @param profile - Room thermal profile
+	 * @param outsideTemp - Outside temperature in °C
 	 */
 	private updatePredictionCache(
 		room: string,
@@ -263,11 +263,11 @@ export class AITemperatureController extends TemperatureController {
 	/**
 	 * AI-based engine activation decision (synchronous, uses cached prediction)
 	 *
-	 * @param currentTemp
-	 * @param targetTemp
-	 * @param humidity
-	 * @param context
-	 * @param profile
+	 * @param currentTemp - Current temperature in °C
+	 * @param targetTemp - Target temperature in °C
+	 * @param humidity - Optional humidity percentage
+	 * @param context - AI context for the room
+	 * @param profile - Room thermal profile
 	 */
 	private shouldActivateEngineAI(
 		currentTemp: number,
@@ -366,12 +366,12 @@ export class AITemperatureController extends TemperatureController {
 	/**
 	 * Record temperature measurement for learning
 	 *
-	 * @param room
-	 * @param currentTemp
-	 * @param targetTemp
-	 * @param engineState
-	 * @param humidity
-	 * @param outsideTemp
+	 * @param room - Room identifier
+	 * @param currentTemp - Current temperature in °C
+	 * @param targetTemp - Target temperature in °C
+	 * @param engineState - true if heating/cooling is active
+	 * @param humidity - Optional humidity percentage
+	 * @param outsideTemp - Outside temperature in °C
 	 */
 	private recordMeasurement(
 		room: string,
@@ -414,8 +414,8 @@ export class AITemperatureController extends TemperatureController {
 	/**
 	 * Calculate context for AI decision making
 	 *
-	 * @param room
-	 * @param outsideTemp
+	 * @param room - Room identifier
+	 * @param outsideTemp - Outside temperature in °C
 	 */
 	public getAIContext(room: string, outsideTemp?: number): AIContext {
 		const heatingStartTime = this.heatingStartTimes.get(room);
@@ -444,7 +444,7 @@ export class AITemperatureController extends TemperatureController {
 	/**
 	 * Train or retrain model for a room
 	 *
-	 * @param room
+	 * @param room - Room identifier
 	 */
 	public async trainModel(room: string): Promise<boolean> {
 		if (!this.aiPredictor || !this.historyService) {
@@ -497,7 +497,7 @@ export class AITemperatureController extends TemperatureController {
 	/**
 	 * Load history data
 	 *
-	 * @param data
+	 * @param data - History data to load
 	 */
 	public loadHistory(data: HeatingHistoryData): void {
 		if (this.historyService) {
@@ -508,7 +508,7 @@ export class AITemperatureController extends TemperatureController {
 	/**
 	 * Load models from disk
 	 *
-	 * @param rooms
+	 * @param rooms - List of room identifiers
 	 */
 	public async loadModels(rooms: string[]): Promise<void> {
 		if (!this.aiPredictor) {
@@ -523,7 +523,7 @@ export class AITemperatureController extends TemperatureController {
 	/**
 	 * Get statistics for a room
 	 *
-	 * @param room
+	 * @param room - Room identifier
 	 */
 	public getRoomStatistics(room: string): any {
 		if (!this.historyService) {
