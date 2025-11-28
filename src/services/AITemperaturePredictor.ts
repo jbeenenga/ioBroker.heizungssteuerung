@@ -101,28 +101,18 @@ export class AITemperaturePredictor {
 	/**
 	 * Normalize input features
 	 *
-	 * @param dataPoints
+	 * @param dataPoints - Training data points to normalize
 	 */
 	private normalizeInputs(dataPoints: TrainingDataPoint[]): {
-		/**
-		 *
-		 */
+		/** Normalized input features */
 		inputs: number[][];
-		/**
-		 *
-		 */
+		/** Expected outputs */
 		outputs: number[][];
-		/**
-		 *
-		 */
+		/** Normalization statistics */
 		stats: {
-			/**
-			 *
-			 */
+			/** Mean values for normalization */
 			mean: number[];
-			/**
-			 *
-			 */
+			/** Standard deviation values for normalization */
 			std: number[];
 		};
 	} {
@@ -172,14 +162,15 @@ export class AITemperaturePredictor {
 	/**
 	 * Train model for a specific room
 	 *
-	 * @param room
-	 * @param trainingData
+	 * @param room - Room identifier
+	 * @param trainingData - Historical data for training
 	 */
 	public async trainModel(room: string, trainingData: TrainingDataPoint[]): Promise<boolean> {
 		if (trainingData.length < this.config.minTrainingData) {
 			this.logCallback(
 				"debug",
-				`[AIPredictor] Insufficient training data for ${room}: ${trainingData.length}/${this.config.minTrainingData}`,
+				`[AIPredictor] Insufficient training data for ${room}: ` +
+					`${trainingData.length}/${this.config.minTrainingData}`,
 			);
 			return false;
 		}
@@ -271,13 +262,13 @@ export class AITemperaturePredictor {
 	/**
 	 * Predict heating behavior
 	 *
-	 * @param room
-	 * @param currentTemp
-	 * @param targetTemp
-	 * @param heatingDuration
-	 * @param recentHeatingRate
-	 * @param profile
-	 * @param outsideTemp
+	 * @param room - Room identifier
+	 * @param currentTemp - Current temperature
+	 * @param targetTemp - Target temperature
+	 * @param heatingDuration - How long heating has been active
+	 * @param recentHeatingRate - Recent heating rate
+	 * @param profile - Room thermal profile
+	 * @param outsideTemp - Outside temperature
 	 */
 	public async predict(
 		room: string,
@@ -361,23 +352,19 @@ export class AITemperaturePredictor {
 	/**
 	 * Save model to disk
 	 *
-	 * @param room
-	 * @param model
-	 * @param stats
-	 * @param stats.mean
-	 * @param stats.std
+	 * @param room - Room identifier
+	 * @param model - Trained TensorFlow model
+	 * @param stats - Normalization statistics
+	 * @param stats.mean - Mean values for normalization
+	 * @param stats.std - Standard deviation values for normalization
 	 */
 	private async saveModel(
 		room: string,
 		model: any,
 		stats: {
-			/**
-			 *
-			 */
+			/** Mean values for normalization */
 			mean: number[];
-			/**
-			 *
-			 */
+			/** Standard deviation values for normalization */
 			std: number[];
 		},
 	): Promise<void> {
@@ -400,7 +387,7 @@ export class AITemperaturePredictor {
 	/**
 	 * Load model from disk
 	 *
-	 * @param room
+	 * @param room - Room identifier
 	 */
 	public async loadModel(room: string): Promise<boolean> {
 		try {
@@ -419,7 +406,7 @@ export class AITemperaturePredictor {
 	/**
 	 * Check if model is ready for a room
 	 *
-	 * @param room
+	 * @param room - Room identifier
 	 */
 	public isModelReady(room: string): boolean {
 		return this.models.has(room) && !this.isTraining.get(room);
@@ -428,7 +415,7 @@ export class AITemperaturePredictor {
 	/**
 	 * Get model info
 	 *
-	 * @param room
+	 * @param room - Room identifier
 	 */
 	public getModelInfo(room: string): {
 		/** Whether model is ready for use */

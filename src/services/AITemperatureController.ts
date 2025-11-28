@@ -9,6 +9,9 @@ import { AITemperaturePredictor } from "./AITemperaturePredictor";
 import { HeatingHistoryService } from "./HeatingHistoryService";
 import type { HeatingHistoryData } from "../models/heatingHistory";
 
+/**
+ * Configuration for AI-enhanced temperature controller
+ */
 export interface AITemperatureControllerConfig extends TemperatureControllerConfig {
 	/** Enable AI-based control */
 	enableAI: boolean;
@@ -59,20 +62,29 @@ export interface AIStatus {
 export class AITemperatureController extends TemperatureController {
 	private aiPredictor?: AITemperaturePredictor;
 	private historyService?: HeatingHistoryService;
+	/** Current engine states per room */
 	private currentEngineStates: Map<string, boolean> = new Map();
+	/** Heating start times per room */
 	private heatingStartTimes: Map<string, number> = new Map();
+	/** Recent temperature measurements per room */
 	private recentTemperatures: Map<
 		string,
 		Array<{
+			/** Temperature value */
 			temp: number;
+			/** Timestamp */
 			time: number;
 		}>
 	> = new Map();
+	/** Last automatic retrain check timestamp */
 	private lastRetrainCheck = Date.now();
+	/** Prediction cache per room */
 	private predictionCache: Map<
 		string,
 		{
+			/** Cached prediction result */
 			prediction: any;
+			/** Cache timestamp */
 			timestamp: number;
 		}
 	> = new Map();
@@ -126,7 +138,7 @@ export class AITemperatureController extends TemperatureController {
 	/**
 	 * Enable or disable AI control at runtime
 	 *
-	 * @param enabled
+	 * @param enabled - Whether to enable AI control
 	 */
 	public setAIEnabled(enabled: boolean): void {
 		if (enabled && !this.aiPredictor) {
@@ -152,10 +164,10 @@ export class AITemperatureController extends TemperatureController {
 	 * Determine if engine should be activated (AI-enhanced version)
 	 * Overrides parent method with AI logic when enabled
 	 *
-	 * @param currentTemp
-	 * @param targetTemp
-	 * @param humidity
-	 * @param context
+	 * @param currentTemp - Current temperature in °C
+	 * @param targetTemp - Target temperature in °C
+	 * @param humidity - Current humidity percentage
+	 * @param context - AI context for decision making
 	 */
 	public shouldActivateEngine(
 		currentTemp: number,
@@ -217,13 +229,13 @@ export class AITemperatureController extends TemperatureController {
 	/**
 	 * Update prediction cache in background
 	 *
-	 * @param room
-	 * @param currentTemp
-	 * @param targetTemp
-	 * @param heatingDuration
-	 * @param recentHeatingRate
-	 * @param profile
-	 * @param outsideTemp
+	 * @param room - Room identifier
+	 * @param currentTemp - Current temperature in °C
+	 * @param targetTemp - Target temperature in °C
+	 * @param heatingDuration - How long heating has been active in minutes
+	 * @param recentHeatingRate - Recent heating rate in °C/hour
+	 * @param profile - Room thermal profile
+	 * @param outsideTemp - Outside temperature in °C
 	 */
 	private updatePredictionCache(
 		room: string,
@@ -263,18 +275,18 @@ export class AITemperatureController extends TemperatureController {
 	/**
 	 * AI-based engine activation decision (synchronous, uses cached prediction)
 	 *
-	 * @param currentTemp
-	 * @param targetTemp
-	 * @param humidity
-	 * @param context
-	 * @param profile
+	 * @param currentTemp - Current temperature in °C
+	 * @param targetTemp - Target temperature in °C
+	 * @param humidity - Current humidity percentage
+	 * @param context - AI context for decision making
+	 * @param _profile - Room thermal profile (unused, kept for signature compatibility)
 	 */
 	private shouldActivateEngineAI(
 		currentTemp: number,
 		targetTemp: number,
 		humidity: number | undefined,
 		context: AIContext,
-		profile: any,
+		_profile: any,
 	): boolean | null {
 		// For cooling mode with high humidity, always respect humidity limit (safety override)
 		if (
@@ -366,12 +378,12 @@ export class AITemperatureController extends TemperatureController {
 	/**
 	 * Record temperature measurement for learning
 	 *
-	 * @param room
-	 * @param currentTemp
-	 * @param targetTemp
-	 * @param engineState
-	 * @param humidity
-	 * @param outsideTemp
+	 * @param room - Room identifier
+	 * @param currentTemp - Current temperature in °C
+	 * @param targetTemp - Target temperature in °C
+	 * @param engineState - Whether heating/cooling is active
+	 * @param humidity - Current humidity percentage
+	 * @param outsideTemp - Outside temperature in °C
 	 */
 	private recordMeasurement(
 		room: string,
@@ -414,8 +426,8 @@ export class AITemperatureController extends TemperatureController {
 	/**
 	 * Calculate context for AI decision making
 	 *
-	 * @param room
-	 * @param outsideTemp
+	 * @param room - Room identifier
+	 * @param outsideTemp - Outside temperature in °C
 	 */
 	public getAIContext(room: string, outsideTemp?: number): AIContext {
 		const heatingStartTime = this.heatingStartTimes.get(room);
@@ -444,7 +456,7 @@ export class AITemperatureController extends TemperatureController {
 	/**
 	 * Train or retrain model for a room
 	 *
-	 * @param room
+	 * @param room - Room identifier
 	 */
 	public async trainModel(room: string): Promise<boolean> {
 		if (!this.aiPredictor || !this.historyService) {
@@ -497,7 +509,7 @@ export class AITemperatureController extends TemperatureController {
 	/**
 	 * Load history data
 	 *
-	 * @param data
+	 * @param data - Heating history data to load
 	 */
 	public loadHistory(data: HeatingHistoryData): void {
 		if (this.historyService) {
@@ -508,7 +520,7 @@ export class AITemperatureController extends TemperatureController {
 	/**
 	 * Load models from disk
 	 *
-	 * @param rooms
+	 * @param rooms - Array of room identifiers to load models for
 	 */
 	public async loadModels(rooms: string[]): Promise<void> {
 		if (!this.aiPredictor) {
@@ -523,7 +535,7 @@ export class AITemperatureController extends TemperatureController {
 	/**
 	 * Get statistics for a room
 	 *
-	 * @param room
+	 * @param room - Room identifier
 	 */
 	public getRoomStatistics(room: string): any {
 		if (!this.historyService) {
