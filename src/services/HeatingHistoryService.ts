@@ -33,6 +33,12 @@ export class HeatingHistoryService {
 	private readonly maxCyclesPerRoom = 100; // Keep last 100 cycles per room
 	private readonly minMeasurementsForCycle = 5; // Minimum measurements to consider a cycle valid
 
+	/**
+	 * Create heating history service
+	 *
+	 * @param saveCallback - Callback to persist history data
+	 * @param logCallback - Callback for logging
+	 */
 	constructor(
 		private readonly saveCallback: (data: HeatingHistoryData) => Promise<void>,
 		private readonly logCallback: (level: "debug" | "info" | "warn" | "error", message: string) => void,
@@ -41,12 +47,12 @@ export class HeatingHistoryService {
 	/**
 	 * Record a new temperature measurement
 	 *
-	 * @param room
-	 * @param temperature
-	 * @param targetTemperature
-	 * @param engineState
-	 * @param humidity
-	 * @param outsideTemperature
+	 * @param room - Room identifier
+	 * @param temperature - Current temperature in °C
+	 * @param targetTemperature - Target temperature in °C
+	 * @param engineState - true if heating/cooling is active
+	 * @param humidity - Optional humidity percentage
+	 * @param outsideTemperature - Optional outside temperature in °C
 	 */
 	public recordMeasurement(
 		room: string,
@@ -100,7 +106,7 @@ export class HeatingHistoryService {
 	/**
 	 * Complete a heating cycle and analyze it
 	 *
-	 * @param room
+	 * @param room - Room identifier
 	 */
 	private completeCycle(room: string): void {
 		const cycle = this.currentCycles.get(room);
@@ -151,9 +157,9 @@ export class HeatingHistoryService {
 	/**
 	 * Analyze a heating cycle and compute metrics
 	 *
-	 * @param room
-	 * @param measurements
-	 * @param startTime
+	 * @param room - Room identifier
+	 * @param measurements - Array of temperature measurements
+	 * @param startTime - Cycle start timestamp
 	 */
 	private analyzeCycle(room: string, measurements: TemperatureMeasurement[], startTime: number): HeatingCycle | null {
 		if (measurements.length === 0) {
@@ -234,7 +240,7 @@ export class HeatingHistoryService {
 	/**
 	 * Update room thermal profile based on completed cycles
 	 *
-	 * @param room
+	 * @param room - Room identifier
 	 */
 	private updateRoomProfile(room: string): void {
 		const cycles = this.completedCycles.get(room);
@@ -285,7 +291,7 @@ export class HeatingHistoryService {
 	/**
 	 * Get room thermal profile
 	 *
-	 * @param room
+	 * @param room - Room identifier
 	 */
 	public getRoomProfile(room: string): RoomThermalProfile | undefined {
 		return this.roomProfiles.get(room);
@@ -294,7 +300,7 @@ export class HeatingHistoryService {
 	/**
 	 * Generate training data for ML model
 	 *
-	 * @param room
+	 * @param room - Room identifier
 	 */
 	public generateTrainingData(room: string): TrainingDataPoint[] {
 		const cycles = this.completedCycles.get(room);
@@ -365,7 +371,7 @@ export class HeatingHistoryService {
 	/**
 	 * Load history from persistent storage
 	 *
-	 * @param data
+	 * @param data - History data to load
 	 */
 	public loadHistory(data: HeatingHistoryData): void {
 		for (const [roomName, roomData] of Object.entries(data.rooms)) {

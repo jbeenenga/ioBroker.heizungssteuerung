@@ -1,8 +1,4 @@
 /**
- * Models for heating history data collection and ML training
- */
-
-/**
  * Single temperature measurement point
  */
 export interface TemperatureMeasurement {
@@ -30,10 +26,9 @@ export interface HeatingCycle {
 	startTime: number;
 	/** Cycle end timestamp */
 	endTime: number;
-	/** Temperature measurements during cycle */
+	/** Array of temperature measurements during cycle */
 	measurements: TemperatureMeasurement[];
 
-	// Computed metrics
 	/** Duration in minutes */
 	duration: number;
 	/** Temperature at start */
@@ -60,10 +55,9 @@ export interface HeatingCycle {
 export interface RoomThermalProfile {
 	/** Room identifier */
 	room: string;
-	/** Timestamp when profile was last updated */
+	/** Last update timestamp */
 	lastUpdated: number;
 
-	// Learned characteristics
 	/** Average °C per hour */
 	avgHeatingRate: number;
 	/** Average °C per hour after heating stops */
@@ -73,7 +67,6 @@ export interface RoomThermalProfile {
 	/** Typical overshoot in °C */
 	typicalOvershoot: number;
 
-	// Statistics
 	/** Number of cycles used for learning */
 	cycleCount: number;
 	/** 0-1, based on data quality and quantity */
@@ -84,7 +77,6 @@ export interface RoomThermalProfile {
  * ML model training data point
  */
 export interface TrainingDataPoint {
-	// Input features
 	/** Current temperature */
 	currentTemp: number;
 	/** Target temperature */
@@ -97,12 +89,11 @@ export interface TrainingDataPoint {
 	recentHeatingRate: number;
 	/** Outside temperature */
 	outsideTemp?: number;
-	/** Hour of day (0-23) */
+	/** Hour of day 0-23 */
 	timeOfDay: number;
-	/** Day of week (0-6) */
+	/** Day of week 0-6 */
 	dayOfWeek: number;
 
-	// Output labels
 	/** Temperature change in next 30 minutes */
 	futureTempChange: number;
 	/** Will temperature overshoot target? */
@@ -131,16 +122,16 @@ export interface HeatingPrediction {
  * Persistent history storage structure
  */
 export interface HeatingHistoryData {
-	/** Version of the data format */
+	/** Data format version */
 	version: string;
-	/** Room-specific heating history data */
+	/** Room-specific data */
 	rooms: {
 		[roomName: string]: {
 			/** Completed heating cycles */
 			cycles: HeatingCycle[];
-			/** Room thermal characteristics */
+			/** Learned thermal profile */
 			profile: RoomThermalProfile;
-			/** Timestamp when model was last trained */
+			/** Timestamp of last model training */
 			modelLastTrained?: number;
 		};
 	};
