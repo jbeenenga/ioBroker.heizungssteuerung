@@ -9,11 +9,12 @@ import type { Period } from "./models/periods";
 import type { TempTarget } from "./models/tempTarget";
 import type { RoomsEnumResult } from "./models/roomEnum";
 import { TimeUtils } from "./services/TimeUtils";
-import { TemperatureController, type TemperatureControllerConfig } from "./services/TemperatureController";
+import { AITemperatureController, type AITemperatureControllerConfig } from "./services/AITemperatureController";
 import { PeriodService } from "./services/PeriodService";
 import { RoomManager } from "./services/RoomManager";
 import { WeatherService } from "./services/WeatherService";
 import { WeatherBasedController, type WeatherBasedControllerConfig } from "./services/WeatherBasedController";
+import type { HeatingHistoryData } from "./models/heatingHistory";
 
 class Heizungssteuerung extends utils.Adapter {
 	roomNames: string[];
@@ -23,7 +24,7 @@ class Heizungssteuerung extends utils.Adapter {
 	engineMap!: Map<string, string>;
 	interval!: ioBroker.Interval | undefined;
 	roomManager!: RoomManager;
-	temperatureController!: TemperatureController;
+	temperatureController!: AITemperatureController;
 	periodService!: PeriodService;
 	weatherService!: WeatherService;
 	weatherBasedController!: WeatherBasedController;
@@ -47,13 +48,42 @@ class Heizungssteuerung extends utils.Adapter {
 		this.roomManager = new RoomManager(this.rooms);
 		this.roomNames = this.roomManager.buildRoomNames();
 
-		const tempControllerConfig: TemperatureControllerConfig = {
+		const tempControllerConfig: AITemperatureControllerConfig = {
 			isHeatingMode: this.config.isHeatingMode,
 			defaultTemperature: this.config.defaultTemperature,
 			startStopDifference: this.config.startStopDifference,
 			stopCoolingIfHumIsHigherThan: this.config.stopCoolingIfHumIsHigherThan,
+			enableAI: this.config.enableAI || false,
+			aiModelPath: this.config.aiModelPath || `${this.namespace}.ai-models`,
+			aiConfidenceThreshold: this.config.aiConfidenceThreshold || 0.6,
+			aiMinTrainingData: this.config.aiMinTrainingData || 20,
+			aiTrainingEpochs: this.config.aiTrainingEpochs || 50,
+			aiLearningRate: this.config.aiLearningRate || 0.001,
+			aiAutoRetrain: this.config.aiAutoRetrain !== false,
+			aiRetrainInterval: this.config.aiRetrainInterval || 24,
 		};
-		this.temperatureController = new TemperatureController(tempControllerConfig);
+		this.temperatureController = new AITemperatureController(
+			tempControllerConfig,
+			(level, message) => {
+				switch (level) {
+					case "debug":
+						this.log.debug(message);
+						break;
+					case "info":
+						this.log.info(message);
+						break;
+					case "warn":
+						this.log.warn(message);
+						break;
+					case "error":
+						this.log.error(message);
+						break;
+				}
+			},
+			async (data: HeatingHistoryData) => {
+				await this.setStateAsync("AI.history", JSON.stringify(data), true);
+			},
+		);
 		this.periodService = new PeriodService(
 			this.config.periods as Period[],
 			this.temperatureController,
@@ -79,8 +109,15 @@ class Heizungssteuerung extends utils.Adapter {
 
 		this.initGeneralStates();
 		this.initRoomStates();
+		this.initAIStates();
 		if (this.config.resetTemperaturesOnStart) {
 			this.writeInitialTemperaturesIntoState();
+		}
+
+		// Load AI history and models (async initialization)
+		await this.loadAIHistory();
+		if (this.temperatureController.isAIEnabled()) {
+			await this.temperatureController.loadModels(this.roomNames);
 		}
 
 		if (this.interval != undefined) {
@@ -179,8 +216,15 @@ class Heizungssteuerung extends utils.Adapter {
 		this.log.debug(`Temperatures will be set like: ${JSON.stringify(roomTempMap)}`);
 
 		for (let i = 0; i < this.roomNames.length; i++) {
-			await this.setTemperatureForRoom(this.roomNames[i], roomTempMap.get(this.roomNames[i]));
+			await this.setTemperatureForRoom(
+				this.roomNames[i],
+				roomTempMap.get(this.roomNames[i]),
+				outsideTemperature || undefined,
+			);
 		}
+
+		// Check if AI models need retraining
+		await this.temperatureController.checkAndRetrain();
 	}
 
 	/**
@@ -264,8 +308,13 @@ class Heizungssteuerung extends utils.Adapter {
 	 *
 	 * @param room current room name
 	 * @param targetTemperature target temperature configuration
+	 * @param outsideTemp outside temperature for AI context
 	 */
-	async setTemperatureForRoom(room: string, targetTemperature: TempTarget | undefined): Promise<void> {
+	async setTemperatureForRoom(
+		room: string,
+		targetTemperature: TempTarget | undefined,
+		outsideTemp?: number,
+	): Promise<void> {
 		const engine = this.engineMap.get(room);
 		if (!engine || !targetTemperature) {
 			return;
@@ -295,10 +344,20 @@ class Heizungssteuerung extends utils.Adapter {
 		this.writeTemperaturesIntoState(room, temp, humidity, targetTemperature);
 
 		const humidityValue = humidity?.val ? Number(humidity.val) : undefined;
+
+		// Get current engine state for AI context
+		const engineState = await this.getForeignStateAsync(engine);
+		const lastEngineState = engineState?.val === true;
+
+		// Create AI context
+		const aiContext = this.temperatureController.getAIContext(room, outsideTemp);
+		aiContext.lastEngineState = lastEngineState;
+
 		const shouldActivate = this.temperatureController.shouldActivateEngine(
 			temp,
 			targetTemperature.temp,
 			humidityValue,
+			aiContext,
 		);
 
 		if (shouldActivate === true) {
@@ -478,6 +537,85 @@ class Heizungssteuerung extends utils.Adapter {
 	}
 
 	/**
+	 * Initialize AI-related states
+	 */
+	initAIStates(): void {
+		void this.setObjectNotExists("AI.enabled", {
+			type: "state",
+			_id: "AI.enabled",
+			native: {},
+			common: {
+				type: "boolean",
+				name: "AI control enabled",
+				read: true,
+				write: true,
+				role: "switch",
+				def: this.config.enableAI || false,
+			},
+		});
+
+		void this.setObjectNotExists("AI.history", {
+			type: "state",
+			_id: "AI.history",
+			native: {},
+			common: {
+				type: "string",
+				name: "AI learning history (JSON)",
+				read: true,
+				write: false,
+				role: "json",
+			},
+		});
+
+		void this.setObjectNotExists("AI.status", {
+			type: "state",
+			_id: "AI.status",
+			native: {},
+			common: {
+				type: "string",
+				name: "AI status information (JSON)",
+				read: true,
+				write: false,
+				role: "json",
+			},
+		});
+
+		// Subscribe to AI enabled state changes
+		this.subscribeStates("AI.enabled");
+		this.on("stateChange", async (id, state) => {
+			if (id === `${this.namespace}.AI.enabled` && state && !state.ack) {
+				this.log.info(`AI control ${state.val ? "enabled" : "disabled"} by user`);
+				this.temperatureController.setAIEnabled(state.val === true);
+				await this.setStateAsync("AI.enabled", state.val, true);
+			}
+		});
+
+		// Update AI status periodically
+		setInterval(async () => {
+			const status = this.temperatureController.getAIStatus();
+			await this.setStateAsync("AI.status", JSON.stringify(status, null, 2), true);
+		}, 60000); // Every minute
+	}
+
+	/**
+	 * Load AI history from state
+	 */
+	async loadAIHistory(): Promise<void> {
+		try {
+			const historyState = await this.getStateAsync("AI.history");
+			if (historyState && historyState.val) {
+				const historyData = JSON.parse(historyState.val as string) as HeatingHistoryData;
+				this.temperatureController.loadHistory(historyData);
+				this.log.info(`[AI] Loaded history for ${Object.keys(historyData.rooms || {}).length} rooms`);
+			} else {
+				this.log.info("[AI] No previous history found, starting fresh");
+			}
+		} catch (error) {
+			this.log.error(`[AI] Failed to load history: ${String(error)}`);
+		}
+	}
+
+	/**
 	 * Is called when adapter shuts down - callback has to be called under any circumstances!
 	 *
 	 * @param callback callback function to be called when cleanup is done
@@ -491,6 +629,13 @@ class Heizungssteuerung extends utils.Adapter {
 			if (this.interval != undefined) {
 				this.clearInterval(this.interval);
 			}
+
+			// Cleanup AI resources
+			if (this.temperatureController) {
+				this.temperatureController.dispose();
+				this.log.info("[AI] Resources cleaned up");
+			}
+
 			this.connected = false;
 			callback();
 		} catch {
