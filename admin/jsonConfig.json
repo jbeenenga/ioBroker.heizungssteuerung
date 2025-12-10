@@ -152,7 +152,7 @@
 						{
 							"type": "room",
 							"attr": "room",
-							"title": "Room",
+							"label": "Room",
 							"filter": true,
 							"sort": true,
 							"width": "30%",
@@ -160,7 +160,7 @@
 						},
 						{
 							"type": "panel",
-							"title": "Days",
+							"label": "Days",
 							"width": "40%",
 							"items": [
 								{
@@ -225,7 +225,7 @@
 							"type": "text",
 							"attr": "from",
 							"width": "20%",
-							"title": "From",
+							"label": "From",
 							"filter": false,
 							"sort": true,
 							"default": "10:00"
@@ -234,7 +234,7 @@
 							"type": "text",
 							"attr": "until",
 							"width": "20%",
-							"title": "Until",
+							"label": "Until",
 							"filter": false,
 							"sort": true,
 							"default": "18:00"
@@ -243,7 +243,7 @@
 							"type": "checkbox",
 							"attr": "heating",
 							"width": "20%",
-							"title": "Heating",
+							"label": "Heating",
 							"filter": false,
 							"sort": false,
 							"default": true
@@ -252,7 +252,7 @@
 							"type": "text",
 							"attr": "temp",
 							"width": "20%",
-							"title": "Temperature",
+							"label": "Temperature",
 							"filter": false,
 							"sort": false,
 							"default": "18"
