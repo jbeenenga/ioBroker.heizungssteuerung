@@ -1,9 +1,22 @@
 {
   "common": {
     "name": "heizungssteuerung",
-    "version": "2.1.1",
+    "version": "2.1.2",
     "nogit": true,
     "news": {
+      "2.1.2": {
+        "en": "fix invalid state roles according to ioBroker documentation\nfix repository checker issues (#237)\nCorrected schema URL in .vscode/settings.json\nAdded jsonConfig schema validation\nUpdated release-script packages to latest versions\nfix jsonConfig validation errors - replaced title with label in table items",
+        "de": "ungültige Zustandsrollen nach ioBroker-Dokumentation beheben\nrepository checker probleme beheben (#237)\nKorrigierte Schema-URL in .vscode/settings.json\nHinzugefügt jsonConfig Schemavalidierung\nAktualisierte Release-script-Pakete auf neueste Versionen\nfix jsonConfig Validierungsfehler - ersetzt Titel mit Label in Tabellenartikeln",
+        "ru": "исправить недействительные роли государства в соответствии с документацией ioBroker\nисправить проблемы проверки репозитория (#237)\nИсправлен URL схемы в .vscode/settings.json\nДобавлена проверка схемы jsonConfig\nОбновленные пакеты Release-Script для последних версий\nисправить ошибки проверки jsonConfig - заменить заголовок этикеткой в таблицах",
+        "pt": "corrigir funções de estado inválidas de acordo com a documentação do ioBroker\ncorrigir problemas de verificação do repositório (# 237)\nURL do esquema corrigido em .vscode/settings.json\nValidação do esquema jsonConfig adicionada\nPacotes atualizados para versões mais recentes\ncorrigir erros de validação do jsonConfig - título substituído com etiqueta nos itens da tabela",
+        "nl": "fix ongeldige status rollen volgens ioBroker documentatie\nproblemen met repository-checker repareren (#237)\nGecorrigeerde schema-URL in .vscode/instellingen.json\nToegevoegd jsonConfig schema validatie\nBijgewerkte release-script pakketten naar de nieuwste versies\nfix jsonConfig validatie fouten - vervangen titel door label in tabel items",
+        "fr": "fixer les rôles d'état invalides selon la documentation ioBroker\ncorrection des problèmes de vérification du dépôt (#237)\nURL du schéma corrigée dans .vscode/settings.json\nAjout de la validation du schéma de jsonConfig\nMise à jour des paquets release-script vers les dernières versions\ncorriger les erreurs de validation de jsonConfig - remplacer le titre par l'étiquette dans les éléments de tableau",
+        "it": "risolvere ruoli di stato non validi secondo la documentazione di ioBroker\nrisolvere i problemi di repository checker (#237)\nURL dello schema corretto in .vscode/settings.json\nAggiunto validazione schema jsonConfig\nAggiornati pacchetti release-script alle ultime versioni\ncorreggere gli errori di convalida di jsonConfig - il titolo sostituito con l'etichetta negli elementi della tabella",
+        "es": "fijar funciones estatales inválidas según la documentación de ioBroker\nsolucionar problemas de control de repositorios (#237)\nURL de esquema corregido en .vscode/settings.json\nValidación de esquema jsonConfig\nPaquetes actualizados de código de publicación a las últimas versiones\ncorregir errores de validación jsonConfig - título sustituido con etiqueta en los elementos de la tabla",
+        "pl": "naprawić nieprawidłowe role stanu zgodnie z dokumentacją joBroker\nnaprawić problemy z sprawdzaniem repozytorium (# 237)\nPoprawiony schemat URL w .vscode / settings.json\nDodano walidację schematu jsonConfig\nAktualizacja pakietów release- script do najnowszych wersji\nfix jsonConfig błędy walidacji - zastąpiony tytułem z etykietą w pozycjach tabeli",
+        "uk": "виправити недійсні ролі держави відповідно до документації ioBroker\nвиправлено проблеми репозиторійних перевірок (#237)\nВиправлено URL schema в .vscode/settings.json\nДодано jsonConfig schema перевірку\nОновлено пакети списків для останніх версій\nвиправлено помилку перевірки jsonConfig - замінив назву з міткою в предметах таблиці",
+        "zh-cn": "根据 ioBroker 文档固定无效的状态角色\n固定仓库检查器问题(# 237)\n在 .vscode/sets.json 中修正了计划 URL\n添加的 jsonConfig 方案验证\n更新最新版本的发布标记包\n修复 jsonConfig 验证错误 - 在表格项目中将标题替换为标签"
+      },
       "2.1.1": {
         "en": "correct outsite temperature path setting",
         "de": "korrekte temperaturpfadeinstellung vor ort",
@@ -81,19 +94,6 @@
         "pl": "aktualizacji zależności\ndodaj tryb nieobecności\nnaprawić pauzę i pobudzenie dla trybu chłodzenia",
         "uk": "оновлення залежності\nрежим відсутності\nвиправити пауза і підвищити режим охолодження",
         "zh-cn": "更新依赖关系\n添加缺席模式\n固定暂停和加速度用于冷却模式"
-      },
-      "1.7.0": {
-        "en": "fix bug for end boost or pause mode\nprovide corrent humidity in temperatures",
-        "de": "fehler beheben für end-boost oder pause-modus\nliefern korrente luftfeuchtigkeit bei temperaturen",
-        "ru": "исправить баг для конечного увеличения или режима паузы\nобеспечить коррозийную влажность при температурах",
-        "pt": "corrigir o erro para o modo de impulso final ou pausa\nfornecer umidade corrente em temperaturas",
-        "nl": "vertaling:\nveroorzaak corrent vochtigheid in temperatuur",
-        "fr": "correction d'un bug pour le boost final ou le mode pause\nfournir l'humidité corrente dans les températures",
-        "it": "correggere bug per la modalità end boost o pausa\nfornire l'umidità corrente nelle temperature",
-        "es": "corregir fallo para el impulso final o modo de pausa\nproporcionar humedad corrent en temperaturas",
-        "pl": "naprawić trąb\nwilgotność korowa",
-        "uk": "виправити помилки для кінцевого підсилювача або паузи режим\nзабезпечує високу вологість при температурі",
-        "zh-cn": "fix 结 论\n提供温度的湿度"
       }
     },
     "titleLang": {
