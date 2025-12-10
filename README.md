@@ -219,6 +219,7 @@ Enable debug logging in adapter settings to see detailed information about:
   - Corrected schema URL in .vscode/settings.json
   - Added jsonConfig schema validation
   - Updated release-script packages to latest versions
+- (jbeenenga) fix jsonConfig validation errors - replaced title with label in table items
 
 ### 2.1.1 (2025-09-02)
  - (jbeenenga) correct outsite temperature path setting
