@@ -173,7 +173,15 @@
     "enableWeatherControl": false,
     "weatherStatePath": "",
     "heatingOutsideTemperatureThreshold": 15,
-    "coolingOutsideTemperatureThreshold": 24
+    "coolingOutsideTemperatureThreshold": 24,
+    "enableAI": false,
+    "aiModelPath": "",
+    "aiConfidenceThreshold": 0.6,
+    "aiMinTrainingData": 20,
+    "aiTrainingEpochs": 50,
+    "aiLearningRate": 0.001,
+    "aiAutoRetrain": true,
+    "aiRetrainInterval": 24
   },
   "objects": [],
   "instanceObjects": []

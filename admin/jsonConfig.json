@@ -260,6 +260,122 @@
 					]
 				}
 			}
+		},
+		"ai": {
+			"type": "panel",
+			"label": "AI Settings",
+			"items": {
+				"_aiInfo": {
+					"type": "staticText",
+					"text": "Enable AI-based predictive heating control. The AI learns the thermal characteristics of each room (heating rate, thermal inertia, overshoot) and optimizes valve control to prevent overshooting the target temperature.",
+					"xs": 12,
+					"sm": 12,
+					"md": 12,
+					"lg": 12,
+					"xl": 12
+				},
+				"enableAI": {
+					"type": "checkbox",
+					"label": "Enable AI Control",
+					"help": "Enable AI-based temperature control with machine learning",
+					"xs": 12,
+					"sm": 12,
+					"md": 6,
+					"lg": 4,
+					"xl": 4
+				},
+				"aiModelPath": {
+					"type": "text",
+					"label": "AI Model Path",
+					"help": "Directory path where AI models are saved (leave empty for default)",
+					"xs": 12,
+					"sm": 12,
+					"md": 6,
+					"lg": 4,
+					"xl": 4,
+					"hidden": "!data.enableAI"
+				},
+				"aiConfidenceThreshold": {
+					"type": "slider",
+					"label": "AI Confidence Threshold",
+					"help": "Minimum confidence (0-1) required to use AI predictions. Lower = more aggressive AI usage",
+					"min": 0.1,
+					"max": 1.0,
+					"step": 0.05,
+					"xs": 12,
+					"sm": 12,
+					"md": 6,
+					"lg": 4,
+					"xl": 4,
+					"hidden": "!data.enableAI"
+				},
+				"aiMinTrainingData": {
+					"newLine": true,
+					"type": "number",
+					"label": "Minimum Training Data",
+					"help": "Minimum number of heating cycles before AI starts controlling (recommended: 20-50)",
+					"min": 5,
+					"max": 100,
+					"xs": 12,
+					"sm": 12,
+					"md": 6,
+					"lg": 4,
+					"xl": 4,
+					"hidden": "!data.enableAI"
+				},
+				"aiTrainingEpochs": {
+					"type": "number",
+					"label": "Training Epochs",
+					"help": "Number of training iterations for the neural network (default: 50)",
+					"min": 10,
+					"max": 200,
+					"xs": 12,
+					"sm": 12,
+					"md": 6,
+					"lg": 4,
+					"xl": 4,
+					"hidden": "!data.enableAI"
+				},
+				"aiLearningRate": {
+					"type": "number",
+					"label": "Learning Rate",
+					"help": "Learning rate for the neural network (default: 0.001)",
+					"min": 0.0001,
+					"max": 0.01,
+					"step": 0.0001,
+					"xs": 12,
+					"sm": 12,
+					"md": 6,
+					"lg": 4,
+					"xl": 4,
+					"hidden": "!data.enableAI"
+				},
+				"aiAutoRetrain": {
+					"newLine": true,
+					"type": "checkbox",
+					"label": "Auto Retrain",
+					"help": "Automatically retrain AI models periodically with new data",
+					"xs": 12,
+					"sm": 12,
+					"md": 6,
+					"lg": 4,
+					"xl": 4,
+					"hidden": "!data.enableAI"
+				},
+				"aiRetrainInterval": {
+					"type": "number",
+					"label": "Retrain Interval (hours)",
+					"help": "How often to retrain models with new data (default: 24 hours)",
+					"min": 1,
+					"max": 168,
+					"xs": 12,
+					"sm": 12,
+					"md": 6,
+					"lg": 4,
+					"xl": 4,
+					"hidden": "!data.enableAI || !data.aiAutoRetrain"
+				}
+			}
 		}
 	}
 }
