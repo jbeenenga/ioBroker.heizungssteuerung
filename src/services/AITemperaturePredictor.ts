@@ -3,8 +3,19 @@
  * Learns room-specific thermal characteristics and predicts optimal heating control
  */
 
-import * as tf from "@tensorflow/tfjs-node";
+import type { Logs } from "@tensorflow/tfjs-node";
 import type { HeatingPrediction, TrainingDataPoint, RoomThermalProfile } from "../models/heatingHistory";
+
+// Lazy-load TensorFlow at runtime to prevent import failures on platforms where
+// native binaries are unavailable (e.g. Windows CI without build tools).
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+let tf: any = null;
+try {
+	// eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-unsafe-assignment
+	tf = require("@tensorflow/tfjs-node");
+} catch {
+	// TensorFlow not available on this platform - AI features will be disabled
+}
 
 /**
  * Configuration for AI temperature predictor
@@ -26,7 +37,8 @@ export interface AIPredictorConfig {
  * AI-based temperature prediction service
  */
 export class AITemperaturePredictor {
-	private models: Map<string, tf.LayersModel> = new Map();
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	private models: Map<string, any> = new Map();
 	private isTraining: Map<string, boolean> = new Map();
 	private lastTrainingTime: Map<string, number> = new Map();
 	private readonly minRetrainingInterval = 60 * 60 * 1000; // 1 hour
@@ -46,6 +58,9 @@ export class AITemperaturePredictor {
 	 * Create a neural network model for a room
 	 */
 	private createModel(): any {
+		if (!tf) {
+			throw new Error("TensorFlow is not available on this platform");
+		}
 		const model = tf.sequential();
 
 		// Input layer: 8 features
@@ -220,7 +235,7 @@ export class AITemperaturePredictor {
 				shuffle: true,
 				verbose: 0,
 				callbacks: {
-					onEpochEnd: (epoch: number, logs?: tf.Logs) => {
+					onEpochEnd: (epoch: number, logs?: Logs) => {
 						if (epoch % 10 === 0) {
 							this.logCallback(
 								"debug",
