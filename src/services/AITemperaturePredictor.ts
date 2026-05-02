@@ -11,7 +11,7 @@ import type { HeatingPrediction, TrainingDataPoint, RoomThermalProfile } from ".
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 let tf: any = null;
 try {
-	// eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-unsafe-assignment
+	// eslint-disable-next-line @typescript-eslint/no-require-imports
 	tf = require("@tensorflow/tfjs-node");
 } catch {
 	// TensorFlow not available on this platform - AI features will be disabled
@@ -215,7 +215,7 @@ export class AITemperaturePredictor {
 			let model = this.models.get(room);
 			if (!model) {
 				model = this.createModel();
-				this.models.set(room, model as any);
+				this.models.set(room, model);
 			}
 
 			// TypeScript safety check
@@ -224,8 +224,8 @@ export class AITemperaturePredictor {
 			}
 
 			// Convert to tensors
-			const xs = (tf as any).tensor2d(inputs);
-			const ys = (tf as any).tensor2d(outputs);
+			const xs = tf.tensor2d(inputs);
+			const ys = tf.tensor2d(outputs);
 
 			// Train model
 			const history = await model.fit(xs, ys, {
@@ -318,10 +318,10 @@ export class AITemperaturePredictor {
 
 			// TODO: Load normalization stats and apply them
 			// For now, we'll use the raw input
-			const inputTensor = (tf as any).tensor2d([input]);
+			const inputTensor = tf.tensor2d([input]);
 
 			// Make prediction
-			const prediction = model.predict(inputTensor) as any;
+			const prediction = model.predict(inputTensor);
 			const predictionData = await prediction.data();
 
 			// Cleanup
@@ -407,7 +407,7 @@ export class AITemperaturePredictor {
 	public async loadModel(room: string): Promise<boolean> {
 		try {
 			const modelPath = `file://${this.config.modelSavePath}/${room}/model.json`;
-			const model = await (tf as any).loadLayersModel(modelPath);
+			const model = await tf.loadLayersModel(modelPath);
 			this.models.set(room, model);
 
 			this.logCallback("info", `[AIPredictor] Model loaded for ${room}`);

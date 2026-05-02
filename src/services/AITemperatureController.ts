@@ -280,6 +280,7 @@ export class AITemperatureController extends TemperatureController {
 	 * @param humidity - Optional humidity percentage
 	 * @param context - AI context for the room
 	 * @param profile - Room thermal profile
+	 * @param _profile
 	 */
 	private shouldActivateEngineAI(
 		currentTemp: number,
