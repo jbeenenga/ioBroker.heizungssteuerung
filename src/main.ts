@@ -5,7 +5,6 @@
 // The adapter-core module gives you access to the core ioBroker functions
 // you need to create an adapter
 import * as utils from "@iobroker/adapter-core";
-import type { Period } from "./models/periods";
 import type { TempTarget } from "./models/tempTarget";
 import type { RoomsEnumResult } from "./models/roomEnum";
 import { TimeUtils } from "./services/TimeUtils";
@@ -43,7 +42,7 @@ class Heizungssteuerung extends utils.Adapter {
 	 * Is called when databases are connected and adapter received configuration.
 	 */
 	async onReady(): Promise<void> {
-		this.rooms = (await this.getEnumAsync("rooms")) as RoomsEnumResult;
+		this.rooms = await this.getEnumAsync("rooms");
 		this.roomManager = new RoomManager(this.rooms);
 		this.roomNames = this.roomManager.buildRoomNames();
 
@@ -55,7 +54,7 @@ class Heizungssteuerung extends utils.Adapter {
 		};
 		this.temperatureController = new TemperatureController(tempControllerConfig);
 		this.periodService = new PeriodService(
-			this.config.periods as Period[],
+			this.config.periods,
 			this.temperatureController,
 			this.config.isHeatingMode,
 		);
