@@ -285,6 +285,8 @@ Enable debug logging in adapter settings to see detailed information about:
 - (jbeenenga) add config for temperature offset
 - (jbeenenga) add boost and pause function
 
+[Older changelogs can be found there](CHANGELOG_OLD.md)
+
 ## License
 
 MIT License
