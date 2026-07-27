@@ -17,6 +17,10 @@ updates:
       - dependency-name: '@types/node'
         update-types:
           - 'version-update:semver-major'
+      # TypeScript 6+ is not yet compatible with the ioBroker environment (see #290)
+      - dependency-name: 'typescript'
+        update-types:
+          - 'version-update:semver-major'
   - package-ecosystem: 'github-actions'
     directory: '/'
     schedule:
