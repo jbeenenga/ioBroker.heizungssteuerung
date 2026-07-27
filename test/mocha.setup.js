@@ -14,11 +14,10 @@ process.on("unhandledRejection", e => {
 
 // enable the should interface with sinon
 // and load chai-as-promised and sinon-chai by default
-const _sinonChai = require("sinon-chai");
-const sinonChai = _sinonChai.default ?? _sinonChai;
-// const chaiAsPromised = require("chai-as-promised"); // ESM module not compatible with CommonJS require()
+const sinonChai = require("sinon-chai");
+const chaiAsPromised = require("chai-as-promised");
 const { should, use } = require("chai");
 
 should();
 use(sinonChai);
-// use(chaiAsPromised); // Disabled due to ESM compatibility issues
+use(chaiAsPromised);
