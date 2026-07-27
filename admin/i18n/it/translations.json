@@ -3,7 +3,7 @@
     "Room": "Camera",
     "roomName": "Nome della stanza",
     "Days": "Giorni",
-    "Monday": "Lunedi",
+    "Monday": "Lunedì",
     "Tuesday": "Martedì",
     "Wednesday": "Mercoledì",
     "Thursday": "Giovedì",
@@ -11,9 +11,8 @@
     "Saturday": "Sabato",
     "Sunday": "Domenica",
     "From": "Da",
-    "Until": "Fino a quando",
-    "TemperatureId": "ID del sensore di temperatura",
-    "HumidityId": "ID del sensore di umidità",
+    "Until": "Fino a",
+    "Periods": "Periodi",
     "MainSettings": "Impostazioni principali",
     "HeatingMode": "Modalità riscaldamento",
     "Cooling": "Raffreddamento",
@@ -25,6 +24,9 @@
     "PauseIntervall": "Il tempo prima che la pausa finisca tra pochi minuti",
     "BoostIntervall": "Il tempo prima che il boost terminerà in pochi minuti",
     "StartStopDifference": "Differenza dalla temperatura target fino all'avvio o all'arresto del riscaldamento",
-    "ResetTemperaturesOnAdapterStart": "Ripristina le temperature predefinite all'avvio dell'adattatore",
-    "ResetTemperaturesOnStart": "Ripristina le temperature predefinite all'avvio dell'adattatore"
+    "ResetTemperaturesOnStart": "Ripristina le temperature predefinite all'avvio dell'adattatore",
+    "EnableWeatherControl": "Abilita il controllo basato sul meteo",
+    "WeatherStatePath": "Percorso dello stato meteo (temperatura esterna)",
+    "HeatingOutsideTemperatureThreshold": "Riscaldamento: attiva solo se la temperatura esterna è inferiore a (°C)",
+    "CoolingOutsideTemperatureThreshold": "Raffreddamento: attiva solo se la temperatura esterna è superiore a (°C)"
 }

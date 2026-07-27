@@ -8,12 +8,11 @@
     "Wednesday": "Среда",
     "Thursday": "Четверг",
     "Friday": "Пятница",
-    "Saturday": "суббота",
+    "Saturday": "Суббота",
     "Sunday": "Воскресенье",
     "From": "Из",
-    "Until": "До того как",
-    "TemperatureId": "ID датчика температуры",
-    "HumidityId": "ID датчика влажности",
+    "Until": "До",
+    "Periods": "Периоды",
     "MainSettings": "Основные параметры",
     "HeatingMode": "Режим нагрева",
     "Cooling": "Охлаждение",
@@ -25,6 +24,9 @@
     "PauseIntervall": "Время до окончания паузы в минутах",
     "BoostIntervall": "Время до окончания буста в минутах",
     "StartStopDifference": "Разница от заданной температуры до начала или остановки нагрева",
-    "ResetTemperaturesOnAdapterStart": "Сбросить температуру по умолчанию при запуске адаптера",
-    "ResetTemperaturesOnStart": "Сбросить температуру по умолчанию при запуске адаптера"
+    "ResetTemperaturesOnStart": "Сбросить температуру по умолчанию при запуске адаптера",
+    "EnableWeatherControl": "Включить управление на основе погоды",
+    "WeatherStatePath": "Путь состояния погоды (наружная температура)",
+    "HeatingOutsideTemperatureThreshold": "Обогрев: активировать только если наружная температура ниже (°C)",
+    "CoolingOutsideTemperatureThreshold": "Охлаждение: активировать только если наружная температура выше (°C)"
 }

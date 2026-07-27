@@ -8,12 +8,11 @@
     "Wednesday": "Mercredi",
     "Thursday": "Jeudi",
     "Friday": "Vendredi",
-    "Saturday": "samedi",
+    "Saturday": "Samedi",
     "Sunday": "Dimanche",
     "From": "De",
     "Until": "Jusqu'à",
-    "TemperatureId": "ID du capteur de température",
-    "HumidityId": "ID du capteur d'humidité",
+    "Periods": "Périodes",
     "MainSettings": "Réglages principaux",
     "HeatingMode": "Mode chauffage",
     "Cooling": "Refroidissement",
@@ -25,6 +24,9 @@
     "PauseIntervall": "Le temps jusqu'à la pause sera terminé en minutes",
     "BoostIntervall": "Le temps jusqu'à la fin du boost sera en minutes",
     "StartStopDifference": "Différence de la température cible jusqu'au démarrage ou à l'arrêt du chauffage",
-    "ResetTemperaturesOnAdapterStart": "Réinitialiser les températures par défaut au démarrage de l'adaptateur",
-    "ResetTemperaturesOnStart": "Réinitialiser les températures par défaut au démarrage de l'adaptateur"
+    "ResetTemperaturesOnStart": "Réinitialiser les températures par défaut au démarrage de l'adaptateur",
+    "EnableWeatherControl": "Activer le contrôle basé sur la météo",
+    "WeatherStatePath": "Chemin de l'état météo (température extérieure)",
+    "HeatingOutsideTemperatureThreshold": "Chauffage : activer uniquement si la température extérieure est inférieure à (°C)",
+    "CoolingOutsideTemperatureThreshold": "Refroidissement : activer uniquement si la température extérieure est supérieure à (°C)"
 }
