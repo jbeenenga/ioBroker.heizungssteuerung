@@ -155,76 +155,69 @@
 							"label": "Room",
 							"filter": true,
 							"sort": true,
-							"width": "30%",
+							"width": "22%",
 							"default": ""
 						},
 						{
-							"type": "panel",
-							"label": "Days",
-							"width": "40%",
-							"items": [
-								{
-									"type": "checkbox",
-									"attr": "Monday",
-									"label": "Monday",
-									"filter": false,
-									"sort": false,
-									"default": false
-								},
-								{
-									"type": "checkbox",
-									"attr": "Tuesday",
-									"label": "Tuesday",
-									"filter": false,
-									"sort": false,
-									"default": false
-								},
-								{
-									"type": "checkbox",
-									"attr": "Wednesday",
-									"label": "Wednesday",
-									"filter": false,
-									"sort": false,
-									"default": false
-								},
-								{
-									"type": "checkbox",
-									"attr": "Thursday",
-									"label": "Thursday",
-									"filter": false,
-									"sort": false,
-									"default": false
-								},
-								{
-									"type": "checkbox",
-									"attr": "Friday",
-									"label": "Friday",
-									"filter": false,
-									"sort": false,
-									"default": false
-								},
-								{
-									"type": "checkbox",
-									"attr": "Saturday",
-									"label": "Saturday",
-									"filter": false,
-									"sort": false,
-									"default": false
-								},
-								{
-									"type": "checkbox",
-									"attr": "Sunday",
-									"label": "Sunday",
-									"filter": false,
-									"sort": false,
-									"default": false
-								}
-							]
+							"type": "checkbox",
+							"attr": "0",
+							"label": "Monday",
+							"filter": false,
+							"sort": false,
+							"default": false
+						},
+						{
+							"type": "checkbox",
+							"attr": "1",
+							"label": "Tuesday",
+							"filter": false,
+							"sort": false,
+							"default": false
+						},
+						{
+							"type": "checkbox",
+							"attr": "2",
+							"label": "Wednesday",
+							"filter": false,
+							"sort": false,
+							"default": false
+						},
+						{
+							"type": "checkbox",
+							"attr": "3",
+							"label": "Thursday",
+							"filter": false,
+							"sort": false,
+							"default": false
+						},
+						{
+							"type": "checkbox",
+							"attr": "4",
+							"label": "Friday",
+							"filter": false,
+							"sort": false,
+							"default": false
+						},
+						{
+							"type": "checkbox",
+							"attr": "5",
+							"label": "Saturday",
+							"filter": false,
+							"sort": false,
+							"default": false
+						},
+						{
+							"type": "checkbox",
+							"attr": "6",
+							"label": "Sunday",
+							"filter": false,
+							"sort": false,
+							"default": false
 						},
 						{
 							"type": "text",
 							"attr": "from",
-							"width": "20%",
+							"width": "12%",
 							"label": "From",
 							"filter": false,
 							"sort": true,
@@ -233,7 +226,7 @@
 						{
 							"type": "text",
 							"attr": "until",
-							"width": "20%",
+							"width": "12%",
 							"label": "Until",
 							"filter": false,
 							"sort": true,
@@ -242,7 +235,6 @@
 						{
 							"type": "checkbox",
 							"attr": "heating",
-							"width": "20%",
 							"label": "Heating",
 							"filter": false,
 							"sort": false,
@@ -251,7 +243,7 @@
 						{
 							"type": "text",
 							"attr": "temp",
-							"width": "20%",
+							"width": "12%",
 							"label": "Temperature",
 							"filter": false,
 							"sort": false,

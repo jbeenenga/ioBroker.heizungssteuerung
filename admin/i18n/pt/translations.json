@@ -1,5 +1,5 @@
 {
-    "Rooms": "quartos",
+    "Rooms": "Quartos",
     "Room": "Quarto",
     "roomName": "Nome da sala",
     "Days": "Dias",
@@ -12,19 +12,21 @@
     "Sunday": "Domingo",
     "From": "A partir de",
     "Until": "Até",
-    "TemperatureId": "ID do sensor de temperatura",
-    "HumidityId": "ID do sensor de umidade",
+    "Periods": "Períodos",
     "MainSettings": "Configurações principais",
     "HeatingMode": "Modo de aquecimento",
     "Cooling": "Resfriamento",
     "StopCoolingIfHumIsHigherThan": "Pare de resfriar se a umidade for superior a",
     "Heating": "Aquecimento",
     "Temperature": "Temperatura",
-    "UpdateIntervall": "Atualizar intervall em segundos",
+    "UpdateIntervall": "Atualizar intervalo em segundos",
     "DefaultTemperature": "Temperatura padrão",
     "PauseIntervall": "O tempo até a pausa terminar em minutos",
     "BoostIntervall": "Tempo até que o impulso termine em minutos",
     "StartStopDifference": "Diferença da temperatura alvo até iniciar ou parar o aquecimento",
-    "ResetTemperaturesOnAdapterStart": "Redefina as temperaturas para o padrão na inicialização do adaptador",
-    "ResetTemperaturesOnStart": "Redefina as temperaturas para o padrão na inicialização do adaptador"
+    "ResetTemperaturesOnStart": "Redefina as temperaturas para o padrão na inicialização do adaptador",
+    "EnableWeatherControl": "Ativar controle baseado no clima",
+    "WeatherStatePath": "Caminho do estado do tempo (temperatura externa)",
+    "HeatingOutsideTemperatureThreshold": "Aquecimento: ativar apenas se a temperatura externa for inferior a (°C)",
+    "CoolingOutsideTemperatureThreshold": "Resfriamento: ativar apenas se a temperatura externa for superior a (°C)"
 }
